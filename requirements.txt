@@ -1,0 +1,36 @@
+# ─────────────────────────────────────────────────────────────────
+# RAG Text-to-SQL Bibliométrico — Dependencias principales
+# Universidad Nacional de Colombia
+# ─────────────────────────────────────────────────────────────────
+
+# LLM / Orquestación
+langchain>=1.2.0
+langchain-core>=1.2.0
+langchain-ollama>=1.1.0
+langgraph>=1.1.0
+
+# Base de datos
+sqlalchemy>=2.0.0
+sqlparse>=0.5.0
+
+# Ingesta
+openpyxl>=3.1.0
+pandas>=2.2.0
+
+# Vector store
+chromadb>=1.0.0
+
+# NER
+spacy>=3.8.0
+
+# Utilidades
+python-dotenv>=1.0.0
+numpy>=1.26.0
+tqdm>=4.60.0
+httpx>=0.28.0
+
+# Interfaz (Capa 4)
+streamlit>=1.30.0
+
+# Testing
+pytest>=8.0.0

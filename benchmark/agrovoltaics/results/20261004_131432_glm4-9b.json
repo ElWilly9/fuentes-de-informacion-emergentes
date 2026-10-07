@@ -1,0 +1,73 @@
+{
+  "fecha": "20261004_131432",
+  "modelo": "glm4:9b",
+  "juez": "glm4:9b",
+  "sesion": "Agrovoltaics",
+  "resumen": "\n== SQL puro (2 preguntas) ==\n  Ruta correcta : 100.0% (2/2)\n  Éxito agente  : 100.0% (2/2)\n  Latencia media: 52.0s\n  EX estricta   : 0.0% (0/2)\n  EX laxa       : 0.0% (0/2)\n\n== RAG puro (1 preguntas) ==\n  Ruta correcta : 100.0% (1/1)\n  Éxito agente  : 100.0% (1/1)\n  Latencia media: 30.3s\n\n== Híbrida (1 preguntas) ==\n  Ruta correcta : 0.0% (0/1)\n  Éxito agente  : 100.0% (1/1)\n  Latencia media: 38.7s\n  Cifras BD en respuesta: 0.0% (0/1)",
+  "resultados": [
+    {
+      "id": "Q01",
+      "tipo": "SQL puro",
+      "pregunta": "¿Cuántos artículos principales hay en el corpus?",
+      "intent_esperado": "sql",
+      "error": null,
+      "latencia_s": 69.6,
+      "intent": "sql",
+      "ruta_correcta": true,
+      "success": true,
+      "respuesta": "Hay 65 artículos principales en el corpus.",
+      "sql": "SELECT COUNT(DISTINCT sr) FROM article WHERE ismainarticle = '1' LIMIT 10;",
+      "gold_estable": true,
+      "ex_estricta": false,
+      "ex_laxa": false
+    },
+    {
+      "id": "Q05",
+      "tipo": "SQL puro",
+      "pregunta": "¿Cuál es el artículo más citado (título, año y citas)?",
+      "intent_esperado": "sql",
+      "error": null,
+      "latencia_s": 34.5,
+      "intent": "sql",
+      "ruta_correcta": true,
+      "success": true,
+      "respuesta": "El artículo más citado es \"Analysis of Relative Gene Expression Data Using Real-Time Quantitative PCR and the 2−ΔΔCT Method\", publicado en el año 2001, con un total de 164,905 citas.",
+      "sql": "SELECT title, year, CAST(cited_by AS INTEGER) AS citations FROM article ORDER BY cited_by DESC LIMIT 1;",
+      "gold_estable": true,
+      "ex_estricta": false,
+      "ex_laxa": false
+    },
+    {
+      "id": "Q13",
+      "tipo": "RAG puro",
+      "pregunta": "¿Cómo define el artículo un sistema agrivoltaico?",
+      "intent_esperado": "rag",
+      "error": null,
+      "latencia_s": 30.3,
+      "intent": "rag",
+      "ruta_correcta": true,
+      "success": true,
+      "respuesta": "Un sistema agrivoltaico se define como la combinación concurrente de producción agrícola de cultivos y generación de electricidad a través de paneles solares fotovoltaicos en el mismo terreno de cultivo. Esta definición se encuentra en varios artículos:\n\n- **Artículo 3**: \"TINTED SEMI‐TRANSPARENT SOLAR PANELS ALLOW CONCURRENT PRODUCTION OF CROPS AND ELECTRICITY ON THE SAME CROPLAND\" (2020) | Adv Energy Mater.\n- **Artículo 4**: \"AGRIVOLTAIC POTENTIAL ON GRAPE FARMS IN INDIA\" (2017) | Sustainable Energy Technol Assess.",
+      "sql": "",
+      "juez": null,
+      "juez_razon": "error del juez: Expecting value: line 2 column 1 (char 1)"
+    },
+    {
+      "id": "Q21",
+      "tipo": "Híbrida",
+      "pregunta": "El artículo reporta 21 artículos de China (22,34 %). ¿Qué muestra la base de datos?",
+      "intent_esperado": "hybrid",
+      "error": null,
+      "latencia_s": 38.7,
+      "intent": "sql",
+      "ruta_correcta": false,
+      "success": true,
+      "respuesta": "La base de datos no muestra información sobre artículos procedentes de China. El resultado indica que hay cero artículos totales y, por lo tanto, también cero artículos provenientes de China.",
+      "sql": "SELECT COUNT(DISTINCT a.title) AS total_articles, SUM(CASE WHEN af.country = 'China' THEN 1 ELSE 0 END) AS articles_from_china, (SUM(CASE WHEN af.country = 'China' THEN 1 ELSE 0 END) * 100.0) / COUNT(DISTINCT a.title) AS percentage_from_china FROM article a JOIN affiliation af ON a.sr = af.sr WHERE af.country = 'China' LIMIT 10;",
+      "gold_estable": true,
+      "cifras_bd_en_respuesta": false,
+      "juez": null,
+      "juez_razon": "error del juez: Expecting value: line 2 column 1 (char 1)"
+    }
+  ]
+}

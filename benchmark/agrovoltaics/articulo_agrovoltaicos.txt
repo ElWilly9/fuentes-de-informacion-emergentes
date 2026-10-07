@@ -1,0 +1,759 @@
+Panorama global de cultivos en sistemas agrovoltaicos: un análisis cienciométrico
+
+Jesús Alberto Márquez, Iván Gregorio Calderón, María Fernanda Núñez, Andrés Camilo Calderón4
+
+Abstract 
+
+En este estudio se utilizaron las bases de datos Web of Science (WoS) y Scopus para realizar un análisis cienciométrico orientado a identificar la evolución del interés científico en torno a los sistemas agrovoltaicos o fotovoltaicos aplicados al sector agrícola. Los resultados evidencian que las investigaciones sobre el aprovechamiento de la energía solar en actividades agrícolas y bioprocesos comenzaron a consolidarse alrededor de 2013, alcanzando una tasa de crecimiento anual del 12,58 % entre 2007 y 2024. No obstante, el periodo entre 2019 y 2021 concentró el mayor número de publicaciones, con incrementos de hasta el 80 %, coincidiendo con la expansión global de estrategias de transición energética. Asimismo, el término agrovoltaico empezó a ganar relevancia a partir de 2021, año en el que Alemania se posicionó como el país con mayor producción científica en esta temática, con un 37,5 % de sus publicaciones enfocadas específicamente en agrovoltaicos. Este auge está estrechamente relacionado con la crisis energética derivada del conflicto entre Rusia y Ucrania, que aceleró la adopción de políticas de transición energética en Europa. En cuanto a las fuentes de publicación, las revistas ACTA HORTICULTURAE, AIP Conference Proceedings y Journal of Food Process Engineering se destacan por concentrar el mayor número de artículos relacionados con sistemas agrovoltaicos, la mayoría indexadas en Scopus, lo que refleja su relevancia y visibilidad dentro de la producción científica sobre el tema.
+
+Keywords: agrovoltaica, sostenibilidad, energía, cultivos, eficiencia.
+
+Introduction 
+
+La humanidad se enfrenta al desafío de producir a mayor escala debido al crecimiento acelerado de la población humana en los últimos años.  Lam, 2023 indica que la población humana pasó de 7 mil a 8 mil millones de personas entre 2011 y 2023, lo que supera las proyecciones iniciales de la ONU en 2011. Este incremento ejerce una presión directa sobre la demanda de alimentos y, a su vez, un efecto directo en la explotación de los recursos naturales. Como resultado, las tierras que se pueden destinar para la producción agrícola se limitan aún más al pasar del tiempo, debido a que una parte de estas es destinada al crecimiento de ciudades y al desarrollo de infraestructuras energéticas. Esta situación incrementa la presión sobre la producción de alimentos y amenaza la seguridad alimentaria de la población humana (10.3390/su8080790). Una solución a esta problemática son los sistemas agrivoltáicos que se definen como sistemas que combinan la producción agrícola (cultivos o ganadería) y la generación de energía solar fotovoltaica en la misma parcela de tierra (co-ubicación agrícola + PV) (10.1016/j.renene.2011.03.005). En estos sistemas, los paneles solares pueden instalarse de modo que convivan con los cultivos o el pastoreo, optimizando así el uso del suelo y permitiendo tanto la producción de alimentos como la generación de electricidad renovable (10.3390/pr11030948).
+
+A pesar del creciente interés en los sistemas agrovoltaicos (AVS), la literatura presenta una notable heterogeneidad metodológica variaciones en niveles de sombreado, configuraciones de paneles y métricas no estandarizadas que dificulta la comparación entre cultivos y regiones (https://doi.org/10.3390/en16020611). La replicación espacial y temporal es limitada y la evidencia se concentra mayoritariamente en climas templados, dejando subrepresentadas las condiciones tropicales y los cultivos estratégicos para países en desarrollo. Un aspecto crítico es que, aunque han surgido revisiones bibliométricas sobre AVS, estas se enfocan en tendencias generales del sistema y no en la dimensión agronómica, sin desagregar patrones específicos para cultivos ni evaluar su trayectoria dentro del campo (https://doi.org/10.3390/en16020611, https://doi.org/10.3390/agronomy14040722). Como consecuencia, aún no existe un análisis cienciométrico centrado exclusivamente en cultivos bajo AVS, lo que impide identificar con precisión la evolución temática, los actores clave, las redes de colaboración y los vacíos de investigación necesarios para orientar el desarrollo de sistemas agrovoltaicos adaptados a diversos contextos agroclimáticos y socioambientales.
+
+En este contexto,  realizará una búsqueda bibliográfica en las bases de datos Scopus y Web of Science (WoS) con el propósito de recopilar la producción científica sobre AVS. Para garantizar la integración y depuración rigurosa de registros, se empleará un algoritmo avanzado de procesamiento, capaz de identificar coincidencias, eliminar duplicados y consolidar metadatos provenientes de ambas plataformas. Posteriormente, se desarrollará un análisis cienciométrico integral que abarca la evolución temporal de la producción científica. la distribución por países, revistas, instituciones y la red de colaboración académica internacional. Este enfoque permitirá ofrecer a la comunidad investigadora un panorama global y actualizado sobre la dinámica de investigación en torno a los AVS, lo que facilita la identificación de tendencias temáticas, vacíos del conocimiento y oportunidades estratégicas de desarrollo. Como señalan Shi et al., 2016 Integrar algoritmos y herramientas de optimización en los sistemas agrovoltaicos favorece la maximización de la productividad agrícola y la eficiencia energética.
+
+Las gráficas evidencian un crecimiento anual del 12.58% entre 2007 y 2024; sin embargo, entre 2020 y 2024 hay crecimiento del 39.57% constante en la producción científica sobre sistemas agrovoltaicos desde 2015, donde el máximo se encuentra entre 2021 y 2023 tanto en publicaciones como en citaciones.Las redes de colaboración muestran una fuerte conexión entre revistas dedicadas a la sostenibilidad y el medio ambiente. Dentro de la red, revistas como ACTA HORTICULTURAE, AIP CONFERENCE PROCEEDINGS y JOURNAL OF FOOD PROCESS ENGINEERING concentran el mayor número de artículos indexados, con valores 4, 3 y 3 artículos, respectivamente. Su elevada producción científica, junto con su alta frecuencia de citación en ambas bases, las posiciona como revistas de alto impacto y como los principales nodos que articulan la estructura temática del campo.
+
+En las secciones siguientes se explica de manera detallada la metodología utilizada para la selección y el análisis de los artículos científicos, así como los procedimientos para la generación de tablas y figuras que sustentan este estudio. Posteriormente, se presentan los resultados obtenidos y las conclusiones que permiten comprender la dinámica, evolución y tendencias de esta investigación cienciométrica. 
+
+Methodology
+
+Method and approaches   
+
+Search criteria 
+
+La cienciometría es el análisis cuantitativo de la información científica  (Robledo-Giraldo, 2024). La cienciometría permite identificar la dinámica científica a partir de datos objetivos como la producción académica de un investigador, la colaboración científica entre países y temáticas en común entre revistas. Estos análisis permiten un primer acercamiento de los investigadores interesados en un tema específico (10.21676/23897848.5674; 10.3390/ijms26094112). Esto les permite tener un panorama general de su área de investigación para entender en qué revistas se publican, quienes publican y como ha sido el crecimiento de esa producción. En conclusión, estos análisis son importantes para entender el crecimiento de un área de conocimiento.  
+
+Search flowcharts  
+
+La búsqueda bibliográfica se realizó el 4 de septiembre de 2025, abarcando un periodo de 20 años (2005–2025). Este rango temporal se seleccionó porque el concepto de agrovoltaicos es relativamente reciente; sin embargo, permite analizar la evolución y consolidación de este modelo de doble uso del suelo. Se emplearon las bases de datos WoS y Scopus, reconocidas por su fiabilidad y amplia cobertura en la literatura científica (Mongeon & Paul-Hus, 2016). En WoS se identificaron 42 artículos, mientras que en Scopus se obtuvieron 82 resultados bajo los mismos criterios de búsqueda, para un total de 124 publicaciones. Las palabras clave utilizadas se presentan en la Tabla 1.
+
+Table I. Search parameters used in WoS and Scopus.
+
+Parameters
+
+Web of Science
+
+Scopus
+
+Range
+
+2005-2025
+
+Date
+
+28 August 2025
+
+Document Type
+
+Paper, Proceedings Paper
+
+Keywords
+
+agrivoltaic*, agrovoltaic*, "agri-voltaic*", agrophotovoltaic*, "agri-photovoltaic*", agriphotovoltaic*, "solar sharing", "photovoltaic agriculture",, agroPV, APV, bioprocess*, "bio-process*", ferment*, bioreactor*, "anaerobic digest*", "food process*", postharvest, "post-harvest", biotransform*, "downstream process*", valorization, valorisation
+
+Results
+
+41
+
+65
+
+Total (Wos+Scopus)
+
+96
+
+Search output 
+
+Una vez obtenidos los resultados de búsqueda en ambas bases de datos, los registros pasaron por un preprocesamiento  para eliminar los artículos duplicados, reduciendo el total de 124 artículos a 77 publicaciones únicas (Robledo et al., 2025). En ese mismo preprocesamiento, se incluyó la aplicación de técnicas de minería de texto para extraer información relevante, como título, resumen y palabras clave (Salazar et al., 2025; Vargas-Hernández et al., 2025) (10.5530/jscires.13.2.32; 10.30554/lumina.v26.n1.5401.2025). A partir de estos campos, se identificaron términos frecuentes, ocurrencias y temas emergentes relacionados con los sistemas agrovoltaicos.
+
+De manera complementaria, se aplicó un procedimiento de web scraping con el fin de completar información faltante en los registros exportados, como los DOI o afiliaciones institucionales (Duque et al., 2024). Este proceso de preprocesamiento permitió estandarizar los datos provenientes de ambas bases de datos, garantizando una base consolidada y precisa para el análisis posterior.
+
+El conjunto final de información se organizó en un archivo de Excel compuesto por ocho hojas, que fueron procesadas mediante el algoritmo de análisis cienciométrico (metric since creo que se escribe así) para generar las gráficas y redes de colaboración presentadas en el apartado de resultados. Toda esta información se puede observar de forma sintetizada en la Figura 1. 
+
+<w:p w:rsidR="00000000" w:rsidDel="00000000" w:rsidP="00000000" w:rsidRDefault="00000000" w:rsidRPr="00000000"><w:pPr><w:spacing w:after="0" w:before="0" w:line="240"/><w:ind w:left="0" w:right="0" w:firstLine="0"/><w:jc w:val="center"/><w:textDirection w:val="btLr"/></w:pPr><w:r w:rsidDel="00000000" w:rsidR="00000000" w:rsidRPr="00000000"><w:rPr><w:rFonts w:ascii="Times New Roman" w:cs="Times New Roman" w:eastAsia="Times New Roman" w:hAnsi="Times New Roman"/><w:b w:val="0"/><w:i w:val="0"/><w:smallCaps w:val="0"/><w:strike w:val="0"/><w:color w:val="000000"/><w:sz w:val="28"/><w:vertAlign w:val="baseline"/></w:rPr><w:t xml:space="preserve">Identification
+
+</w:pPr><w:r w:rsidDel="00000000" w:rsidR="00000000" w:rsidRPr="00000000"><w:rPr><w:rFonts w:ascii="Times New Roman" w:cs="Times New Roman" w:eastAsia="Times New Roman" w:hAnsi="Times New Roman"/><w:b w:val="0"/><w:i w:val="0"/><w:smallCaps w:val="0"/><w:strike w:val="0"/><w:color w:val="000000"/><w:sz w:val="28"/><w:vertAlign w:val="baseline"/></w:rPr><w:t xml:space="preserve">Screening
+
+</w:pPr><w:r w:rsidDel="00000000" w:rsidR="00000000" w:rsidRPr="00000000"><w:rPr><w:rFonts w:ascii="Times New Roman" w:cs="Times New Roman" w:eastAsia="Times New Roman" w:hAnsi="Times New Roman"/><w:b w:val="0"/><w:i w:val="0"/><w:smallCaps w:val="0"/><w:strike w:val="0"/><w:color w:val="000000"/><w:sz w:val="28"/><w:vertAlign w:val="baseline"/></w:rPr><w:t xml:space="preserve">Eligibility
+
+</w:pPr><w:r w:rsidDel="00000000" w:rsidR="00000000" w:rsidRPr="00000000"><w:rPr><w:rFonts w:ascii="Times New Roman" w:cs="Times New Roman" w:eastAsia="Times New Roman" w:hAnsi="Times New Roman"/><w:b w:val="0"/><w:i w:val="0"/><w:smallCaps w:val="0"/><w:strike w:val="0"/><w:color w:val="000000"/><w:sz w:val="28"/><w:vertAlign w:val="baseline"/></w:rPr><w:t xml:space="preserve">Included
+
+</w:pPr><w:r w:rsidDel="00000000" w:rsidR="00000000" w:rsidRPr="00000000"><w:rPr><w:rFonts w:ascii="Times New Roman" w:cs="Times New Roman" w:eastAsia="Times New Roman" w:hAnsi="Times New Roman"/><w:b w:val="0"/><w:i w:val="0"/><w:smallCaps w:val="0"/><w:strike w:val="0"/><w:color w:val="000000"/><w:sz w:val="28"/><w:vertAlign w:val="baseline"/></w:rPr><w:t xml:space="preserve">Registers in  WoS
+
+</w:pPr><w:r w:rsidDel="00000000" w:rsidR="00000000" w:rsidRPr="00000000"><w:rPr><w:rFonts w:ascii="Times New Roman" w:cs="Times New Roman" w:eastAsia="Times New Roman" w:hAnsi="Times New Roman"/><w:b w:val="1"/><w:i w:val="0"/><w:smallCaps w:val="0"/><w:strike w:val="0"/><w:color w:val="000000"/><w:sz w:val="28"/><w:vertAlign w:val="baseline"/></w:rPr></w:r><w:r w:rsidDel="00000000" w:rsidR="00000000" w:rsidRPr="00000000"><w:rPr><w:rFonts w:ascii="Times New Roman" w:cs="Times New Roman" w:eastAsia="Times New Roman" w:hAnsi="Times New Roman"/><w:b w:val="0"/><w:i w:val="0"/><w:smallCaps w:val="0"/><w:strike w:val="0"/><w:color w:val="000000"/><w:sz w:val="28"/><w:vertAlign w:val="baseline"/></w:rPr><w:t xml:space="preserve">(n = 41)
+
+</w:pPr><w:r w:rsidDel="00000000" w:rsidR="00000000" w:rsidRPr="00000000"><w:rPr><w:rFonts w:ascii="Times New Roman" w:cs="Times New Roman" w:eastAsia="Times New Roman" w:hAnsi="Times New Roman"/><w:b w:val="0"/><w:i w:val="0"/><w:smallCaps w:val="0"/><w:strike w:val="0"/><w:color w:val="000000"/><w:sz w:val="28"/><w:vertAlign w:val="baseline"/></w:rPr><w:t xml:space="preserve">Registers in Scopus 
+
+</w:pPr><w:r w:rsidDel="00000000" w:rsidR="00000000" w:rsidRPr="00000000"><w:rPr><w:rFonts w:ascii="Times New Roman" w:cs="Times New Roman" w:eastAsia="Times New Roman" w:hAnsi="Times New Roman"/><w:b w:val="1"/><w:i w:val="0"/><w:smallCaps w:val="0"/><w:strike w:val="0"/><w:color w:val="000000"/><w:sz w:val="28"/><w:vertAlign w:val="baseline"/></w:rPr></w:r><w:r w:rsidDel="00000000" w:rsidR="00000000" w:rsidRPr="00000000"><w:rPr><w:rFonts w:ascii="Times New Roman" w:cs="Times New Roman" w:eastAsia="Times New Roman" w:hAnsi="Times New Roman"/><w:b w:val="0"/><w:i w:val="0"/><w:smallCaps w:val="0"/><w:strike w:val="0"/><w:color w:val="000000"/><w:sz w:val="28"/><w:vertAlign w:val="baseline"/></w:rPr><w:t xml:space="preserve">(n = 65)
+
+</w:pPr><w:r w:rsidDel="00000000" w:rsidR="00000000" w:rsidRPr="00000000"><w:rPr><w:rFonts w:ascii="Times New Roman" w:cs="Times New Roman" w:eastAsia="Times New Roman" w:hAnsi="Times New Roman"/><w:b w:val="0"/><w:i w:val="0"/><w:smallCaps w:val="0"/><w:strike w:val="0"/><w:color w:val="000000"/><w:sz w:val="28"/><w:vertAlign w:val="baseline"/></w:rPr><w:t xml:space="preserve">Unique registers
+
+</w:pPr><w:r w:rsidDel="00000000" w:rsidR="00000000" w:rsidRPr="00000000"><w:rPr><w:rFonts w:ascii="Times New Roman" w:cs="Times New Roman" w:eastAsia="Times New Roman" w:hAnsi="Times New Roman"/><w:b w:val="0"/><w:i w:val="0"/><w:smallCaps w:val="0"/><w:strike w:val="0"/><w:color w:val="000000"/><w:sz w:val="28"/><w:vertAlign w:val="baseline"/></w:rPr></w:r><w:r w:rsidDel="00000000" w:rsidR="00000000" w:rsidRPr="00000000"><w:rPr><w:rFonts w:ascii="Times New Roman" w:cs="Times New Roman" w:eastAsia="Times New Roman" w:hAnsi="Times New Roman"/><w:b w:val="0"/><w:i w:val="0"/><w:smallCaps w:val="0"/><w:strike w:val="0"/><w:color w:val="000000"/><w:sz w:val="28"/><w:vertAlign w:val="baseline"/></w:rPr><w:t xml:space="preserve">(n = 77)
+
+</w:pPr><w:r w:rsidDel="00000000" w:rsidR="00000000" w:rsidRPr="00000000"><w:rPr><w:rFonts w:ascii="Times New Roman" w:cs="Times New Roman" w:eastAsia="Times New Roman" w:hAnsi="Times New Roman"/><w:b w:val="0"/><w:i w:val="0"/><w:smallCaps w:val="0"/><w:strike w:val="0"/><w:color w:val="000000"/><w:sz w:val="28"/><w:vertAlign w:val="baseline"/></w:rPr><w:t xml:space="preserve">Duplicate removed
+
+</w:pPr><w:r w:rsidDel="00000000" w:rsidR="00000000" w:rsidRPr="00000000"><w:rPr><w:rFonts w:ascii="Times New Roman" w:cs="Times New Roman" w:eastAsia="Times New Roman" w:hAnsi="Times New Roman"/><w:b w:val="0"/><w:i w:val="0"/><w:smallCaps w:val="0"/><w:strike w:val="0"/><w:color w:val="000000"/><w:sz w:val="28"/><w:vertAlign w:val="baseline"/></w:rPr></w:r><w:r w:rsidDel="00000000" w:rsidR="00000000" w:rsidRPr="00000000"><w:rPr><w:rFonts w:ascii="Times New Roman" w:cs="Times New Roman" w:eastAsia="Times New Roman" w:hAnsi="Times New Roman"/><w:b w:val="0"/><w:i w:val="0"/><w:smallCaps w:val="0"/><w:strike w:val="0"/><w:color w:val="000000"/><w:sz w:val="28"/><w:vertAlign w:val="baseline"/></w:rPr><w:t xml:space="preserve">(n = 25)
+
+</w:pPr><w:r w:rsidDel="00000000" w:rsidR="00000000" w:rsidRPr="00000000"><w:rPr><w:rFonts w:ascii="Times New Roman" w:cs="Times New Roman" w:eastAsia="Times New Roman" w:hAnsi="Times New Roman"/><w:b w:val="1"/><w:i w:val="0"/><w:smallCaps w:val="0"/><w:strike w:val="0"/><w:color w:val="000000"/><w:sz w:val="28"/><w:vertAlign w:val="baseline"/></w:rPr><w:t xml:space="preserve">Scientometric Analysis
+
+</w:pPr><w:r w:rsidDel="00000000" w:rsidR="00000000" w:rsidRPr="00000000"><w:rPr><w:rFonts w:ascii="Times New Roman" w:cs="Times New Roman" w:eastAsia="Times New Roman" w:hAnsi="Times New Roman"/><w:b w:val="1"/><w:i w:val="0"/><w:smallCaps w:val="0"/><w:strike w:val="0"/><w:color w:val="000000"/><w:sz w:val="28"/><w:vertAlign w:val="baseline"/></w:rPr><w:t xml:space="preserve">Preprocessing
+
+</w:pPr><w:r w:rsidDel="00000000" w:rsidR="00000000" w:rsidRPr="00000000"><w:rPr><w:rFonts w:ascii="Times New Roman" w:cs="Times New Roman" w:eastAsia="Times New Roman" w:hAnsi="Times New Roman"/><w:b w:val="0"/><w:i w:val="0"/><w:smallCaps w:val="0"/><w:strike w:val="0"/><w:color w:val="000000"/><w:sz w:val="28"/><w:vertAlign w:val="baseline"/></w:rPr></w:r><w:r w:rsidDel="00000000" w:rsidR="00000000" w:rsidRPr="00000000"><w:rPr><w:rFonts w:ascii="Times New Roman" w:cs="Times New Roman" w:eastAsia="Times New Roman" w:hAnsi="Times New Roman"/><w:b w:val="0"/><w:i w:val="0"/><w:smallCaps w:val="0"/><w:strike w:val="0"/><w:color w:val="000000"/><w:sz w:val="28"/><w:vertAlign w:val="baseline"/></w:rPr><w:t xml:space="preserve"> Text mining and web scraping 
+
+</w:pPr><w:r w:rsidDel="00000000" w:rsidR="00000000" w:rsidRPr="00000000"><w:rPr><w:rFonts w:ascii="Times New Roman" w:cs="Times New Roman" w:eastAsia="Times New Roman" w:hAnsi="Times New Roman"/><w:b w:val="0"/><w:i w:val="0"/><w:smallCaps w:val="0"/><w:strike w:val="0"/><w:color w:val="000000"/><w:sz w:val="28"/><w:vertAlign w:val="baseline"/></w:rPr><w:t xml:space="preserve">Excel with 8 sheets
+
+</w:pPr><w:r w:rsidDel="00000000" w:rsidR="00000000" w:rsidRPr="00000000"><w:rPr><w:rFonts w:ascii="Times New Roman" w:cs="Times New Roman" w:eastAsia="Times New Roman" w:hAnsi="Times New Roman"/><w:b w:val="0"/><w:i w:val="0"/><w:smallCaps w:val="0"/><w:strike w:val="0"/><w:color w:val="000000"/><w:sz w:val="28"/><w:vertAlign w:val="baseline"/></w:rPr><w:t xml:space="preserve">Scientific production:
+
+</w:pPr><w:r w:rsidDel="00000000" w:rsidR="00000000" w:rsidRPr="00000000"><w:rPr><w:rFonts w:ascii="Times New Roman" w:cs="Times New Roman" w:eastAsia="Times New Roman" w:hAnsi="Times New Roman"/><w:b w:val="0"/><w:i w:val="0"/><w:smallCaps w:val="0"/><w:strike w:val="0"/><w:color w:val="000000"/><w:sz w:val="28"/><w:vertAlign w:val="baseline"/></w:rPr></w:r><w:r w:rsidDel="00000000" w:rsidR="00000000" w:rsidRPr="00000000"><w:rPr><w:rFonts w:ascii="Times New Roman" w:cs="Times New Roman" w:eastAsia="Times New Roman" w:hAnsi="Times New Roman"/><w:b w:val="0"/><w:i w:val="0"/><w:smallCaps w:val="0"/><w:strike w:val="0"/><w:color w:val="000000"/><w:sz w:val="28"/><w:vertAlign w:val="baseline"/></w:rPr><w:t xml:space="preserve">Country analysis 
+
+</w:pPr><w:r w:rsidDel="00000000" w:rsidR="00000000" w:rsidRPr="00000000"><w:rPr><w:rFonts w:ascii="Times New Roman" w:cs="Times New Roman" w:eastAsia="Times New Roman" w:hAnsi="Times New Roman"/><w:b w:val="0"/><w:i w:val="0"/><w:smallCaps w:val="0"/><w:strike w:val="0"/><w:color w:val="000000"/><w:sz w:val="28"/><w:vertAlign w:val="baseline"/></w:rPr></w:r><w:r w:rsidDel="00000000" w:rsidR="00000000" w:rsidRPr="00000000"><w:rPr><w:rFonts w:ascii="Times New Roman" w:cs="Times New Roman" w:eastAsia="Times New Roman" w:hAnsi="Times New Roman"/><w:b w:val="0"/><w:i w:val="0"/><w:smallCaps w:val="0"/><w:strike w:val="0"/><w:color w:val="000000"/><w:sz w:val="28"/><w:vertAlign w:val="baseline"/></w:rPr><w:t xml:space="preserve">Journal Analysis
+
+</w:pPr><w:r w:rsidDel="00000000" w:rsidR="00000000" w:rsidRPr="00000000"><w:rPr><w:rFonts w:ascii="Times New Roman" w:cs="Times New Roman" w:eastAsia="Times New Roman" w:hAnsi="Times New Roman"/><w:b w:val="0"/><w:i w:val="0"/><w:smallCaps w:val="0"/><w:strike w:val="0"/><w:color w:val="000000"/><w:sz w:val="28"/><w:vertAlign w:val="baseline"/></w:rPr></w:r><w:r w:rsidDel="00000000" w:rsidR="00000000" w:rsidRPr="00000000"><w:rPr><w:rFonts w:ascii="Times New Roman" w:cs="Times New Roman" w:eastAsia="Times New Roman" w:hAnsi="Times New Roman"/><w:b w:val="0"/><w:i w:val="0"/><w:smallCaps w:val="0"/><w:strike w:val="0"/><w:color w:val="000000"/><w:sz w:val="28"/><w:vertAlign w:val="baseline"/></w:rPr><w:t xml:space="preserve">Author Analysis
+
+Figura 1. Resumen bibliométricos de publicaciones en bases de datos científicas
+
+Extender la metodología 
+
+Results  (Análisis cienciométrico)
+
+La presentación de resultados inicia con el análisis de la evolución anual de la producción científica, ya que esta perspectiva cronológica brinda una visión clara del desarrollo del campo de los sistemas agrovoltaicos. Examinar este comportamiento permitió identificar momentos de mayor crecimiento y establecer periodos diferenciados de avance, sobre los cuales se organiza el resto del análisis. Posteriormente, se profundiza en la contribución de los distintos países y en el comportamiento de las revistas científicas especializadas, para finalmente cerrar con la evaluación del aporte de los autores más influyentes en esta área de investigación.
+
+Scientific Annual Production
+
+Conocer y analizar la producción científica de un tema es fundamental para identificar los distintos periodos de desarrollo por los que ha transitado y determinar si un campo de investigación se encuentra en crecimiento, consolidación o estancamiento https://doi.org/10.3390/su162411048. Esta información resulta clave para evaluar el nivel de innovación y la dinámica investigativa del área estudiada https://doi.org/10.1007/s11192-015-1645-z Además, comprender la evolución de la producción científica permite sustentar decisiones estratégicas en ciencia y tecnología, especialmente en lo relacionado con la asignación de recursos, la formulación de políticas y la definición de prioridades de investigación https://doi.org/10.1016/j.joi.2025.101665.
+
+En la Figura 2 se presenta la evolución de la producción científica correspondiente al periodo 2006–2025. La línea azul muestra el número total de publicaciones por año, mientras que la línea café representa el total de citaciones recibidas en cada periodo. Adicionalmente, las barras verdes y amarillas indican la cantidad de artículos indexados en Scopus y WoS, respectivamente. Esta visualización permite identificar las variaciones anuales tanto en productividad como en impacto, así como reconocer los periodos de mayor actividad científica y la contribución relativa de cada base de datos al conjunto total de publicaciones.
+
+Figure 2. Evolución temporal de la producción científica y citaciones sobre agrovoltaicos (2006–2025).
+
+Con base en los datos presentados en la Figura 2, se estimó una tasa de crecimiento anual del 12,58% para el periodo comprendido entre 2007 y 2024. Este valor evidencia un incremento sostenido en la producción científica relacionada con los cultivos en sistemas agrovoltaicos, reflejando un interés creciente tanto de la comunidad científica como del sector industrial. La tendencia ascendente es especialmente notoria durante los últimos seis años, periodo en el que se observa una expansión significativa del campo y un aumento en la generación de nuevo conocimiento.
+
+La línea azul de la Figura 2, que representa el total de publicaciones por año integrando Scopus y WoS, demuestra la importancia de utilizar ambas bases de datos para obtener una cobertura más completa del tema. Por ejemplo, en el año de mayor productividad (2024), Scopus registró 12 artículos y Web of Science 9; sin embargo, el total consolidado fue de 15 publicaciones. Esto indica que una parte considerable de los artículos (al menos nueve) se encuentra indexada de manera exclusiva en una sola de las bases de datos, lo que evidencia la complementariedad entre las fuentes y la necesidad de consultarlas simultáneamente para evitar subestimaciones en los análisis cienciométricos.
+
+Este crecimiento consolidado se puede ver en diferentes periodos:
+
+Periodo de baja producción baja 2007 a 2012
+
+Durante este periodo, la producción científica relacionada con el aprovechamiento de la energía solar para actividades agronómicas y bioprocesos no figuraba entre las principales líneas de investigación. Esto se evidencia en que los artículos publicados por 10.3969/j.issn.1002-6819.2009.09.037 y 10.1016/j.jada.2008.03.013 sólo alcanzaron 13 citas cada uno, reflejando un impacto limitado dentro de la comunidad académica. En total, durante esos años se publicaron únicamente cinco artículos que acumularon 46 citas, lo que confirma el bajo nivel de interés en el tema. Además, entre 2010 y 2012 se observa un periodo de inactividad científica, que puede interpretarse como una fase de desinterés o de escasa prioridad hacia el uso de energía solar en el ámbito agrícola. Es importante señalar que, en ese momento, el concepto de agrovoltaicos aún no se encontraba definido ni formaba parte del discurso científico, lo cual explica la limitada atención que recibió esta área emergente.
+
+Periodo de aumento progresivo y estable en la producción científica (2013–2019)
+
+El periodo comprendido entre 2013 y 2019 tuvo una tasa de crecimiento anual de 20.09% marcando un renovado interés científico en el aprovechamiento de la energía solar aplicada a procesos agrícolas, especialmente en operaciones de secado, manejo térmico en invernaderos, compostaje solar y otros bioprocesos asociados a operaciones unitarias. Aunque durante estos años no se publicó ningún artículo que incluyera explícitamente el término “agrovoltaicos” en su título, este conjunto de investigaciones constituye un antecedente clave: muestra cómo la comunidad académica comenzó a explorar, cada vez con mayor fuerza, el papel de la energía solar dentro de sistemas agrícolas y agroambientales.
+
+Dentro de este periodo, los años 2014 y 2015 fueron especialmente relevantes, ya que registraron el mayor número de citaciones: 78 en 2014 y 104 en 2015. Este incremento estuvo impulsado en gran medida por el artículo (Chen et al., 2014) realizado en china y publicado en el 2014, en este estudio se  evaluó el uso de un invernadero solar pasivo para acelerar el compostaje de lodos de depuración. Los autores determinaron que el incremento de temperatura generado por la radiación solar mejoró la deshidratación, la estabilización del material y la reducción de patógenos. obteniendo un compost con características adecuadas para su uso agrícola como fertilizante, demostrando que el secado y compostaje asistido por energía solar es una alternativa eficiente y de bajo costo para el manejo de lodos. Este estudio es significativo porque muestra que, incluso antes de que los sistemas agrovoltaicos tomaran fuerza, ya existía un interés claro por incorporar la energía solar en procesos agrícolas y agroambientales. Su impacto sugiere que probablemente funcionó como una especie de puente o inspiración para el desarrollo de tecnologías que hoy buscan integrar la energía solar en bioprocesos y en el mejoramiento de diversas operaciones agronómicas.
+
+Además, 2015 no solo destacó por sus citaciones, sino también por ser el año con mayor número de artículos publicados (5 artículos) en ese intervalo, donde el artículo más citado fue (Hassanein et al., 2015) (Q1  y 38 citaciones) realizado en china. Donde los autores proponen un sistema en el que la energía solar térmica se aprovecha mediante un invernadero construido sobre biodigestores subterráneos, permitiendo elevar su temperatura interna sin necesidad de combustibles fósiles. A través de simulaciones y validación experimental, los autores demuestran que la radiación solar capturada por el invernadero puede mantener condiciones térmicas más estables y favorables para la producción de biogás . Este artículo refuerza la idea de que entre 2013 y 2019 se vivió una etapa de reactivación y crecimiento en torno a este tema, un periodo en el que las ideas comenzaron a madurar y la investigación volvió a tomar impulso.
+
+Periodo de consolidación y crecimiento acelerado de la investigación agrovoltaica (2020–2025)
+
+Durante este periodo, la tasa de crecimiento anual de publicaciones es del 39,61 %, lo cual coincide con la Figura 2 y evidencia que la investigación sobre el aprovechamiento de la energía solar en aplicaciones agrícolas y bioprocesos se encuentra en una fase de crecimiento exponencial. Esto sugiere que, en los próximos años, esta área continuará expandiéndose de manera acelerada.
+
+No obstante, aunque la producción científica aumenta rápidamente, solo 9 de los 49 artículos publicados en este periodo incorporan de manera explícita los términos “agrovoltaico” o “fotovoltaico”, lo que corresponde apenas al 18,36 %. La mayoría de los trabajos se concentra en la implementación de secadores solares para el procesamiento de productos agrícolas o bioproductos (por ejemplo, biogás), sin hacer referencia directa a sistemas agrovoltaicos.
+
+Aun así, este porcentaje relativamente bajo marca el inicio formal de las investigaciones en cultivos agrovoltaicos. Considerando el corto periodo analizado y el hecho de que casi todos los años (a excepción de 2022, que el articulo no incluye en el título dichos términos pero sí habla sobre sistemas agrovoltaicos) se publicó al menos un artículo con estos términos en el título, es razonable proyectar que las nociones de agrovoltaico/fotovoltaico serán cada vez más frecuentes en estudios futuros. De hecho, el año con mayor número de artículos que incluyen dichos términos fue 2024, con tres publicaciones.
+
+Entre los artículos identificados que incorporan explícitamente los términos agrovoltaico o fotovoltaico, el más citado fue (Azam et al., 2020), publicado en Egipto en 2024 y con 68 citaciones este artículo analiza un secador de invernadero híbrido para tomates que combina un colector solar térmico y un sistema fotovoltaico. La energía solar térmica calienta el aire dentro del invernadero, mientras que los paneles fotovoltaicos alimentan los ventiladores que generan convección forzada, acelerando el secado sin necesidad de energía externa. El sistema logró buenas eficiencias y redujo significativamente el tiempo de secado, demostrando que integrar energía solar térmica y fotovoltaica en procesos agrícolas es una alternativa sostenible y de alto rendimiento. 
+
+Aunque este trabajo no implementa un sistema agrovoltaico en sentido estricto, sí representa un acercamiento significativo hacia ese tipo de soluciones, al integrar un sistema fotovoltaico con un proceso agrícola (el secado de tomates) dentro de una infraestructura híbrida. Este tipo de integración lo convierte en un antecedente relevante para el desarrollo de futuros estudios que sí aborden de manera completa la producción agrícola simultánea con generación fotovoltaica. 
+
+Además, el número de citaciones refleja que estas investigaciones están cobrando una creciente importancia dentro de la comunidad científica, lo que evidencia que los sistemas agrovoltaicos comienzan a posicionarse como una alternativa estratégica tanto para mejorar la productividad agrícola como para avanzar en la transición hacia energías renovables 10.1016/j.apenergy.2018.03.081
+
+Country Analysis
+
+El análisis por países se realiza para identificar qué naciones lideran y presentan un mayor desarrollo en la investigación sobre sistemas agrovoltaicos. Además, permite determinar los patrones de colaboración internacional y comprender el panorama global de avance en la temática. En la Tabla 2 se presentan los diez países que lideran la producción científica en la temática. En esta tabla se observa que China es el mayor contribuyente a nivel mundial, con un 22,34 % de la producción total de artículos y un 18,07 % del total de citaciones. Además, el 63,63 % de sus publicaciones se encuentran en revistas Q1, lo que refleja tanto la calidad como la visibilidad de los trabajos relacionados con el aprovechamiento de la energía solar para actividades agrícolas y bioprocesos.
+
+Tabla II. Producción, citaciones y percentiles por país.
+
+Country
+
+Production
+
+N. Citation
+
+Q1
+
+Q2
+
+Q3
+
+Q4
+
+Count
+
+%
+
+Count
+
+%
+
+CHINA
+
+21
+
+22,34
+
+266
+
+18,07
+
+7
+
+2
+
+1
+
+1
+
+INDIA
+
+10
+
+10,64
+
+86
+
+5,84
+
+0
+
+7
+
+0
+
+0
+
+GERMANY
+
+8
+
+8,51
+
+87
+
+5,91
+
+2
+
+2
+
+0
+
+1
+
+UNITED STATES OF AMERICA
+
+5
+
+5,32
+
+96
+
+6,52
+
+4
+
+1
+
+0
+
+0
+
+THAILAND
+
+5
+
+5,32
+
+185
+
+12,57
+
+1
+
+1
+
+0
+
+0
+
+EGYPT
+
+4
+
+4,26
+
+125
+
+8,49
+
+2
+
+0
+
+0
+
+0
+
+SPAIN
+
+4
+
+4,26
+
+34
+
+2,31
+
+1
+
+0
+
+0
+
+1
+
+AUSTRALIA
+
+3
+
+3,19
+
+175
+
+11,89
+
+1
+
+1
+
+0
+
+1
+
+BANGLADESH
+
+3
+
+3,19
+
+167
+
+11,35
+
+2
+
+0
+
+1
+
+0
+
+CANADÁ
+
+2
+
+2,13
+
+4
+
+0,27
+
+0
+
+1
+
+0
+
+1
+
+Sin embargo, a pesar de su alta productividad, China no posee una red colaborativa tan amplia o sólida como la de otros países, por ejemplo, Bangladesh, y solo uno de sus artículos aborda explícitamente el tema de los sistemas agrovoltaicos. Esto sugiere que, aunque la investigación en energía solar aplicada a la agricultura es significativa, la línea específica de agrovoltaicos aún no está consolidada en su producción científica.
+
+En contraste, Alemania, aunque ha producido únicamente 8 artículos durante el periodo comprendido entre 2005 y 2025 (equivalentes al 8,51 % de la producción total y al 5,91 % de las citaciones), destaca por su enfoque específico en los sistemas agrovoltaicos/fotovoltaicos. De hecho, cuenta con tres artículos publicados recientemente (2022, 2023 y 2024) dedicados explícitamente a esta temática. Esto evidencia el interés creciente y el compromiso de Alemania con la investigación y la implementación de sistemas agrovoltaicos, posicionándose como un referente emergente a pesar de su menor volumen de publicaciones.
+
+El creciente interés por los sistemas agrovoltaicos en Alemania está estrechamente relacionado con la crisis energética surgida en Europa tras el inicio de la guerra entre Rusia y Ucrania. Como estrategia geopolítica, Rusia redujo significativamente el suministro de gas hacia Europa, afectando especialmente a Alemania, cuya matriz energética dependía en más de un 50 % del gas ruso. Esta situación impulsó al país a acelerar su transición hacia fuentes renovables para disminuir su dependencia externa. Como resultado, para 2024 Alemania alcanzó el 62,7 % de generación eléctrica a partir de energías renovables, desplazando progresivamente los combustibles fósiles y promoviendo alternativas innovadoras como los sistemas agrovoltaicos. (10.52825/agripv.v2i.1005) (10.1063/5.0055133) (https://doi.org/10.3390/coatings10030218)
+
+Figura 3. Evolución temporal de la producción científica y citaciones sobre cultivos en sistemas agrovoltaicos 
+
+En la Figura 3 se evidencia que la investigación en sistemas agrovoltaicos aún se encuentra en una fase temprana de consolidación, lo cual se refleja en el número reducido de países involucrados y en la baja densidad de colaboraciones internacionales. Esta limitada participación sugiere que se trata de un campo emergente, donde apenas comienzan a formarse redes de cooperación científica y líneas de trabajo especializadas. 
+
+Asimismo, la Figura 3 muestra la estructura de la red de colaboración, en la que se identifican siete comunidades diferenciadas, cada una compuesta por países que tienden a colaborar principalmente entre sí. Dentro de estas comunidades, destacan especialmente dos grupos centrales, la comunidad liderada por Bangladesh y la comunidad liderada por Australia, ambas no solo muestran una intensa actividad de colaboración interna, sino que también establecen vínculos entre sí, convirtiéndose en el eje principal de la red global de cooperación en este campo.
+
+Por otro lado, las comunidades 7, 6 y 5 aparecen relativamente aisladas, ya que están conformadas únicamente por dos países cada una y su interacción se da exclusivamente dentro del mismo par. Una situación similar se observa en las comunidades 2 y 4, aunque en menor medida, ya que estas cuentan con más países y presentan colaboraciones internas más amplias, pero aun así mantienen una estructura cerrada sin una conexión significativa con el resto de la red.
+
+Este patrón de aislamiento parcial es coherente con la naturaleza emergente del tema agrovoltaico: al tratarse de un campo reciente, las colaboraciones internacionales aún son limitadas y tienden a formarse en pequeños núcleos.
+
+Un aspecto relevante es la interacción entre las comunidades 1 y 3, posible gracias al puente entre  Australia y Bangladesh, cuyos vínculos directos conectan a ambas comunidades. De hecho, Bangladesh es el país con mayor nivel de colaboración a escala global, lo cual se evidencia en el tamaño de su nodo, que refleja su alto grado de conexión, y la cantidad de links  que mantiene con múltiples países Por esta razón, aunque Bangladesh produce menos artículos que China, su nivel de colaboración internacional es mucho más amplio, lo que se visualiza claramente en la red, donde su nodo es mayor y su conectividad es significativamente más alta.
+
+Bangladesh en colaboración con Japón publicaron 10.1109/sti64222.2024.10951152 que propone un modelo de uso dual del espacio donde paneles solares instalados en azoteas generan electricidad mientras, bajo su sombra controlada, se desarrolla un sistema acuapónico que combina cultivo de plantas y cría de peces en un circuito cerrado de agua. Los autores demuestran que este enfoque puede mejorar la eficiencia del uso del suelo urbano, reducir costos energéticos y aumentar la producción sostenible de alimentos en ciudades densamente pobladas. Además, el trabajo resalta el potencial de este tipo de sistemas para contribuir simultáneamente a la seguridad alimentaria y a la transición hacia energías limpias, ofreciendo un modelo replicable para contextos urbanos de países en desarrollo. 10.1109/sti64222.2024.10951152
+
+Otro artículo que aborda el tema de agrovoltaicos y fue realizado en colaboración internacional, fue publicado en 2020 entre italia y suiza,10.1016/j.apenergy.2024.123490, desarrolla una herramienta de simulación que evalúa diferentes diseños de sistemas agrovoltaicos considerando tanto la generación eléctrica como el impacto sobre los cultivos. El modelo integra indicadores como irradiancia, rendimiento agrícola y producción de energía, y utiliza análisis multicriterio para comparar configuraciones y seleccionar la más adecuada según las condiciones del sitio. Su importancia radica en que ofrece una forma objetiva y precisa de planificar sistemas agrivoltaicos que maximicen simultáneamente la producción.
+
+Journal Analysis
+
+El análisis de las revistas permite determinar cuáles son los principales medios de difusión científica sobre el tema, además de evaluar la calidad de la producción mediante indicadores como el cuartil y el índice H. Esto facilita comprender la visibilidad del campo y su grado de consolidación dentro de la literatura especializada.
+
+Para interpretar adecuadamente la Tabla III es necesario entender qué representa cada columna. En primer lugar, las columnas correspondientes a WoS y Scopus indican la cantidad de publicaciones indexadas en estas dos bases de datos. Más adelante, se encuentra el indicador SJR (Scimago Journal Rank), el cual refleja la importancia e impacto de una revista al considerar no sólo el número de citas recibidas, sino también la relevancia de las fuentes que realizan dichas citas. El índice H, por su parte, expresa la frecuencia con la que los artículos de una revista han sido citados, actuando como un indicador conjunto de productividad, calidad e historial académico (https://doi.org/10.1007/s11192-006-0144-7). Finalmente, la columna de Quartile muestra la clasificación de la revista dentro de su área temática, donde Q1 representa las publicaciones con mayor influencia y Q4 las de menor posicionamiento (https://doi.org/10.3989/redc.2010.2.733). 
+
+Tabla III. Producción, factor de impacto y cuartiles de las 10 primeras revistas.
+
+Journal
+
+Wos
+
+Scopus
+
+SJR
+
+H-index
+
+Quantile
+
+Acta Horticulturae
+
+0
+
+4
+
+0.158
+
+74
+
+Q4
+
+AIP Conference Proceedings
+
+0
+
+3
+
+-
+
+-
+
+-
+
+Journal of Food Process Engineering
+
+0
+
+3
+
+0.153
+
+90
+
+-
+
+Agronomy
+
+2
+
+2
+
+0.621
+
+66
+
+Q2
+
+Renewable Energy 
+
+0
+
+2
+
+0.744
+
+114
+
+Q1
+
+Journal of Quantitative Spectroscopy and Radiative Transfer
+
+2
+
+2
+
+2.080
+
+270
+
+Q1
+
+Nongye Gongcheng Xuebao/Transactions of the Chinese Society of Agricultural Engineering
+
+0
+
+2
+
+0.676
+
+128
+
+Q1
+
+Energy 
+
+0
+
+2
+
+0.606
+
+72
+
+Q1
+
+E3S Web of Conferences
+
+2
+
+2
+
+2.211
+
+274
+
+Q1
+
+Energy Sources, Part A: Recovery, Utilization and Environmental Effects
+
+0
+
+1
+
+0.535
+
+71
+
+Q2
+
+La Tabla III presenta la distribución de las diez revistas con mayor producción registrada en el conjunto documental analizado, permitiendo caracterizar su visibilidad e impacto mediante indicadores bibliométricos estandarizados. En términos de indexación, se evidencia que cuatro revistas Acta Horticulturae (4 Scopus), AIP Conference Proceedings (3 Scopus), Journal of Food Process Engineering (3 Scopus) y E3S Web of Conferences (2 Scopus) aparecen únicamente en Scopus, lo que refleja una difusión circunscrita a esta base de datos y una ausencia total en Web of Science (WoS). Este patrón indica menor integración en los circuitos de citación propios de WoS.
+
+El resto de las revistas presenta registros simultáneos en ambas bases o al menos presencia en Scopus con características de impacto más robustas. Journal of Food Process Engineering muestra equilibrio entre WoS y Scopus (2 y 2 registros, respectivamente), con un SJR de 0.621, un H-index de 66 y clasificación en Q2. Por su parte, Agronomy (2 Scopus) y Renewable Energy (2 WoS y 2 Scopus) registran los valores de impacto más altos del conjunto: Agronomy alcanza un SJR de 0.744 y un H-index de 114 (Q1), mientras que Renewable Energy presenta un SJR de 2.080 y un H-index de 270, ubicándose también en Q1.
+
+Asimismo, Energy constituye la revista con el mayor impacto dentro de la muestra, con un SJR de 2.211, un H-index de 274 y clasificación en Q1, lo que la posiciona como el principal canal de difusión de la investigación analizada. Journal of Quantitative Spectroscopy and Radiative Transfer, aunque no presenta registros en WoS, alcanza un SJR de 0.676, un H-index de 128 y se ubica igualmente en Q1, lo que evidencia un impacto considerable pese a su ausencia en WoS. Un patrón similar se observa en Nongye Gongcheng Xuebao, con un SJR de 0.606, un H-index de 72 y clasificación en Q1, sosteniendo un nivel relevante de visibilidad dentro de Scopus.
+
+Finalmente, las revistas con menor impacto relativo Acta Horticulturae (SJR 0.158, H-index 74, Q4), AIP Conference Proceedings (SJR 0.153, H-index 90) y E3S Web of Conferences (SJR 0.205, H-index 45) exhiben valores característicos de publicaciones de baja citación y menor estabilidad de impacto, lo cual es consistente con su clasificación en cuartiles bajos o sin cuartil asignado  (https://doi.org/10.48550/arXiv.2005.02726) . En conjunto, los indicadores analizados muestran una marcada concentración del impacto en revistas Q1 como Energy, Renewable Energy y Agronomy, mientras que el resto de las publicaciones desempeña un rol complementario dentro del ecosistema de difusión científica, con niveles de visibilidad heterogéneos según la base de datos e indicadores específicos (10.1007/s11192-019-03210-z) .
+
+La Figura 4 se organiza en tres partes. En Communities by Size, el eje X muestra las comunidades científicas identificadas (numeradas como 1, 2 y 3), mientras que el eje Y indica cuántas revistas integran cada una de ellas. La sección Nodes and Links through Time ilustra la evolución del campo a lo largo del tiempo: los nodos en azul representan las revistas que empezaron a publicar sobre el tema en distintos años, y las líneas naranjas evidencian las relaciones de citación que se establecen entre ellas https://doi.org/10.1016/j.physrep.2009.11.002. Por último, el Journal Citation Network muestra la estructura de la red de citaciones; cada círculo simboliza una revista, su tamaño refleja el número de conexiones (degree), y los colores diferencian las comunidades temáticas dentro del conjunto 10.1007/s11192-009-0146-3.
+
+Figura 4. Análisis bibliométrico y red de citación de revistas en el campo de los cultivos en sistemas agrovoltaicos. 
+
+En la Figura 4 se aprecia que dentro del Journal Citation Network existen revistas que funcionan como nodos centrales en la producción científica sobre sistemas agrovoltaicos y temas energéticos relacionados (https://doi.org/10.48550/arXiv.1705.00018). En particular, revistas como Renewable Energy, Renewable & Sustainable Energy Reviews, GCB Bioenergy y Solar Energy destacan por su gran tamaño nodal, lo que indica un alto número de conexiones dentro de la red (https://doi.org/10.3390/app15042060). Estas revistas actúan como ejes articuladores del campo, ya que reciben y generan una cantidad significativa de citas, mostrándose como fuentes primarias para estudios que integran agricultura, energía renovable y eficiencia de uso del suelo. Un ejemplo típico de este núcleo temático es la línea de investigación orientada a evaluar el desempeño energético y productivo de cultivos bajo sistemas fotovoltaicos, donde se combinan modelos de rendimiento solar con análisis agronómicos; este tipo de trabajos suele aparecer en revistas como Renewable Energy o Solar Energy, dada su fuerte orientación hacia soluciones tecnológicas para la transición energética sostenible (https://doi.org/10.1016/j.rser.2023.114277) .
+
+El apartado Nodes and Links through Time evidencia que la dinámica del campo no ha sido lineal. Entre 2008 y 2018 se observa un aumento progresivo en la aparición de nuevas revistas que comienzan a publicar sobre la temática (línea azul), indicando una expansión temprana del interés por la interacción entre energía solar y uso agrícola del suelo. Posteriormente, entre 2019 y 2021 se identifica un periodo con los valores más altos de incorporación de nuevas publicaciones, alcanzando picos superiores al 80%, lo que coincide con el auge global de estrategias de transición energética y la búsqueda de modelos agrícolas resilientes frente al cambio climático (https://doi.org/10.3390/en16020611, https://doi.org/10.1016/j.spc.2025.03.006). En contraste, a partir de 2023 se evidencia una reducción marcada tanto en nuevos nodos como en nuevas conexiones, lo cual sugiere una etapa reciente de consolidación, en la que el crecimiento cuantitativo da paso a una estructuración más estable de las líneas de investigación, con conexiones más selectivas entre las revistas existentes.
+
+Finalmente, la sección Communities by Size muestra que las comunidades numeradas como 1 y 2 concentran la mayor cantidad de revistas, acumulando entre 130 y 140 títulos, lo que indica que representan los clústeres temáticos más robustos del campo. Estas comunidades agrupan principalmente revistas orientadas a energía renovable, sostenibilidad ambiental y bioenergía, mientras que la comunidad 3, de menor tamaño, reúne publicaciones vinculadas con ciencias agrícolas, horticultura y manejo de cultivos (https://doi.org/10.1016/j.eja.2024.127355). Este patrón confirma que la investigación en sistemas agrivoltaicos es fundamentalmente interdisciplinaria: combina ingeniería energética, políticas de sostenibilidad y ciencias agrarias, articulando tanto la optimización de tecnologías fotovoltaicas como el análisis del rendimiento agrícola bajo condiciones modificadas de radiación (https://doi.org/10.1038/s41893-019-0364-5). Finalmente, se puede decir que la figura demuestra que el área ha alcanzado un nivel significativo de madurez científica, con redes de citación bien definidas y un creciente interés por integrar soluciones energéticas y productivas en un solo sistema.
+
+Author Analysis 
+
+El análisis de autores permite identificar y cuantificar la contribución individual de los investigadores, evaluando la productividad, el impacto y la influencia de su trabajo a través de métricas consolidadas cómo las citas totales y el índice H (Hirsch, 2005). En la tabla IV se muestran los 10 autores más importantes en el campo de investigación respecto a los cultivos en sistemas agrovoltaicos de acuerdo a su productividad e impacto. En cuanto al número H-Index determinado dentro de la red de citaciones de la consulta representa la importancia dentro de la consulta y no de forma general. 
+
+Tabla IV. Top 10 autores destacados.
+
+Author
+
+Papers Total
+
+Total Citations
+
+H-Index
+
+Effective Size
+
+CDI
+
+C. Agert Carsten
+
+3
+
+38
+
+2
+
+1,75
+
+0,14
+
+M. Vehse Martin
+
+3
+
+38
+
+2
+
+1,75
+
+0,14
+
+K. Gehrke Kai
+
+3
+
+38
+
+2
+
+1,75
+
+0,14
+
+N. Neugeborn Nils
+
+3
+
+38
+
+2
+
+1,75
+
+0,14
+
+N. Osterthun Norbert
+
+3
+
+38
+
+2
+
+1,75
+
+0,14
+
+X. Su Xing
+
+3
+
+18
+
+2
+
+1,8
+
+0,24
+
+X. Shao Xiaolu
+
+3
+
+18
+
+2
+
+1,8
+
+0,24
+
+S. Tian Shaochen
+
+3
+
+18
+
+2
+
+1,8
+
+0,24
+
+J.A. Carlyon Jason A.
+
+2
+
+26
+
+2
+
+7
+
+0,17
+
+L. Kumar Lalan
+
+2
+
+14
+
+2
+
+1
+
+0,25
+
+La tabla IV destaca una estructura jerárquica clara en términos de productividad y colaboración. El núcleo principal de investigadores, encabezados por C. Agert Carsten, M Vehse Martin y K. Gehrke Kai, mantienen una productividad constante de tres publicaciones cada uno, mientras que los últimos autores del listado ingresan al ranking con dos trabajos. A pesar de esta homogeneidad en la producción bibliográfica, la brecha en el impacto es notable. El primer grupo de cinco autores consolida su liderazgo con 38 citas totales, lo que sugiere que sus investigaciones constituyen una referencia central en el campo. En contraste, el segundo grupo de autores alcanza 18 citas, indicando una visibilidad menor. Un caso interesante es el de J.A Carlyon, con una menor productividad logra un impacto intermedio significativo de 26 citas, superando en eficiencia por documento a varios autores con mayor volumen de publicación (10.1016/j.micinf.2015.09.001). En cuanto a la métrica de consistencias, el Índice-H se mantiene invariable para todos los autores listados, independientemente de sus citas totales. Esto refuerza la noción de que, en esta ventana de observación todos los investigadores han logrado establecer un mínimo de relevancia científica, con al menos dos trabajos citados dos veces. Sin embargo, la uniformidad de este índice enmascara las diferencias estructurales profundas que se revelan mediante el análisis de redes. Mientras que la mayoría presenta un Effective Size estable entre 1,75 y 1,8, el investigador J.A Carlyon sobresale con un valor de 7. Este valor, según la teoría de los agujeros estructurales de Burt (1992), identifica a Carlyon como intermediario estratégico cuya red contiene una alta proporción de contactos no redundantes, permitiendo conectar flujos de información entre grupos dispares que de otro modo estarían desconectados. Finalmente, el índice de diversidad colaborativa (CDI) ofrece pistas sobre la composición de estos equipos. El grupo de mayor impacto, 38 citas, presenta un CDI de 0,14 lo que podría interpretarse como una colaboración dentro de un equipo consolidado, homogéneo o institucionalmente cercano, que favorece la confianza y productividad eficiente. 
+
+Por el contrario, autores como L. Kumar Lalan y el grupo de X. Su Xing muestra un CDI más elevado de 0,25 y 0,24 respectivamente. Esto sugiere una estrategia de exploración a través de colaboraciones más diversas, posiblemente internacionales o interdisciplinares, aunque esta diversidad aún no se ha traducido en el mismo nivel de impacto citacional que el grupo más homogéneo y consolidado (10.1007/s13399-023-04450-z ; 10.1016/j.renene.2022.07.090). Así, el análisis sugiere dos estrategias de éxito: la consolidación de equipos compactos de alto impacto o la intermediación estratégica a través de redes amplias y no redundantes.
+
+En la Figura 5 se observa que la red de colaboración entre autores se caracteriza por una estructura heterogénea, donde algunas comunidades participan directamente en el desarrollo científico alrededor de los sistemas agrovoltaicos, mientras que otras trabajan en líneas temáticas colindantes o completamente ajenas al campo. Este comportamiento evidencia que la investigación en la interfase energía solar–agricultura aún se encuentra en un proceso de configuración, donde solo ciertos grupos han logrado consolidarse como referentes en estudios agrovoltaicos, mientras el resto concentra su producción científica en áreas complementarias o divergentes. Esta situación es coherente con la naturaleza emergente del tema, pues la consolidación de redes científicas especializadas suele iniciar con núcleos localizados y luego expandirse hacia colaboraciones más amplias.
+
+Figura 5. Evolución y estructura de las redes de colaboración entre autores desde el 2006 hasta el 2025.
+
+Dentro de esta estructura general, la comunidad naranja se caracteriza por reunir autores como L. Moreuy Lluis, cuyas investigaciones no se enfocan en sistemas agrovoltaicos, sino en la gestión ambiental y el tratamiento de subproductos orgánicos. La colaboración más representativa de este grupo corresponde al estudio (10.1016/j.jenvman.2023.117664), desarrollado por un conjunto de autores especializados en digestatos y manejo de residuos. Este trabajo, aunque incorpora el uso de energía solar en procesos de secado, no aborda la integración simultánea entre agricultura y generación eléctrica propia de los sistemas agrovoltaicos. Se trata, más bien, de un enfoque de valorización de residuos agrícolas y producción de fertilizantes mediante procesos sustentables, lo que representa una contribución tangencial y no una aportación directa al campo agrovoltaico.
+
+Por otro lado, la comunidad azul constituye uno de los núcleos más relevantes para el desarrollo científico del tema, ya que autores como Diels J. participan activamente en investigaciones agrovoltaicas aplicadas. El artículo (10.1007/s13593-025-01019-0) representa uno de los aportes más sólidos de la red, pues examina experimentalmente cómo paneles fotovoltaicos semitransparentes afectan el rendimiento y la calidad de frutas cultivadas bajo su sombra. Los hallazgos, que revelan una reducción moderada del rendimiento sin comprometer la calidad, contribuyen directamente a la comprensión de los compromisos productivos en sistemas agrovoltaicos, ofreciendo evidencia científica necesaria para la toma de decisiones en zonas templadas. Esta comunidad, por tanto, desempeña un papel central, dado que su producción está estrechamente alineada con los objetivos propios del desarrollo de tecnologías agrovoltaicas.
+
+En contraste, la comunidad verde, integrada por autores como Gicel Ashley Basilio, desarrolla investigaciones vinculadas al uso de energía solar en contextos agrícolas, pero sin abordar sistemas agrovoltaicos propiamente dichos. Un ejemplo representativo es el estudio (10.1109/IPEC57296.2023.00043), en el cual los autores plantean un sistema de control para un secador solar destinado a invernaderos. Aunque el trabajo involucra tecnología solar y procesos agrícolas, su enfoque se orienta hacia la eficiencia térmica y el diseño de sistemas de secado, sin integrar la producción simultánea de electricidad y alimentos característica de los sistemas agrovoltaicos. En este sentido, esta comunidad contribuye al desarrollo tecnológico del sector agrícola y energético, pero no aporta directamente al avance del campo agrovoltaico.
+
+Finalmente, la comunidad rosada presenta un patrón de colaboración interna fuerte, con autores que trabajan estrechamente entre sí, pero cuyas investigaciones se sitúan en áreas completamente ajenas al tema agrovoltaico. Entre ellos se destacan Aminat T. Oki y otros colaboradores vinculados a estudios en microbiología, biotecnología y transformación celular (10.1016/j.micinf.2015.09.001). Este grupo mantiene una producción científica sostenida, con alta conectividad entre sus miembros, pero su contribución pertenece al ámbito biomédico y no tiene relación con la integración entre sistemas agrícolas y energía solar.
+
+Es por esto que el análisis de la red evidencia que la producción científica relacionada con sistemas agrovoltaicos está concentrada en un número limitado de autores, particularmente en la comunidad azul, mientras que las demás comunidades trabajan en áreas tecnológicas o científicas parcialmente relacionadas o totalmente independientes. Esto confirma que el campo aún se encuentra en una etapa de consolidación, donde solo ciertos grupos han comenzado a generar aportes significativos, mientras la mayoría de investigadores participa en líneas de investigación diversas, reflejando el carácter todavía emergente y especializado del área agrovoltaica.
+
+Conclusions 
+
+En este artículo se realizó un análisis cienciométrico de la producción científica relacionada con los cultivos en sistemas agrovoltaicos, tomando como base un conjunto final de 77 publicaciones únicas recopiladas entre los años 2006 y 2025 tras la depuración de registros provenientes de Scopus y Web of Science. Los resultados se organizaron en cuatro ejes: producción científica anual, análisis por países, análisis de revistas y análisis de autores.
+
+En primer lugar, se identificó que la producción científica presenta un crecimiento sostenido. Entre 2007 y 2024, la tasa de crecimiento anual fue de 12,58 %, mientras que el periodo de mayor expansión se registró entre 2017 y 2024, con un incremento acumulado del 33,35 %, lo que evidencia una consolidación progresiva del campo. Además, el año con mayor productividad fue 2024, con 15 publicaciones combinadas entre ambas bases de datos.
+
+En segundo lugar, el análisis por países mostró que China lidera la producción con 21 artículos, equivalentes al 22,34 % del total, así como el mayor número de citaciones (266 citaciones, 18,07 %). Le sigue India con 10 publicaciones (10,64 %) y Alemania con 8 publicaciones (8,51 %). Aunque China es el país más productivo, Bangladesh y Australia se posicionan como los principales nodos de colaboración internacional, destacándose por su conectividad dentro de la red científica.
+
+En tercer lugar, el análisis de revistas reveló que los principales canales de difusión pertenecen a cuartiles altos. Revistas como Energy, Renewable Energy y Agronomy presentan los valores más altos de impacto, con índices SJR de 2.211, 2.080 y 0.744, respectivamente, todas clasificadas en Q1. Además, Energy posee el índice H más elevado del conjunto (H-index = 274), lo que la convierte en el medio con mayor visibilidad científica dentro del campo. Por otro lado, revistas como Acta Horticulturae, AIP Conference Proceedings y E3S Web of Conferences presentan los niveles de impacto más bajos, reflejando su menor alcance dentro de la temática.
+
+Por último, en el análisis de autores se observó que la mayoría presenta una productividad homogénea: ocho investigadores registran tres publicaciones, mientras que dos presentan dos publicaciones. No obstante, el impacto es desigual, ya que seis autores alcanzan 38 citaciones, mientras que el resto acumula 18. Además, la diversidad colaborativa (CDI) muestra que el campo se desarrolla en redes relativamente cerradas, con una diversidad moderada en las colaboraciones.
+
+References
+
+Azam, M. M., Eltawil, M. A., & Amer, B. M. A. (2020). Thermal analysis of PV system and solar collector integrated with greenhouse dryer for drying tomatoes. Energy, 212, 118764. https://doi.org/10.1016/j.energy.2020.118764 
+
+Burt, R. S. (2004). Structural Holes and Good Ideas. American Journal of Sociology, 110(2), 349-399. https://doi.org/10.1086/421787 
+
+Chalgynbayeva, A., Gabnai, Z., Lengyel, P., Pestisha, A., & Bai, A. (2023). Worldwide Research Trends in Agrivoltaic Systems—A Bibliometric Review. Energies, 16(2), 611. https://doi.org/10.3390/en16020611 
+
+Chen, Y., Yu, F., Liang, S., Wang, Z., Liu, Z., & Xiong, Y. (2014). Utilization of solar energy in sewage sludge composting: Fertilizer effect and application. Waste Management, 34(11), 2014-2021. https://doi.org/10.1016/j.wasman.2014.06.029 
+
+Dorta-González, P., & Dorta-González, M. I. (2010). Indicador bibliométrico basado en el índice h. Revista Española de Documentación Científica, 33(2), 225-245. https://doi.org/10.3989/redc.2010.2.733 
+
+Duque, P., Cárdenas, M., & Robledo, S. (2024). Marketing social: Evolución y tendencias. Entramado, 20(1), e-10378. https://doi.org/10.18041/1900-3803/entramado.1.10378 
+
+Hassanein, A. A. M., Qiu, L., Junting, P., Yihong, G., Witarsa, F., & Hassanain, A. A. (2015). Simulation and validation of a model for heating underground biogas digesters by solar energy. Ecological Engineering, 82, 336-344. https://doi.org/10.1016/j.ecoleng.2015.05.010 
+
+Hirsch, J. E. (2005). An index to quantify an individual’s scientific research output. Proceedings of the National Academy of Sciences, 102(46), 16569-16572. https://doi.org/10.1073/pnas.0507655102 
+
+Lam, D. (2023). Has the world survived the population bomb? A 10-year update. Population and Environment, 45(2), 10. https://doi.org/10.1007/s11111-023-00422-7 
+
+Mingers, J., Macri, F., & Petrovici, D. (2012). Using the h-index to measure the quality of journals in the field of business and management. Information Processing & Management, 48(2), 234-241. https://doi.org/10.1016/j.ipm.2011.03.009 
+
+Mongeon, P., & Paul-Hus, A. (2016). The journal coverage of Web of Science and Scopus: A comparative analysis. Scientometrics, 106(1), 213-228. https://doi.org/10.1007/s11192-015-1765-5 
+
+Pandey, G., Lyden, S., Franklin, E., Millar, B., & Harrison, M. T. (2025). A systematic review of agrivoltaics: Productivity, profitability, and environmental co-benefits. Sustainable Production and Consumption, 56, 13-36. https://doi.org/10.1016/j.spc.2025.03.006 
+
+Robledo, S., Valencia, L., Zuluaga, M., Echeverri, O. A., & Valencia, J. W. A. (2025). tosr: Create the Tree of Science from WoS and Scopus. Journal of Scientometric Research, 13(2), 459-465. https://doi.org/10.5530/jscires.13.2.36 
+
+Robledo-Giraldo, S. (2024). El papel vital de la cienciometría en la investigación moderna. Clío América, 18(35), 1-3. https://doi.org/10.21676/23897848.6020 
+
+Salazar, J. A. V., Cardona, J. S., Nieto, T. G., & Marín, J. A. C. (2025). CAPACIDADES DINÁMICAS E INNOVACIÓN: ANALISIS BIBLIOMÉTRICO Y PERSPECTIVAS DE INVESTIGACIÓN CON BASE EN EL ÁRBOL DE LA CIENCIA. Lúmina, 26(1), E0072-E0072. https://doi.org/10.30554/lumina.v26.n1.5401.2025 
+
+Sarr, A., Soro, Y. M., Tossa, A. K., & Diop, L. (2023). Agrivoltaic, a Synergistic Co-Location of Agricultural and Energy Production in Perpetual Mutation: A Comprehensive Review. Processes, 11(3), 948. https://doi.org/10.3390/pr11030948 
+
+Schwarz, R., & Ziv, Y. (2025). Shedding light on biodiversity: Reviewing existing knowledge and exploring hypothesised impacts of agrophotovoltaics. Biological Reviews, 100(2), 855-870. https://doi.org/10.1111/brv.13165 
+
+Shi, K., Chen, Y., Yu, B., Xu, T., Li, L., Huang, C., Liu, R., Chen, Z., & Wu, J. (2016). Urban Expansion and Agricultural Land Loss in China: A Multiscale Perspective. Sustainability, 8(8), 790. https://doi.org/10.3390/su8080790 
+
+Vargas-Hernández, A., Robledo, S., & Quiceno, G. R. (2025). Virtual Teaching for Online Learning from the Perspective of Higher Education: A Bibliometric Analysis. Journal of Scientometric Research, 13(2), 406-418. https://doi.org/10.5530/jscires.13.2.32 

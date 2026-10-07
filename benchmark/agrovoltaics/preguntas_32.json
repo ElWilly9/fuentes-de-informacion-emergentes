@@ -1,0 +1,432 @@
+[
+  {
+    "id": "Q01",
+    "tipo": "SQL puro",
+    "pregunta": "¿Cuántos artículos principales hay en el corpus?",
+    "seccion_articulo": "Search output / Conclusiones",
+    "cifra_articulo": "77 publicaciones únicas (Scopus + WoS)",
+    "gold_sql": "select count(*) from Article where ismainarticle=1",
+    "gold_bd": [
+      [
+        66
+      ]
+    ],
+    "nota": "El artículo une Scopus y WoS; la BD es solo Scopus."
+  },
+  {
+    "id": "Q02",
+    "tipo": "SQL puro",
+    "pregunta": "¿En qué año se publicaron más artículos y cuántos?",
+    "seccion_articulo": "Scientific Annual Production",
+    "cifra_articulo": "2024 fue el año más productivo: Scopus 12 artículos (15 combinando WoS)",
+    "gold_sql": "select year,count(*) n from Article where ismainarticle=1 group by year order by n desc limit 1",
+    "gold_bd": [
+      [
+        2024,
+        13
+      ]
+    ],
+    "nota": ""
+  },
+  {
+    "id": "Q03",
+    "tipo": "SQL puro",
+    "pregunta": "¿Cuántos artículos se publicaron entre 2020 y 2025?",
+    "seccion_articulo": "Periodo de consolidación (2020–2025)",
+    "cifra_articulo": "49 artículos publicados en el periodo",
+    "gold_sql": "select count(*) from Article where ismainarticle=1 and year between 2020 and 2025",
+    "gold_bd": [
+      [
+        45
+      ]
+    ],
+    "nota": ""
+  },
+  {
+    "id": "Q04",
+    "tipo": "SQL puro",
+    "pregunta": "¿Qué país aparece en más artículos y cuántos?",
+    "seccion_articulo": "Country Analysis / Tabla II",
+    "cifra_articulo": "China: 21 artículos (22,34 %)",
+    "gold_sql": "select Country,count(distinct SR) n from Affiliation where SR in (select SR from Article where ismainarticle=1) and Country!='NO COUNTRY' group by Country order by n desc limit 1",
+    "gold_bd": [
+      [
+        "CHINA",
+        17
+      ]
+    ],
+    "nota": ""
+  },
+  {
+    "id": "Q05",
+    "tipo": "SQL puro",
+    "pregunta": "¿En cuántos artículos participa al menos una institución de Alemania?",
+    "seccion_articulo": "Tabla II",
+    "cifra_articulo": "Alemania: 8 artículos (8,51 %)",
+    "gold_sql": "select count(distinct SR) from Affiliation where Country='GERMANY' and SR in (select SR from Article where ismainarticle=1)",
+    "gold_bd": [
+      [
+        7
+      ]
+    ],
+    "nota": ""
+  },
+  {
+    "id": "Q06",
+    "tipo": "SQL puro",
+    "pregunta": "¿En cuántos artículos participa al menos una institución de India?",
+    "seccion_articulo": "Tabla II",
+    "cifra_articulo": "India: 10 artículos (10,64 %)",
+    "gold_sql": "select count(distinct SR) from Affiliation where Country='INDIA' and SR in (select SR from Article where ismainarticle=1)",
+    "gold_bd": [
+      [
+        8
+      ]
+    ],
+    "nota": ""
+  },
+  {
+    "id": "Q07",
+    "tipo": "SQL puro",
+    "pregunta": "¿Qué revista tiene más artículos en el corpus y cuántos?",
+    "seccion_articulo": "Journal Analysis / Tabla III",
+    "cifra_articulo": "Acta Horticulturae: 4 artículos en Scopus",
+    "gold_sql": "select source_title,count(*) n from Article where ismainarticle=1 and source_title is not null group by source_title order by n desc limit 1",
+    "gold_bd": [
+      [
+        "ACTA HORTIC",
+        4
+      ]
+    ],
+    "nota": ""
+  },
+  {
+    "id": "Q08",
+    "tipo": "SQL puro",
+    "pregunta": "¿Cuántos artículos del corpus se publicaron en AIP Conference Proceedings?",
+    "seccion_articulo": "Journal Analysis / Tabla III",
+    "cifra_articulo": "AIP Conference Proceedings: 3 artículos en Scopus",
+    "gold_sql": "select count(*) from Article where ismainarticle=1 and source_title='AIP CONF PROC'",
+    "gold_bd": [
+      [
+        3
+      ]
+    ],
+    "nota": ""
+  },
+  {
+    "id": "Q09",
+    "tipo": "SQL puro",
+    "pregunta": "¿Cuántos artículos tiene Carsten Agert en el corpus y cuántas citas acumulan en total?",
+    "seccion_articulo": "Tabla IV",
+    "cifra_articulo": "C. Agert Carsten: 3 artículos, 38 citas",
+    "gold_sql": "select count(distinct a.SR),sum(a.cited_by) from ArticleAuthor aa join Article a on a.SR=aa.SR where aa.AuthorID like 'C_AGERT%' and a.ismainarticle=1",
+    "gold_bd": [
+      [
+        3,
+        38
+      ]
+    ],
+    "nota": ""
+  },
+  {
+    "id": "Q10",
+    "tipo": "SQL puro",
+    "pregunta": "¿Cuántos artículos tiene J.A. Carlyon en el corpus y cuántas citas acumulan en total?",
+    "seccion_articulo": "Tabla IV",
+    "cifra_articulo": "J.A. Carlyon: 2 artículos, 26 citas",
+    "gold_sql": "select count(distinct a.SR),sum(a.cited_by) from ArticleAuthor aa join Article a on a.SR=aa.SR where aa.AuthorID like '%CARLYON%' and a.ismainarticle=1",
+    "gold_bd": [
+      [
+        2,
+        26
+      ]
+    ],
+    "nota": ""
+  },
+  {
+    "id": "Q11",
+    "tipo": "SQL puro",
+    "pregunta": "¿Cuántos autores tienen 3 o más artículos en el corpus?",
+    "seccion_articulo": "Análisis de autores / Conclusiones",
+    "cifra_articulo": "Ocho investigadores registran tres publicaciones",
+    "gold_sql": "select count(*) from (select AuthorID from ArticleAuthor where SR in (select SR from Article where ismainarticle=1) group by AuthorID having count(distinct SR)>=3)",
+    "gold_bd": [
+      [
+        5
+      ]
+    ],
+    "nota": "El artículo cuenta 8; la tabla IV lista 8 con 3 papers."
+  },
+  {
+    "id": "Q12",
+    "tipo": "SQL puro",
+    "pregunta": "¿En cuántos artículos participa al menos una institución de Bangladesh?",
+    "seccion_articulo": "Tabla II",
+    "cifra_articulo": "Bangladesh: 3 artículos (3,19 %)",
+    "gold_sql": "select count(distinct SR) from Affiliation where Country='BANGLADESH' and SR in (select SR from Article where ismainarticle=1)",
+    "gold_bd": [
+      [
+        3
+      ]
+    ],
+    "nota": ""
+  },
+  {
+    "id": "Q13",
+    "tipo": "Híbrida",
+    "pregunta": "El artículo afirma que entre 2007 y 2012 se publicaron 5 artículos que acumularon 46 citas. ¿Es consistente con la base de datos?",
+    "seccion_articulo": "Periodo de baja producción (2007–2012)",
+    "afirmacion_articulo": "5 artículos, 46 citas",
+    "gold_sql": "select count(*),sum(cited_by) from Article where ismainarticle=1 and year between 2007 and 2012",
+    "gold_bd": [
+      [
+        4,
+        27
+      ]
+    ],
+    "nota": ""
+  },
+  {
+    "id": "Q14",
+    "tipo": "Híbrida",
+    "pregunta": "El artículo dice que 2015 tuvo 5 artículos y 104 citaciones. ¿Qué muestra la base de datos?",
+    "seccion_articulo": "Periodo 2013–2019",
+    "afirmacion_articulo": "2015: 5 artículos, 104 citas",
+    "gold_sql": "select count(*),sum(cited_by) from Article where ismainarticle=1 and year=2015",
+    "gold_bd": [
+      [
+        4,
+        66
+      ]
+    ],
+    "nota": ""
+  },
+  {
+    "id": "Q15",
+    "tipo": "Híbrida",
+    "pregunta": "El artículo señala que los artículos de 2014 sumaron 78 citaciones. ¿Se confirma en la base de datos?",
+    "seccion_articulo": "Periodo 2013–2019",
+    "afirmacion_articulo": "2014: 78 citas",
+    "gold_sql": "select sum(cited_by) from Article where ismainarticle=1 and year=2014",
+    "gold_bd": [
+      [
+        78
+      ]
+    ],
+    "nota": ""
+  },
+  {
+    "id": "Q16",
+    "tipo": "Híbrida",
+    "pregunta": "El artículo reporta que Scopus registró 12 artículos en 2024. ¿Cuántos hay en la base de datos?",
+    "seccion_articulo": "Scientific Annual Production",
+    "afirmacion_articulo": "Scopus 2024: 12 artículos",
+    "gold_sql": "select count(*) from Article where ismainarticle=1 and year=2024",
+    "gold_bd": [
+      [
+        13
+      ]
+    ],
+    "nota": ""
+  },
+  {
+    "id": "Q17",
+    "tipo": "Híbrida",
+    "pregunta": "El artículo afirma que China tiene 21 artículos (22,34 % de la producción). ¿Qué muestra la base de datos para China?",
+    "seccion_articulo": "Country Analysis / Tabla II",
+    "afirmacion_articulo": "China: 21 artículos (22,34 %)",
+    "gold_sql": "select count(distinct SR) from Affiliation where Country='CHINA' and SR in (select SR from Article where ismainarticle=1)",
+    "gold_bd": [
+      [
+        17
+      ]
+    ],
+    "nota": ""
+  },
+  {
+    "id": "Q18",
+    "tipo": "Híbrida",
+    "pregunta": "El artículo dice que el artículo de Azam et al. es el más citado con términos agrovoltaico/fotovoltaico, con 68 citas y publicado en 2024. ¿Qué dice la base de datos sobre ese artículo?",
+    "seccion_articulo": "Periodo 2020–2025",
+    "afirmacion_articulo": "Azam et al.: 68 citas, publicado en 2024 (Egipto); la referencia lo fecha en 2020",
+    "gold_sql": "select title,year,cited_by from Article where ismainarticle=1 and title like 'THERMAL ANALYSIS OF PV SYSTEM%'",
+    "gold_bd": [
+      [
+        "THERMAL ANALYSIS OF PV SYSTEM AND SOLAR COLLECTOR INTEGRATED WITH GREENHOUSE DRYER FOR DRYING TOMATOES",
+        2020,
+        69
+      ]
+    ],
+    "nota": ""
+  },
+  {
+    "id": "Q19",
+    "tipo": "Híbrida",
+    "pregunta": "La Tabla III del artículo da 3 artículos de Journal of Food Process Engineering en Scopus, mientras el texto dice 2. ¿Cuántos hay en la base de datos?",
+    "seccion_articulo": "Tabla III y texto",
+    "afirmacion_articulo": "JFPE: 3 en Scopus (tabla) / 2 (texto)",
+    "gold_sql": "select count(*) from Article where ismainarticle=1 and source_title='J FOOD PROCESS ENG'",
+    "gold_bd": [
+      [
+        2
+      ]
+    ],
+    "nota": ""
+  },
+  {
+    "id": "Q20",
+    "tipo": "Híbrida",
+    "pregunta": "El artículo cita a Hassanein et al. (2015) con 38 citaciones. ¿Existe ese artículo en la base de datos?",
+    "seccion_articulo": "Periodo 2013–2019",
+    "afirmacion_articulo": "Hassanein 2015: 38 citas, Q1",
+    "gold_sql": "select count(*) from Article where lower(doi) like '%10.1016/j.ecoleng.2015.05.010%'",
+    "gold_bd": [
+      [
+        0
+      ]
+    ],
+    "nota": ""
+  },
+  {
+    "id": "Q21",
+    "tipo": "Híbrida",
+    "pregunta": "El artículo afirma que Alemania tiene tres artículos recientes (2022, 2023 y 2024) dedicados explícitamente a agrovoltaicos. ¿Qué artículos alemanes de 2022 en adelante hay en la base de datos?",
+    "seccion_articulo": "Country Analysis",
+    "afirmacion_articulo": "Alemania: 3 artículos recientes (2022, 2023, 2024) sobre agrovoltaicos",
+    "gold_sql": "select year,title from Article where ismainarticle=1 and year>=2022 and SR in (select SR from Affiliation where Country='GERMANY') order by year",
+    "gold_bd": [
+      [
+        2022,
+        "PERFORMANCE ANALYSIS OF A SPECTRALLY SELECTIVE SOLAR CELL USING PV-GIS DATA"
+      ],
+      [
+        2023,
+        "ESTABLISHMENT OF A RESEARCH FOCUS ON RESILIENT SUSTAINABLE CLIMATE NEUTRAL AGRICULTURAL PRODUCTION—RESILIENT FARMING INITIATIVE"
+      ],
+      [
+        2024,
+        "SUSTAINABLE FAECAL SLUDGE MANAGEMENT IN INTERNALLY DISPLACED PERSONS (IDPS) SETTLEMENTS IN TROPICAL CLIMATE: A REVIEW"
+      ],
+      [
+        2024,
+        "OPTIMAL DESIGN OF A SECTOR-COUPLED RENEWABLE METHANOL PRODUCTION AMID POLITICAL GOALS AND EXPECTED CONFLICTS: COSTS VS. LAND USE"
+      ]
+    ],
+    "nota": ""
+  },
+  {
+    "id": "Q22",
+    "tipo": "Híbrida",
+    "pregunta": "El artículo indica que Tailandia tiene 5 artículos. ¿Es correcto según la base de datos?",
+    "seccion_articulo": "Tabla II",
+    "afirmacion_articulo": "Tailandia: 5 artículos (5,32 %)",
+    "gold_sql": "select count(distinct SR) from Affiliation where Country='THAILAND' and SR in (select SR from Article where ismainarticle=1)",
+    "gold_bd": [
+      [
+        5
+      ]
+    ],
+    "nota": ""
+  },
+  {
+    "id": "Q23",
+    "tipo": "RAG puro",
+    "pregunta": "¿Qué estudió el artículo de Chen et al. (2014) sobre compostaje de lodos y qué concluyó?",
+    "seccion_articulo": "Periodo 2013–2019",
+    "respuesta_esperada": "Evaluó el uso de energía solar (invernadero/reactor solar pasivo) para acelerar el compostaje de lodos de depuración: la radiación elevó la temperatura, mejoró la deshidratación, la estabilización y la reducción de patógenos, y dio un compost apto como fertilizante agrícola.",
+    "sr_fuente": "CHEN Y, 2014, WASTE MANAGE",
+    "en_corpus": true,
+    "nota": "El abstract compara 3 reactores (ordinario, invernadero, solar) y reporta >55 °C durante más de 3 días en el solar."
+  },
+  {
+    "id": "Q24",
+    "tipo": "RAG puro",
+    "pregunta": "¿Qué sistema analiza el estudio del secador de invernadero híbrido para tomates y cómo funciona?",
+    "seccion_articulo": "Periodo 2020–2025",
+    "respuesta_esperada": "Un secador de invernadero híbrido que combina un colector solar térmico y un sistema fotovoltaico: la energía térmica calienta el aire y los paneles alimentan ventiladores (convección forzada), acelerando el secado sin energía externa.",
+    "sr_fuente": "AZAM MM, 2020, ENERGY",
+    "en_corpus": true,
+    "nota": ""
+  },
+  {
+    "id": "Q25",
+    "tipo": "RAG puro",
+    "pregunta": "¿Qué propone el estudio de Bangladesh y Japón sobre azoteas con paneles solares y acuaponía?",
+    "seccion_articulo": "Country Analysis",
+    "respuesta_esperada": "Un modelo de uso dual del espacio: paneles solares en azoteas generan electricidad mientras bajo su sombra se desarrolla un sistema acuapónico (cultivo de plantas y cría de peces en circuito cerrado), mejorando el uso del suelo urbano, reduciendo costos energéticos y aumentando la producción de alimentos.",
+    "sr_fuente": "RONY JH, 2024, J FINANC",
+    "en_corpus": true,
+    "nota": "El abstract lo sitúa en Dhaka y menciona 8 paneles de 500 W y recolección de agua lluvia."
+  },
+  {
+    "id": "Q26",
+    "tipo": "RAG puro",
+    "pregunta": "¿Qué herramienta desarrolla el estudio de colaboración entre Italia y Suiza para evaluar sistemas agrovoltaicos?",
+    "seccion_articulo": "Country Analysis",
+    "respuesta_esperada": "Una herramienta de simulación que evalúa diseños de sistemas agrovoltaicos considerando generación eléctrica e impacto sobre los cultivos, con indicadores (irradiancia, rendimiento agrícola, producción de energía) y análisis multicriterio para comparar configuraciones.",
+    "sr_fuente": "BELLONE Y, 2024, ",
+    "en_corpus": true,
+    "nota": "El artículo dice 2020; la BD lo registra en 2024 (error del Word)."
+  },
+  {
+    "id": "Q27",
+    "tipo": "RAG puro",
+    "pregunta": "¿Qué tratamiento aplica el estudio sobre digestato de estiércol y por qué el artículo lo considera tangencial a los agrovoltaicos?",
+    "seccion_articulo": "Author Analysis",
+    "respuesta_esperada": "Aplica secado solar combinado con acidificación al digestato para reducir su contenido de agua y las emisiones gaseosas, produciendo fertilizantes; es valorización de residuos y no integra producción agrícola con generación eléctrica.",
+    "sr_fuente": "MOREY L, 2023, J ENVIRON MANAGE",
+    "en_corpus": true,
+    "nota": ""
+  },
+  {
+    "id": "Q28",
+    "tipo": "RAG puro",
+    "pregunta": "¿Qué diseña el estudio del secador solar de invernadero publicado en IPEC 2023?",
+    "seccion_articulo": "Author Analysis",
+    "respuesta_esperada": "Un sistema de control para un secador solar de invernadero, orientado a la eficiencia térmica y al diseño del secado (reduce el riesgo para trabajadores por altas temperaturas y da flexibilidad); no integra producción simultánea de electricidad y alimentos.",
+    "sr_fuente": "BASILIO GA, 2023, J FINANC",
+    "en_corpus": true,
+    "nota": "Contexto de Filipinas en el abstract."
+  },
+  {
+    "id": "Q29",
+    "tipo": "RAG puro",
+    "pregunta": "¿Qué sistema evaluó el artículo de Meng et al. (2009) y con qué fin?",
+    "seccion_articulo": "Periodo de baja producción",
+    "respuesta_esperada": "Un sistema integrado de invernadero y calentador solar para calentar y mantener la temperatura del digestor en la digestión anaerobia de lodos activados excedentes, aumentando la temperatura y la producción de biogás según la estación.",
+    "sr_fuente": "MENG C, 2009, ",
+    "en_corpus": true,
+    "nota": "El artículo lo cita como de bajo impacto (13 citas)."
+  },
+  {
+    "id": "Q30",
+    "tipo": "RAG puro",
+    "pregunta": "¿De qué trata el artículo sobre secado solar de mangos en África occidental francófona?",
+    "seccion_articulo": "Periodo de baja producción",
+    "respuesta_esperada": "Secado solar de mangos para reducir las pérdidas poscosecha y conservar beta-caroteno (provitamina A), frente a la deficiencia de vitamina A en niños: 3,75 t de mango fresco rindieron 360 kg de mango seco.",
+    "sr_fuente": "RANKINS J, 2008, J AM OPTOM ASSOC",
+    "en_corpus": true,
+    "nota": "El artículo lo cita como de bajo impacto (13 citas)."
+  },
+  {
+    "id": "Q31",
+    "tipo": "RAG puro",
+    "pregunta": "¿Qué proponen Hassanein et al. (2015) sobre biodigestores subterráneos y energía solar?",
+    "seccion_articulo": "Periodo 2013–2019",
+    "respuesta_esperada": "Según el Word: un invernadero construido sobre biodigestores subterráneos que aprovecha energía solar térmica para calentarlos sin combustibles fósiles, validado con simulación y experimento. PERO este artículo NO está en el corpus Scopus: el sistema debe decir que no lo encuentra.",
+    "sr_fuente": "",
+    "en_corpus": false,
+    "nota": "Pregunta trampa: mide si el sistema inventa. Solo indexado en WoS."
+  },
+  {
+    "id": "Q32",
+    "tipo": "RAG puro",
+    "pregunta": "¿Qué tipos de productos agrícolas se secan con energía solar en los artículos del corpus?",
+    "seccion_articulo": "Periodo 2020–2025",
+    "respuesta_esperada": "Según el Word, la mayoría de trabajos de 2020–2025 implementan secadores solares para productos agrícolas o bioproductos. En el corpus hay 26 artículos con 'dry/drying' en el título; entre ellos tomate, cacao, mango, amla, pescado, residuos de cultivos y lodos.",
+    "sr_fuente": "",
+    "en_corpus": null,
+    "nota": "Pregunta temática: no hay una única fuente."
+  }
+]

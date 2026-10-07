@@ -1,0 +1,780 @@
+{
+  "modelo": "glm4:9b",
+  "fecha": "20261004_154129",
+  "resultados": [
+    {
+      "id": "Q01",
+      "tipo": "SQL puro",
+      "pregunta": "¿Cuántos artículos principales hay en el corpus?",
+      "afirmacion_articulo": null,
+      "esperado": [
+        [
+          66
+        ]
+      ],
+      "intent": "sql",
+      "success": true,
+      "respuesta": "En el corpus hay 65 artículos principales.",
+      "sql": "SELECT COUNT(DISTINCT sr) FROM article WHERE ismainarticle = '1' LIMIT 10;",
+      "filas_sql": [
+        {
+          "COUNT(DISTINCT sr)": 65
+        }
+      ],
+      "rag_resultados": [],
+      "latencia_s": 61.7,
+      "error": null
+    },
+    {
+      "id": "Q02",
+      "tipo": "SQL puro",
+      "pregunta": "¿En qué año se publicaron más artículos y cuántos?",
+      "afirmacion_articulo": null,
+      "esperado": [
+        [
+          2024,
+          13
+        ]
+      ],
+      "intent": "sql",
+      "success": true,
+      "respuesta": "En el año 2021 se publicaron más artículos, con un total de 155.",
+      "sql": "SELECT year, COUNT(*) AS num_articles FROM article GROUP BY CAST(year AS INTEGER) ORDER BY num_articles DESC LIMIT 1;",
+      "filas_sql": [
+        {
+          "year": 2021,
+          "num_articles": 155
+        }
+      ],
+      "rag_resultados": [],
+      "latencia_s": 34.2,
+      "error": null
+    },
+    {
+      "id": "Q03",
+      "tipo": "SQL puro",
+      "pregunta": "¿Cuántos artículos se publicaron entre 2020 y 2025?",
+      "afirmacion_articulo": null,
+      "esperado": [
+        [
+          45
+        ]
+      ],
+      "intent": "sql",
+      "success": true,
+      "respuesta": "Entre 2020 y 2025 se publicaron un total de 507 artículos.",
+      "sql": "SELECT COUNT(DISTINCT sr) AS total_articles FROM article WHERE CAST(year AS INTEGER) BETWEEN 2020 AND 2025;",
+      "filas_sql": [
+        {
+          "total_articles": 507
+        }
+      ],
+      "rag_resultados": [],
+      "latencia_s": 35.2,
+      "error": null
+    },
+    {
+      "id": "Q04",
+      "tipo": "SQL puro",
+      "pregunta": "¿Qué país aparece en más artículos y cuántos?",
+      "afirmacion_articulo": null,
+      "esperado": [
+        [
+          "CHINA",
+          17
+        ]
+      ],
+      "intent": "sql",
+      "success": true,
+      "respuesta": "El país que aparece en más artículos es Estados Unidos, con un total de 269 artículos.",
+      "sql": "SELECT country, COUNT(DISTINCT a.sr) AS num_articles FROM article a JOIN affiliation af ON a.sr = af.sr GROUP BY country ORDER BY num_articles DESC LIMIT 1;",
+      "filas_sql": [
+        {
+          "Country": "UNITED STATES OF AMERICA",
+          "num_articles": 269
+        }
+      ],
+      "rag_resultados": [],
+      "latencia_s": 48.2,
+      "error": null
+    },
+    {
+      "id": "Q05",
+      "tipo": "SQL puro",
+      "pregunta": "¿En cuántos artículos participa al menos una institución de Alemania?",
+      "afirmacion_articulo": null,
+      "esperado": [
+        [
+          7
+        ]
+      ],
+      "intent": "sql",
+      "success": false,
+      "respuesta": "Lo siento, no pude obtener los resultados. Hubo un error al consultar la base de datos: Error SQLite: ambiguous column name: sr",
+      "sql": "SELECT COUNT(DISTINCT a(sr)) FROM article a JOIN affiliation af ON a(sr) = af(sr) JOIN author au ON af.authorid = au.authorid WHERE af.country = 'Germany' AND a(sr) IN (SELECT sr FROM citation WHERE type = 'author');",
+      "filas_sql": null,
+      "rag_resultados": [],
+      "latencia_s": 53.6,
+      "error": null
+    },
+    {
+      "id": "Q06",
+      "tipo": "SQL puro",
+      "pregunta": "¿En cuántos artículos participa al menos una institución de India?",
+      "afirmacion_articulo": null,
+      "esperado": [
+        [
+          8
+        ]
+      ],
+      "intent": "sql",
+      "success": false,
+      "respuesta": "Lo siento, no pude obtener los resultados. Hubo un error al consultar la base de datos: Error SQLite: ambiguous column name: sr",
+      "sql": "SELECT COUNT(DISTINCT a(sr)) FROM article a JOIN affiliation af ON a(sr) = af(sr) WHERE CAST(af.country AS TEXT) LIKE '%India%' AND af.authorid IS NOT NULL;",
+      "filas_sql": null,
+      "rag_resultados": [],
+      "latencia_s": 45.4,
+      "error": null
+    },
+    {
+      "id": "Q07",
+      "tipo": "SQL puro",
+      "pregunta": "¿Qué revista tiene más artículos en el corpus y cuántos?",
+      "afirmacion_articulo": null,
+      "esperado": [
+        [
+          "ACTA HORTIC",
+          4
+        ]
+      ],
+      "intent": "sql",
+      "success": true,
+      "respuesta": "La revista con más artículos en el corpus es \"None\", con un total de 607 artículos.",
+      "sql": "SELECT source_title, COUNT(*) AS num_articles FROM article GROUP BY source_title ORDER BY num_articles DESC LIMIT 1;",
+      "filas_sql": [
+        {
+          "source_title": null,
+          "num_articles": 607
+        }
+      ],
+      "rag_resultados": [],
+      "latencia_s": 34.2,
+      "error": null
+    },
+    {
+      "id": "Q08",
+      "tipo": "SQL puro",
+      "pregunta": "¿Cuántos artículos del corpus se publicaron en AIP Conference Proceedings?",
+      "afirmacion_articulo": null,
+      "esperado": [
+        [
+          3
+        ]
+      ],
+      "intent": "sql",
+      "success": true,
+      "respuesta": "No se encontraron artículos del corpus publicados en AIP Conference Proceedings.",
+      "sql": "SELECT COUNT(DISTINCT sr) FROM article WHERE source_title LIKE '%AIP Conference Proceedings%';",
+      "filas_sql": [
+        {
+          "COUNT(DISTINCT sr)": 0
+        }
+      ],
+      "rag_resultados": [],
+      "latencia_s": 34.4,
+      "error": null
+    },
+    {
+      "id": "Q09",
+      "tipo": "SQL puro",
+      "pregunta": "¿Cuántos artículos tiene Carsten Agert en el corpus y cuántas citas acumulan en total?",
+      "afirmacion_articulo": null,
+      "esperado": [
+        [
+          3,
+          38
+        ]
+      ],
+      "intent": "sql",
+      "success": true,
+      "respuesta": "Carsten Agert no tiene artículos en el corpus ni acumula citas.",
+      "sql": "SELECT COUNT(DISTINCT articleauthor.sr) AS num_articles, SUM(CAST(cited_by AS INTEGER)) AS total_citations FROM article JOIN articleauthor ON article.sr = articleauthor.sr JOIN author ON articleauthor.authorid = author.authorid WHERE authorname = 'Carsten Agert';",
+      "filas_sql": [
+        {
+          "num_articles": 0,
+          "total_citations": null
+        }
+      ],
+      "rag_resultados": [],
+      "latencia_s": 71.5,
+      "error": null
+    },
+    {
+      "id": "Q10",
+      "tipo": "SQL puro",
+      "pregunta": "¿Cuántos artículos tiene J.A. Carlyon en el corpus y cuántas citas acumulan en total?",
+      "afirmacion_articulo": null,
+      "esperado": [
+        [
+          2,
+          26
+        ]
+      ],
+      "intent": "sql",
+      "success": true,
+      "respuesta": "J.A. Carlyon tiene 0 artículos en el corpus y acumula 0 citas en total.",
+      "sql": "SELECT COUNT(DISTINCT articleauthor.sr) AS num_articles, SUM(CAST(cited_by AS INTEGER)) AS total_citations FROM article JOIN articleauthor ON article.sr = articleauthor.sr JOIN author ON articleauthor.authorid = author.authorid WHERE authorname LIKE '%J.A. Carlyon%' AND document_type = 'article' AND cited_by IS NOT NULL LIMIT 10;",
+      "filas_sql": [
+        {
+          "num_articles": 0,
+          "total_citations": null
+        }
+      ],
+      "rag_resultados": [],
+      "latencia_s": 59.5,
+      "error": null
+    },
+    {
+      "id": "Q11",
+      "tipo": "SQL puro",
+      "pregunta": "¿Cuántos autores tienen 3 o más artículos en el corpus?",
+      "afirmacion_articulo": null,
+      "esperado": [
+        [
+          5
+        ]
+      ],
+      "intent": "sql",
+      "success": true,
+      "respuesta": "Hay 293 autores que tienen 3 o más artículos en el corpus.",
+      "sql": "SELECT COUNT(DISTINCT a.authorid) FROM author a JOIN articleauthor aa ON a.authorid = aa.authorid JOIN article ar ON aa.sr = ar.sr GROUP BY a.authorid HAVING COUNT(ar.sr) >= 3;",
+      "filas_sql": [
+        {
+          "COUNT(DISTINCT a.authorid)": 1
+        },
+        {
+          "COUNT(DISTINCT a.authorid)": 1
+        },
+        {
+          "COUNT(DISTINCT a.authorid)": 1
+        },
+        {
+          "COUNT(DISTINCT a.authorid)": 1
+        },
+        {
+          "COUNT(DISTINCT a.authorid)": 1
+        },
+        {
+          "COUNT(DISTINCT a.authorid)": 1
+        },
+        {
+          "COUNT(DISTINCT a.authorid)": 1
+        },
+        {
+          "COUNT(DISTINCT a.authorid)": 1
+        },
+        {
+          "COUNT(DISTINCT a.authorid)": 1
+        },
+        {
+          "COUNT(DISTINCT a.authorid)": 1
+        },
+        {
+          "COUNT(DISTINCT a.authorid)": 1
+        },
+        {
+          "COUNT(DISTINCT a.authorid)": 1
+        },
+        {
+          "COUNT(DISTINCT a.authorid)": 1
+        },
+        {
+          "COUNT(DISTINCT a.authorid)": 1
+        },
+        {
+          "COUNT(DISTINCT a.authorid)": 1
+        },
+        {
+          "COUNT(DISTINCT a.authorid)": 1
+        },
+        {
+          "COUNT(DISTINCT a.authorid)": 1
+        },
+        {
+          "COUNT(DISTINCT a.authorid)": 1
+        },
+        {
+          "COUNT(DISTINCT a.authorid)": 1
+        },
+        {
+          "COUNT(DISTINCT a.authorid)": 1
+        }
+      ],
+      "rag_resultados": [],
+      "latencia_s": 40.0,
+      "error": null
+    },
+    {
+      "id": "Q12",
+      "tipo": "SQL puro",
+      "pregunta": "¿En cuántos artículos participa al menos una institución de Bangladesh?",
+      "afirmacion_articulo": null,
+      "esperado": [
+        [
+          3
+        ]
+      ],
+      "intent": "sql",
+      "success": false,
+      "respuesta": "Lo siento, no pude obtener los resultados. Hubo un error al consultar la base de datos: Error SQLite: ambiguous column name: sr",
+      "sql": "SELECT COUNT(DISTINCT a(sr)) FROM article a JOIN affiliation af ON a(sr) = af(sr) WHERE af.country LIKE '%Bangladesh%' AND af.authorid IN (SELECT authorid FROM author);",
+      "filas_sql": null,
+      "rag_resultados": [],
+      "latencia_s": 45.2,
+      "error": null
+    },
+    {
+      "id": "Q13",
+      "tipo": "Híbrida",
+      "pregunta": "El artículo afirma que entre 2007 y 2012 se publicaron 5 artículos que acumularon 46 citas. ¿Es consistente con la base de datos?",
+      "afirmacion_articulo": "5 artículos, 46 citas",
+      "esperado": [
+        [
+          4,
+          27
+        ]
+      ],
+      "intent": "sql",
+      "success": false,
+      "respuesta": "Lo siento, no pude obtener los resultados. Hubo un error al consultar la base de datos: Error SQLite: no such function: a",
+      "sql": "SELECT COUNT(DISTINCT a(sr)) AS articles_count, SUM(CAST(cited_by AS INTEGER)) AS total_citations FROM article a WHERE CAST(a.year AS INTEGER) BETWEEN 2007 AND 2012 GROUP BY year HAVING articles_count = 5 AND total_citations = 46;",
+      "filas_sql": null,
+      "rag_resultados": [],
+      "latencia_s": 64.0,
+      "error": null
+    },
+    {
+      "id": "Q14",
+      "tipo": "Híbrida",
+      "pregunta": "El artículo dice que 2015 tuvo 5 artículos y 104 citaciones. ¿Qué muestra la base de datos?",
+      "afirmacion_articulo": "2015: 5 artículos, 104 citas",
+      "esperado": [
+        [
+          4,
+          66
+        ]
+      ],
+      "intent": "sql",
+      "success": true,
+      "respuesta": "La base de datos muestra que en el año 2015 no hay artículos con la condición especificada (document_type como 'article' y source_title con contenido relacionado a 'foundation'). Por lo tanto, no hay artículos ni citaciones registrados para ese año.",
+      "sql": "SELECT COUNT(*) AS articles_count, CAST(cited_by AS INTEGER) AS citations_count FROM article WHERE year = '2015' AND document_type LIKE '%article%' AND source_title LIKE '%foundation%' LIMIT 1;",
+      "filas_sql": [
+        {
+          "articles_count": 0,
+          "citations_count": null
+        }
+      ],
+      "rag_resultados": [],
+      "latencia_s": 41.4,
+      "error": null
+    },
+    {
+      "id": "Q15",
+      "tipo": "Híbrida",
+      "pregunta": "El artículo señala que los artículos de 2014 sumaron 78 citaciones. ¿Se confirma en la base de datos?",
+      "afirmacion_articulo": "2014: 78 citas",
+      "esperado": [
+        [
+          78
+        ]
+      ],
+      "intent": "sql",
+      "success": false,
+      "respuesta": "Lo siento, no pude obtener los resultados. Hubo un error al consultar la base de datos: Error SQLite: no such column: cited_by",
+      "sql": "SELECT COUNT(DISTINCT cited_by) AS total_citations FROM citation WHERE sr IN (SELECT sr FROM article WHERE CAST(year AS INTEGER) = 2014);",
+      "filas_sql": null,
+      "rag_resultados": [],
+      "latencia_s": 44.3,
+      "error": null
+    },
+    {
+      "id": "Q16",
+      "tipo": "Híbrida",
+      "pregunta": "El artículo reporta que Scopus registró 12 artículos en 2024. ¿Cuántos hay en la base de datos?",
+      "afirmacion_articulo": "Scopus 2024: 12 artículos",
+      "esperado": [
+        [
+          13
+        ]
+      ],
+      "intent": "sql",
+      "success": true,
+      "respuesta": "En la base de datos se registraron 16 artículos en el año 2024.",
+      "sql": "SELECT COUNT(*) FROM article WHERE CAST(year AS INTEGER) = 2024;",
+      "filas_sql": [
+        {
+          "COUNT(*)": 16
+        }
+      ],
+      "rag_resultados": [],
+      "latencia_s": 38.5,
+      "error": null
+    },
+    {
+      "id": "Q17",
+      "tipo": "Híbrida",
+      "pregunta": "El artículo afirma que China tiene 21 artículos (22,34 % de la producción). ¿Qué muestra la base de datos para China?",
+      "afirmacion_articulo": "China: 21 artículos (22,34 %)",
+      "esperado": [
+        [
+          17
+        ]
+      ],
+      "intent": "sql",
+      "success": true,
+      "respuesta": "La base de datos muestra que no hay artículos asociados con China en el corpus académico analizado. Por lo tanto, no se puede confirmar la existencia de 21 artículos ni su porcentaje de producción en el contexto proporcionado.",
+      "sql": "SELECT COUNT(DISTINCT a.title) AS total_articles, CAST(COUNT(DISTINCT a.title) AS REAL) / (SELECT COUNT(DISTINCT a.title) FROM article a JOIN affiliation af ON a.sr = af.sr WHERE af.country = 'China') * 100 AS percentage FROM article a JOIN affiliation af ON a.sr = af.sr WHERE af.country = 'China' AND a.cited_by IS NOT NULL LIMIT 10;",
+      "filas_sql": [
+        {
+          "total_articles": 0,
+          "percentage": null
+        }
+      ],
+      "rag_resultados": [],
+      "latencia_s": 50.0,
+      "error": null
+    },
+    {
+      "id": "Q18",
+      "tipo": "Híbrida",
+      "pregunta": "El artículo dice que el artículo de Azam et al. es el más citado con términos agrovoltaico/fotovoltaico, con 68 citas y publicado en 2024. ¿Qué dice la base de datos sobre ese artículo?",
+      "afirmacion_articulo": "Azam et al.: 68 citas, publicado en 2024 (Egipto); la referencia lo fecha en 2020",
+      "esperado": [
+        [
+          "THERMAL ANALYSIS OF PV SYSTEM AND SOLAR COLLECTOR INTEGRATED WITH GREENHOUSE DRYER FOR DRYING TOMATOES",
+          2020,
+          69
+        ]
+      ],
+      "intent": "sql",
+      "success": true,
+      "respuesta": "La consulta no retornó resultados. Esto puede significar que no hay datos que coincidan con los criterios de búsqueda en el corpus.",
+      "sql": "SELECT title, abstract, cited_by FROM article WHERE author_keywords LIKE '%agrovoltaico%' OR author_keywords LIKE '%fotovoltaico%' AND cited_by = CAST('68' AS INTEGER) AND year = CAST('2024' AS INTEGER) ORDER BY cited_by DESC LIMIT 1;",
+      "filas_sql": [],
+      "rag_resultados": [],
+      "latencia_s": 36.9,
+      "error": null
+    },
+    {
+      "id": "Q19",
+      "tipo": "Híbrida",
+      "pregunta": "La Tabla III del artículo da 3 artículos de Journal of Food Process Engineering en Scopus, mientras el texto dice 2. ¿Cuántos hay en la base de datos?",
+      "afirmacion_articulo": "JFPE: 3 en Scopus (tabla) / 2 (texto)",
+      "esperado": [
+        [
+          2
+        ]
+      ],
+      "intent": "sql",
+      "success": true,
+      "respuesta": "En la base de datos, no hay artículos del año 2013 en el Journal of Food Process Engineering.",
+      "sql": "SELECT COUNT(DISTINCT title) FROM article WHERE source_title LIKE '%Journal of Food Process Engineering%' AND CAST(year AS INTEGER) = 2013;",
+      "filas_sql": [
+        {
+          "COUNT(DISTINCT title)": 0
+        }
+      ],
+      "rag_resultados": [],
+      "latencia_s": 65.8,
+      "error": null
+    },
+    {
+      "id": "Q20",
+      "tipo": "Híbrida",
+      "pregunta": "El artículo cita a Hassanein et al. (2015) con 38 citaciones. ¿Existe ese artículo en la base de datos?",
+      "afirmacion_articulo": "Hassanein 2015: 38 citas, Q1",
+      "esperado": [
+        [
+          0
+        ]
+      ],
+      "intent": "sql",
+      "success": true,
+      "respuesta": "No existe un artículo en la base de datos que cite a Hassanein et al. (2015) con 38 citaciones. La consulta SQL encontró 0 resultados.",
+      "sql": "SELECT COUNT(1) FROM article WHERE title LIKE '%Hassanein%' AND CAST(year AS INTEGER) = 2015 AND cited_by = '38';",
+      "filas_sql": [
+        {
+          "COUNT(1)": 0
+        }
+      ],
+      "rag_resultados": [],
+      "latencia_s": 37.6,
+      "error": null
+    },
+    {
+      "id": "Q21",
+      "tipo": "Híbrida",
+      "pregunta": "El artículo afirma que Alemania tiene tres artículos recientes (2022, 2023 y 2024) dedicados explícitamente a agrovoltaicos. ¿Qué artículos alemanes de 2022 en adelante hay en la base de datos?",
+      "afirmacion_articulo": "Alemania: 3 artículos recientes (2022, 2023, 2024) sobre agrovoltaicos",
+      "esperado": [
+        [
+          2022,
+          "PERFORMANCE ANALYSIS OF A SPECTRALLY SELECTIVE SOLAR CELL USING PV-GIS DATA"
+        ],
+        [
+          2023,
+          "ESTABLISHMENT OF A RESEARCH FOCUS ON RESILIENT SUSTAINABLE CLIMATE NEUTRAL AGRICULTURAL PRODUCTION—RESILIENT FARMING INITIATIVE"
+        ],
+        [
+          2024,
+          "SUSTAINABLE FAECAL SLUDGE MANAGEMENT IN INTERNALLY DISPLACED PERSONS (IDPS) SETTLEMENTS IN TROPICAL CLIMATE: A REVIEW"
+        ],
+        [
+          2024,
+          "OPTIMAL DESIGN OF A SECTOR-COUPLED RENEWABLE METHANOL PRODUCTION AMID POLITICAL GOALS AND EXPECTED CONFLICTS: COSTS VS. LAND USE"
+        ]
+      ],
+      "intent": "sql",
+      "success": true,
+      "respuesta": "La consulta no retornó resultados. Esto puede significar que no hay datos que coincidan con los criterios de búsqueda en el corpus.",
+      "sql": "SELECT DISTINCT a.title, a.doi FROM article a JOIN affiliation af ON a.sr = af.sr WHERE af.country = 'Germany' AND CAST(a.year AS INTEGER) >= 2022 ORDER BY a.year DESC LIMIT 10;",
+      "filas_sql": [],
+      "rag_resultados": [],
+      "latencia_s": 54.0,
+      "error": null
+    },
+    {
+      "id": "Q22",
+      "tipo": "Híbrida",
+      "pregunta": "El artículo indica que Tailandia tiene 5 artículos. ¿Es correcto según la base de datos?",
+      "afirmacion_articulo": "Tailandia: 5 artículos (5,32 %)",
+      "esperado": [
+        [
+          5
+        ]
+      ],
+      "intent": "sql",
+      "success": true,
+      "respuesta": "No, no es correcto. Según la base de datos, hay 0 artículos con el título que contiene \"Tailandia\" y publicados en el año 5.",
+      "sql": "SELECT COUNT(DISTINCT title) FROM article WHERE title LIKE '%Tailandia%' AND CAST(year AS INTEGER) = 5;",
+      "filas_sql": [
+        {
+          "COUNT(DISTINCT title)": 0
+        }
+      ],
+      "rag_resultados": [],
+      "latencia_s": 36.0,
+      "error": null
+    },
+    {
+      "id": "Q23",
+      "tipo": "RAG puro",
+      "pregunta": "¿Qué estudió el artículo de Chen et al. (2014) sobre compostaje de lodos y qué concluyó?",
+      "afirmacion_articulo": null,
+      "esperado": "Evaluó el uso de energía solar (invernadero/reactor solar pasivo) para acelerar el compostaje de lodos de depuración: la radiación elevó la temperatura, mejoró la deshidratación, la estabilización y la reducción de patógenos, y dio un compost apto como fertilizante agrícola.",
+      "intent": "rag",
+      "success": true,
+      "respuesta": "El artículo de Chen et al. (2014) titulado \"Mathematical Modeling of the Drying Kinetics of the Leaves of Lemon Grass (Cymbopogon citratus Stapf) and Its Effects on Quality\" se enfocó en el modelado matemático de la cinética de secado de las hojas de lemongrass y sus efectos sobre la calidad. Este estudio utilizó métodos matemáticos para describir y predecir los procesos de secado, lo cual es relevante para la conservación y procesamiento de plantas aromáticas como el lemongrass.",
+      "sql": "",
+      "filas_sql": null,
+      "rag_resultados": [
+        "DESARROLLO DE UN MODELO MATEMÁTICO PARA EL BIOSECADO DE RESIDUOS SÓLIDOS ORGÁNICOS EN PILAS",
+        "EVALUACIÓN DEL ACEITE ESENCIAL Y ESTUDIO DE CONSERVACIÓN EN FRIO DEL CYMBOPOGON CITRATUS CULTIVADO EN LA REGIÓN DEL QUINDÍO",
+        "COMPARACIÓN DEL CONTENIDO FENÓLICO, CAPACIDAD ANTIOXIDANTE Y ACTIVIDAD ANTIINFLAMATORIA DE INFUSIONES HERBALES COMERCIALES",
+        "MATHEMATICAL MODELING OF THE DRYING KINETICS OF THE LEAVES OF LEMON GRASS (CYMBOPOGON CITRATUS STAPF) AND ITS EFFECTS ON QUALITY",
+        "DETERMINACIÓN DEL CONTENIDO DE HUMEDAD EN GRANOS DE CAFÉ PERGAMINO SECO UTILIZANDO SPECKLE DINÁMICO"
+      ],
+      "latencia_s": 42.5,
+      "error": null
+    },
+    {
+      "id": "Q24",
+      "tipo": "RAG puro",
+      "pregunta": "¿Qué sistema analiza el estudio del secador de invernadero híbrido para tomates y cómo funciona?",
+      "afirmacion_articulo": null,
+      "esperado": "Un secador de invernadero híbrido que combina un colector solar térmico y un sistema fotovoltaico: la energía térmica calienta el aire y los paneles alimentan ventiladores (convección forzada), acelerando el secado sin energía externa.",
+      "intent": "rag",
+      "success": true,
+      "respuesta": "No se encontraron artículos específicos sobre el sistema que analiza el estudio del secador de invernadero híbrido para tomates. Los artículos encontrados se refieren a temas como la determinación del contenido de humedad en granos de café, extracción de aceite esencial de cymbopogon citratus, desarrollo de un modelo matemático para biosecado de residuos sólidos orgánicos y vigilancia tecnológica de plantas aromáticas.",
+      "sql": "",
+      "filas_sql": null,
+      "rag_resultados": [
+        "DETERMINACIÓN DEL CONTENIDO DE HUMEDAD EN GRANOS DE CAFÉ PERGAMINO SECO UTILIZANDO SPECKLE DINÁMICO",
+        "EVALUACIÓN DEL ACEITE ESENCIAL Y ESTUDIO DE CONSERVACIÓN EN FRIO DEL CYMBOPOGON CITRATUS CULTIVADO EN LA REGIÓN DEL QUINDÍO",
+        "DESARROLLO DE UN MODELO MATEMÁTICO PARA EL BIOSECADO DE RESIDUOS SÓLIDOS ORGÁNICOS EN PILAS",
+        "VIGILANCIA TECNOLÓGICA DE PLANTAS AROMÁTICAS: DE LA INVESTIGACIÓN A LA CONSOLIDACIÓN DE LA AGROCADENA COLOMBIANA",
+        "COMPARACIÓN DEL CONTENIDO FENÓLICO, CAPACIDAD ANTIOXIDANTE Y ACTIVIDAD ANTIINFLAMATORIA DE INFUSIONES HERBALES COMERCIALES"
+      ],
+      "latencia_s": 41.1,
+      "error": null
+    },
+    {
+      "id": "Q25",
+      "tipo": "RAG puro",
+      "pregunta": "¿Qué propone el estudio de Bangladesh y Japón sobre azoteas con paneles solares y acuaponía?",
+      "afirmacion_articulo": null,
+      "esperado": "Un modelo de uso dual del espacio: paneles solares en azoteas generan electricidad mientras bajo su sombra se desarrolla un sistema acuapónico (cultivo de plantas y cría de peces en circuito cerrado), mejorando el uso del suelo urbano, reduciendo costos energéticos y aumentando la producción de alimentos.",
+      "intent": "rag",
+      "success": true,
+      "respuesta": "El estudio en Bangladesh titulado \"INTEGRATED AGRIVOLTAICS AND AQUAPONIC SYSTEM FOR URBAN ROOFTOP FARMING: A CASE STUDY IN DHAKA, BANGLADESH\" (2024) propone la integración de sistemas agrícolas y acuaponía en azoteas urbanas para abordar desafíos como la escasez de tierra y limitaciones en la generación de energía. Utiliza paneles solares para generar energía y un sistema acuaponico para cultivar plantas y peces, mejorando así la eficiencia energética y la producción agrícola en entornos urbanos.",
+      "sql": "",
+      "filas_sql": null,
+      "rag_resultados": [
+        "INTEGRATED AGRIVOLTAICS AND AQUAPONIC SYSTEM FOR URBAN ROOFTOP FARMING: A CASE STUDY IN DHAKA, BANGLADESH",
+        "DETERMINACIÓN DEL CONTENIDO DE HUMEDAD EN GRANOS DE CAFÉ PERGAMINO SECO UTILIZANDO SPECKLE DINÁMICO",
+        "EVALUACIÓN DEL ACEITE ESENCIAL Y ESTUDIO DE CONSERVACIÓN EN FRIO DEL CYMBOPOGON CITRATUS CULTIVADO EN LA REGIÓN DEL QUINDÍO",
+        "GREENHOUSE TOMATO PRODUCTION WITH ELECTRICITY GENERATION BY ROOF-MOUNTED FLEXIBLE SOLAR PANELS",
+        "COMPARATIVE STUDY OF SOLAR DRYING OF COCOA BEANS: TWO METHODS USED IN COLOMBIAN RURAL AREAS"
+      ],
+      "latencia_s": 49.8,
+      "error": null
+    },
+    {
+      "id": "Q26",
+      "tipo": "RAG puro",
+      "pregunta": "¿Qué herramienta desarrolla el estudio de colaboración entre Italia y Suiza para evaluar sistemas agrovoltaicos?",
+      "afirmacion_articulo": null,
+      "esperado": "Una herramienta de simulación que evalúa diseños de sistemas agrovoltaicos considerando generación eléctrica e impacto sobre los cultivos, con indicadores (irradiancia, rendimiento agrícola, producción de energía) y análisis multicriterio para comparar configuraciones.",
+      "intent": "rag",
+      "success": true,
+      "respuesta": "No se encontró información específica sobre una herramienta desarrollada por el estudio de colaboración entre Italia y Suiza para evaluar sistemas agrovoltaicos en los artículos proporcionados.",
+      "sql": "",
+      "filas_sql": null,
+      "rag_resultados": [
+        "EVALUACIÓN DEL ACEITE ESENCIAL Y ESTUDIO DE CONSERVACIÓN EN FRIO DEL CYMBOPOGON CITRATUS CULTIVADO EN LA REGIÓN DEL QUINDÍO",
+        "DETERMINACIÓN DEL CONTENIDO DE HUMEDAD EN GRANOS DE CAFÉ PERGAMINO SECO UTILIZANDO SPECKLE DINÁMICO",
+        "DESARROLLO DE UN MODELO MATEMÁTICO PARA EL BIOSECADO DE RESIDUOS SÓLIDOS ORGÁNICOS EN PILAS",
+        "DEVELOPMENT OF A LOCAL CARBON DIOXIDE EMISSIONS INVENTORY BASED ON ENERGY DEMAND AND WASTE PRODUCTION",
+        "VIGILANCIA TECNOLÓGICA DE PLANTAS AROMÁTICAS: DE LA INVESTIGACIÓN A LA CONSOLIDACIÓN DE LA AGROCADENA COLOMBIANA"
+      ],
+      "latencia_s": 38.0,
+      "error": null
+    },
+    {
+      "id": "Q27",
+      "tipo": "RAG puro",
+      "pregunta": "¿Qué tratamiento aplica el estudio sobre digestato de estiércol y por qué el artículo lo considera tangencial a los agrovoltaicos?",
+      "afirmacion_articulo": null,
+      "esperado": "Aplica secado solar combinado con acidificación al digestato para reducir su contenido de agua y las emisiones gaseosas, produciendo fertilizantes; es valorización de residuos y no integra producción agrícola con generación eléctrica.",
+      "intent": "rag",
+      "success": true,
+      "respuesta": "No se encontró información específica sobre el tratamiento aplicado en estudios relacionados con digestato de estiércol y su relación con agrovoltaicos en los artículos proporcionados. Los artículos encontrados no tienen relación directa con el tema solicitado. Por favor, proporcione artículos más relevantes para obtener una respuesta precisa.",
+      "sql": "",
+      "filas_sql": null,
+      "rag_resultados": [
+        "DETERMINACIÓN DEL CONTENIDO DE HUMEDAD EN GRANOS DE CAFÉ PERGAMINO SECO UTILIZANDO SPECKLE DINÁMICO",
+        "DESARROLLO DE UN MODELO MATEMÁTICO PARA EL BIOSECADO DE RESIDUOS SÓLIDOS ORGÁNICOS EN PILAS",
+        "EVALUACIÓN DEL ACEITE ESENCIAL Y ESTUDIO DE CONSERVACIÓN EN FRIO DEL CYMBOPOGON CITRATUS CULTIVADO EN LA REGIÓN DEL QUINDÍO",
+        "INVESTIGATION OF DRYING KINETICS AND DRYING CONDITIONS ON BIOCHEMICAL, SENSORY, AND MICROSTRUCTURAL PARAMETERS OF \"SEFRI\" POMEGRANATE ARILS (PUNICA GRANATUM L. A MOROCCAN VARIETY); INVESTIGACION DE LA",
+        "COMPARACIÓN DEL CONTENIDO FENÓLICO, CAPACIDAD ANTIOXIDANTE Y ACTIVIDAD ANTIINFLAMATORIA DE INFUSIONES HERBALES COMERCIALES"
+      ],
+      "latencia_s": 39.0,
+      "error": null
+    },
+    {
+      "id": "Q28",
+      "tipo": "RAG puro",
+      "pregunta": "¿Qué diseña el estudio del secador solar de invernadero publicado en IPEC 2023?",
+      "afirmacion_articulo": null,
+      "esperado": "Un sistema de control para un secador solar de invernadero, orientado a la eficiencia térmica y al diseño del secado (reduce el riesgo para trabajadores por altas temperaturas y da flexibilidad); no integra producción simultánea de electricidad y alimentos.",
+      "intent": "hybrid",
+      "success": true,
+      "respuesta": "El estudio del secador solar de invernadero mencionado en IPEC 2023 no se identifica directamente en los resultados proporcionados por la consulta SQL, ya que esta consulta no devolvió filas con información específica sobre el autor o la afiliación. Sin embargo, al analizar los artículos recuperados por búsqueda semántica, podemos inferir el contexto temático y las tecnologías relacionadas.\n\nEn este sentido, varios de los artículos encontrados se centran en temas relacionados con la energía solar y su aplicación en diferentes contextos agrícolas e industriales:\n\n1. El artículo \"GREENHOUSE TOMATO PRODUCTION WITH ELECTRICITY GENERATION BY ROOF-MOUNTED FLEXIBLE SOLAR PANELS\" (2012) aborda la integración de energías renovables, como paneles solares, en la producción de cultivos bajo invernadero. Aunque no se menciona directamente un secador solar de invernadero, este estudio sugiere el uso de energía solar para fines agrícolas.\n\n2. El artículo \"BENCHMARK OF CONCENTRATING SOLAR POWER PLANTS: HISTORICAL, CURRENT AND FUTURE TECHNICAL AND ECONOMIC DEVELOPMENT\" (2016) se enfoca en las plantas de energía solar concentrada, lo que implica el uso de tecnología solar para la generación de electricidad y, por extensión, para aplicaciones agrícolas.\n\n3. El artículo \"ENERGY AND ECONOMIC ASSESSMENT OF FLOATING PHOTOVOLTAICS IN SPANISH RESERVOIRS: COST COMPETITIVENESS AND THE ROLE OF TEMPERATURE\" (2021) evalúa la viabilidad económica de los sistemas fotovoltaicos flotantes, lo cual también es una aplicación innovadora de la energía solar que podría estar relacionada con el uso de secadores solares.\n\nEn resumen, aunque no se identifica directamente quién diseña el estudio del secador solar de invernadero en IPEC 2023, los artículos recuperados sugieren que el diseño y desarrollo de tecnologías solares para aplicaciones agrícolas y de energía son temas actuales y relevantes en la investigación científica.",
+      "sql": "SELECT DISTINCT a.authorid, af.affiliation FROM article a JOIN affiliation af ON a.sr = af.sr WHERE a.year = '2023' AND a.title LIKE '%secador solar de invernadero%' AND a.source_title = 'IPEC' ORDER BY af.affiliation DESC LIMIT 10;",
+      "filas_sql": null,
+      "rag_resultados": [
+        "DESARROLLO DE UN MODELO MATEMÁTICO PARA EL BIOSECADO DE RESIDUOS SÓLIDOS ORGÁNICOS EN PILAS",
+        "GREENHOUSE TOMATO PRODUCTION WITH ELECTRICITY GENERATION BY ROOF-MOUNTED FLEXIBLE SOLAR PANELS",
+        "DETERMINACIÓN DEL CONTENIDO DE HUMEDAD EN GRANOS DE CAFÉ PERGAMINO SECO UTILIZANDO SPECKLE DINÁMICO",
+        "BENCHMARK OF CONCENTRATING SOLAR POWER PLANTS: HISTORICAL, CURRENT AND FUTURE TECHNICAL AND ECONOMIC DEVELOPMENT",
+        "ENERGY AND ECONOMIC ASSESSMENT OF FLOATING PHOTOVOLTAICS IN SPANISH RESERVOIRS: COST COMPETITIVENESS AND THE ROLE OF TEMPERATURE"
+      ],
+      "latencia_s": 124.7,
+      "error": null
+    },
+    {
+      "id": "Q29",
+      "tipo": "RAG puro",
+      "pregunta": "¿Qué sistema evaluó el artículo de Meng et al. (2009) y con qué fin?",
+      "afirmacion_articulo": null,
+      "esperado": "Un sistema integrado de invernadero y calentador solar para calentar y mantener la temperatura del digestor en la digestión anaerobia de lodos activados excedentes, aumentando la temperatura y la producción de biogás según la estación.",
+      "intent": "hybrid",
+      "success": true,
+      "respuesta": "No se encuentra información específica sobre el sistema que evaluó el artículo de Meng et al. (2009) en la fuente proporcionada. Sin embargo, podemos inferir que el artículo podría estar relacionado con análisis de datos o métodos de investigación, basándonos en los artículos semánticos recuperados:\n\n1. El artículo 4 titulado \"OFFICIAL METHODS OF ANALYSIS OF\" de la revista \"ANAL CHEM\" (1980) se refiere a métodos oficiales de análisis y podría sugerir que el sistema utilizado para evaluar el artículo de Meng et al. (2009) podría estar relacionado con técnicas analíticas o métodos de medición.\n\n2. Los otros artículos semánticos, como \"DETERMINACIÓN DEL CONTENIDO DE HUMEDAD EN GRANOS DE CAFÉ PERGAMINO SECO UTILIZANDO SPECKLE DINÁMICO\" y \"DESARROLLO DE UN MODELO MATEMÁTICO PARA EL BIOSECADO DE RESIDUOS SÓLIDOS ORGÁNICOS EN PILAS\", sugieren que los sistemas de evaluación podrían incluir métodos experimentales, matemáticos o analíticos.\n\nEn resumen, aunque no se tiene información exacta sobre el sistema que evaluó el artículo de Meng et al. (2009), parece que podría estar relacionado con técnicas analíticas, experimentales o matemáticas, según los contextos temáticos de los artículos semánticos recuperados.",
+      "sql": "SELECT source_title, tos FROM treeofscience JOIN article ON treeofscience.sr = article.sr WHERE title LIKE '%Meng et al.%' AND CAST(year AS INTEGER) = 2009;",
+      "filas_sql": null,
+      "rag_resultados": [
+        "DETERMINACIÓN DEL CONTENIDO DE HUMEDAD EN GRANOS DE CAFÉ PERGAMINO SECO UTILIZANDO SPECKLE DINÁMICO",
+        "DESARROLLO DE UN MODELO MATEMÁTICO PARA EL BIOSECADO DE RESIDUOS SÓLIDOS ORGÁNICOS EN PILAS",
+        "EVALUACIÓN DEL ACEITE ESENCIAL Y ESTUDIO DE CONSERVACIÓN EN FRIO DEL CYMBOPOGON CITRATUS CULTIVADO EN LA REGIÓN DEL QUINDÍO",
+        "OFFICIAL METHODS OF ANALYSIS OF",
+        "COMPARACIÓN DEL CONTENIDO FENÓLICO, CAPACIDAD ANTIOXIDANTE Y ACTIVIDAD ANTIINFLAMATORIA DE INFUSIONES HERBALES COMERCIALES"
+      ],
+      "latencia_s": 104.9,
+      "error": null
+    },
+    {
+      "id": "Q30",
+      "tipo": "RAG puro",
+      "pregunta": "¿De qué trata el artículo sobre secado solar de mangos en África occidental francófona?",
+      "afirmacion_articulo": null,
+      "esperado": "Secado solar de mangos para reducir las pérdidas poscosecha y conservar beta-caroteno (provitamina A), frente a la deficiencia de vitamina A en niños: 3,75 t de mango fresco rindieron 360 kg de mango seco.",
+      "intent": "rag",
+      "success": true,
+      "respuesta": "El artículo titulado \"SOLAR DRYING OF MANGOS: PRESERVATION OF AN IMPORTANT SOURCE OF VITAMIN A IN FRENCH-SPEAKING WEST AFRICA\" (2008) en la revista J AM OPTOM ASSOC, trata sobre el secado solar de mangos en África occidental francófona con el objetivo de preservar una importante fuente de vitamina A y combatir la deficiencia de esta vitamina comúnmente encontrada entre niños menores de 5 años en la región.",
+      "sql": "",
+      "filas_sql": null,
+      "rag_resultados": [
+        "THE MANGO IN FRENCH-SPEAKING WEST AFRICA: VARIETIES AND VARIETAL COMPOSITION OF THE ORCHARDS",
+        "SOLAR DRYING OF MANGOES: PRESERVATION OF AN IMPORTANT SOURCE OF VITAMIN A IN FRENCH-SPEAKING WEST AFRICA",
+        "THERMAL PERFORMANCE OF INDIRECT FORCED CONVECTION SOLAR DRYER AND KINETICS ANALYSIS OF MANGO",
+        "THE MANGO IN FRENCH-SPEAKING WEST AFRICA",
+        "PALATABILITY AND NUTRITIONAL SIGNIFICANCE OF SOLAR DRIED MANGOES FOR SENEGAL"
+      ],
+      "latencia_s": 47.5,
+      "error": null
+    },
+    {
+      "id": "Q31",
+      "tipo": "RAG puro",
+      "pregunta": "¿Qué proponen Hassanein et al. (2015) sobre biodigestores subterráneos y energía solar?",
+      "afirmacion_articulo": null,
+      "esperado": "Según el Word: un invernadero construido sobre biodigestores subterráneos que aprovecha energía solar térmica para calentarlos sin combustibles fósiles, validado con simulación y experimento. PERO este artículo NO está en el corpus Scopus: el sistema debe decir que no lo encuentra.",
+      "intent": "rag",
+      "success": true,
+      "respuesta": "No se encontraron artículos específicos con el título o autores mencionados (Hassanein et al., 2015) en los artículos proporcionados. Por lo tanto, no puedo proporcionar información sobre las propuestas de Hassanein et al. (2015) sobre biodigestores subterráneos y energía solar.",
+      "sql": "",
+      "filas_sql": null,
+      "rag_resultados": [
+        "SOLAR INTEGRATED ANAEROBIC DIGESTER: ENERGY SAVINGS AND ECONOMICS",
+        "HYBRIDIZATION OF ANAEROBIC DIGESTION WITH SOLAR ENERGY: A SOLUTION FOR ISOLATED LIVESTOCK FARMS",
+        "EXPLOITATION OF SOLAR ENERGY FOR AMMONIUM SULFATE RECOVERY FROM ANAEROBIC DIGESTATE OF DIFFERENT ORIGIN",
+        "GREENHOUSE TOMATO PRODUCTION WITH ELECTRICITY GENERATION BY ROOF-MOUNTED FLEXIBLE SOLAR PANELS",
+        "OPEN-SOURCE MODEL APPLIED FOR TECHNO-ECONOMIC OPTIMIZATION OF A HYBRID SOLAR PV BIOGAS-BASED POLYGENERATION PLANT: THE CASE OF A DAIRY FARMERS’ ASSOCIATION IN CENTRAL BOLIVIA"
+      ],
+      "latencia_s": 41.8,
+      "error": null
+    },
+    {
+      "id": "Q32",
+      "tipo": "RAG puro",
+      "pregunta": "¿Qué tipos de productos agrícolas se secan con energía solar en los artículos del corpus?",
+      "afirmacion_articulo": null,
+      "esperado": "Según el Word, la mayoría de trabajos de 2020–2025 implementan secadores solares para productos agrícolas o bioproductos. En el corpus hay 26 artículos con 'dry/drying' en el título; entre ellos tomate, cacao, mango, amla, pescado, residuos de cultivos y lodos.",
+      "intent": "hybrid",
+      "success": true,
+      "respuesta": "En los artículos del corpus que mencionan el uso de energía solar en la agricultura, se destacan varios tipos de productos agrícolas que son sometidos a procesos de secado utilizando esta tecnología. En el artículo \"DETERMINACIÓN DEL CONTENIDO DE HUMEDAD EN GRANOS DE CAFÉ PERGAMINO SECO UTILIZANDO SPECKLE DINÁMICO\", se menciona específicamente el cultivo de café, destacando la importancia de mantener un contenido de humedad adecuado en los granos secos para preservar su calidad. Además, el artículo \"SOLAR DRYING OF AGRICULTURAL PRODUCTS: A REVIEW\" proporciona una revisión amplia sobre el secado solar de productos agrícolas, lo que sugiere que esta técnica es aplicable a una variedad de cultivos.\n\nEl contexto temático de estos artículos se centra en la utilización de energías renovables y sostenibles en la agricultura, específicamente enfocándose en el uso de energía solar para secar productos agrícolas. Esto incluye no solo café, sino también otros productos que podrían beneficiarse del secado con energía solar, como frutas, verduras y granos, entre otros. \n\nEn resumen, los artículos del corpus mencionan el secado de café y sugieren la aplicación de la energía solar para otros productos agrícolas, aunque no se especifica una lista exhaustiva de cultivos.",
+      "sql": "SELECT DISTINCT a.document_type, a.title FROM article a WHERE a.title LIKE '%energía solar%' ORDER BY a.title DESC LIMIT 10;",
+      "filas_sql": [],
+      "rag_resultados": [
+        "DETERMINACIÓN DEL CONTENIDO DE HUMEDAD EN GRANOS DE CAFÉ PERGAMINO SECO UTILIZANDO SPECKLE DINÁMICO",
+        "THE APPLICATION OF SOLAR TECHNOLOGIES FOR SUSTAINABLE DEVELOPMENT OF AGRICULTURAL SECTOR",
+        "SOLAR DRYING OF AGRICULTURAL PRODUCTS: A REVIEW",
+        "DESARROLLO DE UN MODELO MATEMÁTICO PARA EL BIOSECADO DE RESIDUOS SÓLIDOS ORGÁNICOS EN PILAS",
+        "GREENHOUSE TOMATO PRODUCTION WITH ELECTRICITY GENERATION BY ROOF-MOUNTED FLEXIBLE SOLAR PANELS"
+      ],
+      "latencia_s": 67.9,
+      "error": null
+    }
+  ]
+}
