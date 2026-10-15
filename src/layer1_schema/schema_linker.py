@@ -58,8 +58,50 @@ TABLE_COLUMNS: dict[str, list[str]] = {
     "journal": ["journal_id", "source_title", "journal"],
     "citation": ["sr", "sr_ref"],
     "treeofscience": ["sr", "tos", "author", "title", "doi", "author_keywords"],
-    "egosauthors": ["source", "target", "type", "weight"],
 }
+
+def build_value_hints(db_path: str | None, tables: list[str]) -> list[str]:
+    """
+    Describe cómo están escritos los valores de texto que más se filtran, con ejemplos reales
+    de la BD. Sin esto el LLM busca 'Germany', 'Carsten Agert' o 'AIP Conference Proceedings' y
+    la BD guarda 'GERMANY', 'AGERT C.' y 'AIP CONF PROC'.
+    """
+    if not db_path:
+        return []
+    import sqlite3
+
+    def top(sql: str) -> str:
+        return ", ".join(f"'{r[0]}'" for r in conn.execute(sql).fetchall() if r[0])
+
+    hints = []
+    try:
+        conn = sqlite3.connect(db_path)
+        if "affiliation" in tables:
+            hints.append("affiliation.country: nombre del país en inglés y MAYÚSCULAS, ej. " + top(
+                "SELECT Country FROM Affiliation WHERE Country IS NOT NULL GROUP BY 1 ORDER BY COUNT(*) DESC LIMIT 3")
+                + ". Traduce el país de la pregunta al inglés.")
+        if "author" in tables:
+            hints.append("author.authorname viene abreviado, ej. " + top(
+                "SELECT DISTINCT AuthorName FROM Author WHERE AuthorName LIKE '% %.' LIMIT 2")
+                + "; un mismo autor puede tener varias filas. Busca autores por APELLIDO: "
+                "UPPER(author.authorfullname) LIKE '%APELLIDO%'.")
+        if "article" in tables:
+            hint = "article.source_title es la abreviatura de la revista, ej. " + top(
+                "SELECT source_title FROM Article WHERE ismainarticle = 1 AND source_title IS NOT NULL "
+                "GROUP BY 1 ORDER BY COUNT(*) DESC LIMIT 3") + "."
+            if "journal" in tables:
+                hint += (" El nombre completo está en journal.journal, ej. " + top(
+                    "SELECT journal FROM journal WHERE journal IS NOT NULL LIMIT 2")
+                    + ". Para buscar una revista por su nombre: JOIN journal ON article.source_title = "
+                    "journal.source_title y filtra UPPER(journal.journal) LIKE '%NOMBRE%'.")
+            hints.append(hint)
+        conn.close()
+    except Exception:
+        return []
+    if hints:
+        hints.append("Compara texto con UPPER(columna) LIKE '%VALOR EN MAYÚSCULAS%', no con =.")
+    return hints
+
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Clasificador de canal (sql / rag / hybrid)
@@ -203,7 +245,13 @@ def link_schema(query: str, chroma_dir: str = None, top_k: int = SCHEMA_TOP_K) -
     candidate_tables  = [m["table"] for m in results["metadatas"][0]]
     candidate_scores  = [round(1 - d, 4) for d in results["distances"][0]]
     candidate_ids     = [m["table"] for m in results["metadatas"][0]]
-    candidate_embeddings = results["embeddings"][0] if results["embeddings"] else []
+    candidate_embeddings = results["embeddings"][0] if results["embeddings"] is not None else []
+
+    # Los índices creados antes pueden traer tablas que ya no existen (p. ej. egosauthors)
+    keep = [i for i, t in enumerate(candidate_tables) if t in TABLE_COLUMNS]
+    candidate_tables = [candidate_tables[i] for i in keep]
+    candidate_scores = [candidate_scores[i] for i in keep]
+    candidate_embeddings = [candidate_embeddings[i] for i in keep] if len(candidate_embeddings) else []
 
     # Filtrar por umbral de similitud mínima
     filtered = [
@@ -268,6 +316,10 @@ def link_schema(query: str, chroma_dir: str = None, top_k: int = SCHEMA_TOP_K) -
 
     # Respetar el límite top_k (las forzadas tienen prioridad al final)
     selected_tables = selected_tables[:top_k + 2]   # permitir 1-2 extras por entidades
+
+    # article siempre va: es la única tabla que distingue artículos principales de referencias
+    if "article" not in selected_tables:
+        selected_tables.insert(0, "article")
 
     # ── Paso 5: Recopilar columnas y FKs ─────────────────────────────────────
     relevant_columns = {t: TABLE_COLUMNS.get(t, []) for t in selected_tables}

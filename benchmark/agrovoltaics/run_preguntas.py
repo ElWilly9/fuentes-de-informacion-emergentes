@@ -38,13 +38,12 @@ def render_md(model: str, recs: list[dict]) -> str:
         out.append(f"## {r['id']} · {r['tipo']}\n")
         out.append(f"**Pregunta:** {r['pregunta']}\n")
         out.append(f"**Ruta del agente:** `{r['intent']}` · éxito: {r['success']} · {r['latencia_s']} s\n")
-        if r["tipo"] == "RAG puro":
-            out.append(f"**Esperado (Word + abstract):** {r['esperado']}\n")
-        else:
-            out.append(f"**Gold BD:** `{json.dumps(r['esperado'], ensure_ascii=False)}`")
-            if r.get("afirmacion_articulo"):
-                out.append(f"\n**Afirmación del Word:** {r['afirmacion_articulo']}")
-            out.append("")
+        if r.get("respuesta_esperada"):
+            out.append(f"**Respuesta esperada:** {r['respuesta_esperada']}\n")
+        if r.get("gold_bd") is not None:
+            out.append(f"**Resultado en la BD:** `{json.dumps(r['gold_bd'], ensure_ascii=False)[:400]}`\n")
+        if r.get("afirmacion_articulo"):
+            out.append(f"**Afirmación del Word:** {r['afirmacion_articulo']}\n")
         out.append(f"**Respuesta del agente:** {r['respuesta'] or '(vacía)'}\n")
         if r["sql"]:
             out.append(f"**SQL del agente:** `{r['sql']}`\n")
@@ -57,9 +56,11 @@ def render_md(model: str, recs: list[dict]) -> str:
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--only", help="ids separados por coma")
+    ap.add_argument("--dataset", default="preguntas_32",
+                    help="nombre del JSON en esta carpeta, p. ej. preguntas_scopus_32")
     args = ap.parse_args()
 
-    items = json.loads((HERE / "preguntas_32.json").read_text(encoding="utf-8"))
+    items = json.loads((HERE / f"{args.dataset}.json").read_text(encoding="utf-8"))
     if args.only:
         wanted = {x.strip().upper() for x in args.only.split(",")}
         items = [i for i in items if i["id"] in wanted]
@@ -68,7 +69,7 @@ def main():
     stamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     out_dir = HERE / "results"
     out_dir.mkdir(exist_ok=True)
-    base = out_dir / f"respuestas_{stamp}_{model.replace(':', '-')}"
+    base = out_dir / f"respuestas_{args.dataset}_{stamp}_{model.replace(':', '-')}"
     print(f"Modelo: {model} | {len(items)} preguntas")
 
     recs = []
@@ -84,7 +85,8 @@ def main():
         rec = {
             "id": it["id"], "tipo": it["tipo"], "pregunta": it["pregunta"],
             "afirmacion_articulo": it.get("afirmacion_articulo"),
-            "esperado": it["respuesta_esperada"] if it["tipo"] == "RAG puro" else it["gold_bd"],
+            "respuesta_esperada": it.get("respuesta_esperada"),
+            "gold_bd": it.get("gold_bd"),
             "intent": st.get("intent"), "success": bool(st.get("success")),
             "respuesta": st.get("answer") or "",
             "sql": st.get("sql_visible") or st.get("generated_sql") or "",

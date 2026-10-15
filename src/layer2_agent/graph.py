@@ -4,7 +4,7 @@ graph.py — Grafo LangGraph que orquesta el flujo completo
 Define el grafo de estados del agente RAG Text-to-SQL.
 
 Flujo:
-  SchemaContext → intent_classifier → [sql|rag|hybrid]
+  SchemaContext → intent_classifier → [sql|rag|hybrid|followup|graph|community|forecast]
     → sql_generator → sql_validator → [error? → refiner (3x)] 
     → answer_synthesizer → respuesta
 
@@ -12,6 +12,8 @@ Autor: Daniel Camilo Blanco Galán — Universidad Nacional de Colombia
 """
 
 import os
+import re
+import sqlite3
 from dataclasses import dataclass, field
 from typing import Literal
 
@@ -19,13 +21,13 @@ from dotenv import load_dotenv
 from langgraph.graph import StateGraph, END
 
 from src.layer1_schema.models import SchemaContext
-from src.layer1_schema.schema_linker import link_schema
+from src.layer1_schema.schema_linker import link_schema, build_value_hints
 from src.layer2_agent.query_rewriter import rewrite_query
 from src.layer2_agent.intent_classifier import classify_intent
 from src.layer2_agent.sql_generator import generate_sql
 from src.layer2_agent.sql_validator import execute_sql, SQLResult
 from src.layer2_agent.refiner import refine_sql
-from src.layer2_agent.answer_synthesizer import synthesize_answer
+from src.layer2_agent.answer_synthesizer import synthesize_answer, articles_answer_question
 
 load_dotenv()
 
@@ -47,11 +49,13 @@ class AgentState:
     schema_context: SchemaContext | None = None
 
     # Capa 2
-    intent: str = ""               # sql / rag / hybrid
+    intent: str = ""               # sql / rag / hybrid / followup / graph / community / forecast
     generated_sql: str = ""
     sql_result: SQLResult | None = None
     retry_count: int = 0
     rag_results: list[str] = field(default_factory=list)
+    articles_shown: list[dict] = field(default_factory=list)  # [{"sr", "title"}] mostrados en este turno
+    network_context: str = ""      # Capa 5: análisis calculado que se le pasó al LLM
 
     # Memoria conversacional (multi-turno)
     history: list[dict] = field(default_factory=list)
@@ -69,6 +73,90 @@ class AgentState:
     chroma_dir: str = ""            # Ruta al índice de ChromaDB utilizado
 
 
+# ── Utilidades: artículos principales y memoria de artículos ──────────────────
+
+# "de esos cinco", "de los anteriores", "el primero", "cuál de ellos"...
+_REFERS_TO_PREVIOUS = re.compile(
+    r"\b(es[oa]s|est[oa]s|ell[oa]s|anteriores|mencionad[oa]s|listad[oa]s|"
+    r"que me (diste|mostraste)|de la lista|de tu respuesta|"
+    r"(el|la) (primer[oa]?|segund[oa]|tercer[oa]?|cuart[oa]|quint[oa]|últim[oa]))\b",
+    re.IGNORECASE,
+)
+_MAIN_FILTER = re.compile(r"\b((?:\w+\.)?ismainarticle)\s*=\s*(?:'1'|1|TRUE)\b", re.IGNORECASE)
+
+NOTE_ONLY_REFERENCES = (
+    "NOTA: entre los artículos principales del corpus (ismainarticle = 1) NO hubo resultados. "
+    "Los resultados de abajo salen de las REFERENCIAS CITADAS (ismainarticle = 0), que no son "
+    "artículos principales. El aviso al usuario ya se agrega aparte: no lo repitas, solo presenta los resultados.\n\n"
+)
+# Aviso fijo (no depende del LLM) cuando la respuesta sale de las referencias citadas
+REFERENCES_PREFIX = (
+    "En los artículos principales del corpus no hay resultados para esta consulta. "
+    "Busqué en las referencias citadas (artículos que no son principales) y encontré esto:\n\n"
+)
+RAG_REFERENCES_PREFIX = (
+    "En los artículos principales del corpus no encontré nada que responda esta pregunta. "
+    "Busqué en las referencias citadas (artículos que no son principales) y encontré esto:\n\n"
+)
+
+
+def _fallback_to_references(result: SQLResult | None, db_path: str | None) -> SQLResult | None:
+    """
+    Si una consulta filtrada a artículos principales no devolvió filas, repite la misma
+    consulta sobre las referencias citadas. Devuelve ese resultado o None si tampoco hay nada.
+    """
+    if not result or not result.success or result.row_count > 0:
+        return None
+    query = result.query or ""
+    if not (_MAIN_FILTER.search(query) or re.search(r"\bcorpus_articles\b", query)):
+        return None
+    # La consulta estaba limitada a principales, ya sea por el filtro del LLM o por la vista corpus_articles
+    alt_sql = re.sub(r"\bcorpus_articles\b", "reference_articles", _MAIN_FILTER.sub(r"\1 = 0", query))
+    alt = execute_sql(alt_sql, db_path=db_path) if db_path else execute_sql(alt_sql)
+    return alt if alt.success and alt.row_count > 0 else None
+
+
+def _articles_from_sql(result: SQLResult | None, db_path: str | None, limit: int = 15) -> list[dict]:
+    """Identifica (SR, título) de los artículos que aparecen en las filas de un resultado SQL."""
+    if not result or not result.success or not result.rows or not db_path:
+        return []
+    cols = {c.lower(): c for c in result.columns}
+    if "sr" not in cols and "title" not in cols:
+        return []
+    out, conn = [], sqlite3.connect(db_path)
+    for row in result.rows[:limit]:
+        if "sr" in cols:
+            r = conn.execute("SELECT SR, title FROM Article WHERE SR = ? ORDER BY ismainarticle DESC",
+                             (row.get(cols["sr"]),)).fetchone()
+        else:
+            r = conn.execute("SELECT SR, title FROM Article WHERE UPPER(TRIM(title)) = UPPER(TRIM(?)) "
+                             "ORDER BY ismainarticle DESC", (str(row.get(cols["title"]) or ""),)).fetchone()
+        if r and r[0] not in {a["sr"] for a in out}:
+            out.append({"sr": r[0], "title": r[1]})
+    conn.close()
+    return out
+
+
+def _articles_from_rag(rag_result) -> list[dict]:
+    if not rag_result or not getattr(rag_result, "success", False):
+        return []
+    return [{"sr": a["SR"], "title": a.get("title", "")} for a in rag_result.articles]
+
+
+def _rag_labels(articles: list[dict]) -> list[str]:
+    """Títulos para la lista de fuentes, marcando de dónde sale cada uno."""
+    tag = {"principal": "[corpus]", "referencia": "[referencia citada]", "anterior": "[respuesta anterior]"}
+    return [f"{tag.get(a.get('origen'), '')} {a.get('title', '')}".strip() for a in articles]
+
+
+def _previous_articles(state: dict) -> list[dict]:
+    """Artículos mostrados en el turno anterior, si la pregunta actual se refiere a ellos."""
+    history = state.get("history") or []
+    if not history or not _REFERS_TO_PREVIOUS.search(state.get("user_query", "")):
+        return []
+    return history[-1].get("articles") or []
+
+
 # ── Nodos del grafo ───────────────────────────────────────────────────────────
 
 def node_rewrite_query(state: dict) -> dict:
@@ -84,6 +172,7 @@ def node_schema_linking(state: dict) -> dict:
     """Nodo 1: ejecuta la Capa 1 completa."""
     query = state["rewritten_query"] or state["user_query"]
     ctx = link_schema(query, chroma_dir=state.get("chroma_dir"))
+    ctx.value_hints = build_value_hints(state.get("db_path"), ctx.relevant_tables)
     state["schema_context"] = ctx
     state["intent"] = ctx.query_type
     return state
@@ -91,7 +180,13 @@ def node_schema_linking(state: dict) -> dict:
 
 def node_classify_intent(state: dict) -> dict:
     ctx = state["schema_context"]
-    intent = classify_intent(ctx, history=state.get("history"))
+    # Pregunta sobre artículos que el agente ya mostró: se responde con esos artículos
+    if _previous_articles(state):
+        intent = "followup"
+    else:
+        # Redes, frentes y tendencias se detectan con reglas (Capa 5); el resto lo decide el LLM
+        from src.layer5_network.context import detect_network_intent
+        intent = detect_network_intent(state.get("user_query", "")) or classify_intent(ctx, history=state.get("history"))
     state["intent"] = intent
     return state
 
@@ -124,9 +219,16 @@ def node_refine_sql(state: dict) -> dict:
 def node_synthesize(state: dict) -> dict:
     ctx = state["schema_context"]
     result = state["sql_result"]
-    answer = synthesize_answer(ctx, result, history=state.get("history"))
-    state["answer"] = answer
+    note = ""
+    alt = _fallback_to_references(result, state.get("db_path"))
+    if alt:
+        result, note = alt, NOTE_ONLY_REFERENCES
+        state["sql_result"] = result
+        state["sql_visible"] = result.query
+    answer = synthesize_answer(ctx, result, history=state.get("history"), note=note)
+    state["answer"] = (REFERENCES_PREFIX if note else "") + answer
     state["success"] = result.success if result else False
+    state["articles_shown"] = _articles_from_sql(result, state.get("db_path"))
     return state
 
 
@@ -161,7 +263,7 @@ def node_hybrid(state: dict) -> dict:
     Nodo hybrid: combina una consulta SQL (cifras exactas) con búsqueda
     semántica RAG (contexto temático) en una sola respuesta.
     """
-    from src.layer3_rag.retriever import search_articles
+    from src.layer3_rag.retriever import search_by_origin
     from src.layer2_agent.refiner import generate_and_validate
     from src.layer2_agent.answer_synthesizer import synthesize_hybrid
 
@@ -170,21 +272,27 @@ def node_hybrid(state: dict) -> dict:
     # Lado SQL (con generación + validación + refine por error)
     db_path = state.get("db_path")
     sql_result = generate_and_validate(ctx, db_path=db_path) if db_path else generate_and_validate(ctx)
+    note = ""
+    alt = _fallback_to_references(sql_result, db_path)
+    if alt:
+        sql_result, note = alt, NOTE_ONLY_REFERENCES
     state["sql_result"] = sql_result
     state["sql_visible"] = sql_result.query if sql_result else ""
 
-    # Lado RAG (búsqueda semántica sobre abstracts)
-    rag_result = search_articles(
+    # Lado RAG (búsqueda semántica sobre abstracts de los artículos principales)
+    rag_result = search_by_origin(
         ctx.query,
         chroma_dir=state.get("chroma_dir"),
         db_path=state.get("db_path"),
         top_k=int(os.getenv("RAG_TOP_K", "5"))
     )
     if getattr(rag_result, "success", False):
-        state["rag_results"] = [a.get("title", "") for a in rag_result.articles]
+        state["rag_results"] = _rag_labels(rag_result.articles)
+    state["articles_shown"] = _articles_from_sql(sql_result, db_path) + _articles_from_rag(rag_result)
 
     # Síntesis combinada
-    state["answer"] = synthesize_hybrid(ctx, sql_result, rag_result, state.get("history"))
+    answer = synthesize_hybrid(ctx, sql_result, rag_result, state.get("history"), note=note)
+    state["answer"] = (REFERENCES_PREFIX if note else "") + answer
     state["success"] = bool(
         (sql_result and sql_result.success) or getattr(rag_result, "success", False)
     )
@@ -192,40 +300,107 @@ def node_hybrid(state: dict) -> dict:
 
 def node_rag_search(state: dict) -> dict:
     """Nodo RAG: búsqueda semántica sobre abstracts."""
-    from src.layer3_rag.retriever import search_articles, format_rag_context
+    from src.layer3_rag.retriever import search_by_origin, format_rag_context
 
     from src.layer2_agent.answer_synthesizer import _format_history
+    from langchain_ollama import ChatOllama
 
     ctx = state["schema_context"]
-    rag_result = search_articles(
-        ctx.query,
-        chroma_dir=state.get("chroma_dir"),
-        db_path=state.get("db_path"),
-        top_k=int(os.getenv("RAG_TOP_K", "5"))
+    llm = ChatOllama(
+        base_url=os.getenv("OLLAMA_BASE_URL", "http://localhost:11434"),
+        model=os.getenv("OLLAMA_MODEL", "glm4:9b"),
+        temperature=0.3,
     )
+    history_text = _format_history(ctx.query, state.get("history"))
 
-    if rag_result.success:
-        context_text = format_rag_context(rag_result)
-        # Usar el LLM para sintetizar la respuesta con el contexto RAG
-        from langchain_ollama import ChatOllama
-        llm = ChatOllama(
-            base_url=os.getenv("OLLAMA_BASE_URL", "http://localhost:11434"),
-            model=os.getenv("OLLAMA_MODEL", "glm4:9b"),
-            temperature=0.3,
-        )
-        history_text = _format_history(ctx.query, state.get("history"))
+    def answer_with(rag_result) -> str:
+        """Sintetiza con el LLM a partir de los artículos recuperados."""
         response = llm.invoke([
             {"role": "system", "content": "Eres un experto en bibliometria. Responde en espanol, citando los articulos encontrados con titulo, ano y revista. Se conciso."},
-            {"role": "user", "content": f"{history_text}PREGUNTA: {ctx.query}\n\nARTICULOS ENCONTRADOS:\n{context_text}\n\nRESPUESTA:"},
+            {"role": "user", "content": f"{history_text}PREGUNTA: {ctx.query}\n\nARTICULOS ENCONTRADOS:\n{format_rag_context(rag_result)}\n\nRESPUESTA:"},
         ])
-        state["answer"] = response.content.strip()
-        state["rag_results"] = [a.get("title", "") for a in rag_result.articles]
-        state["success"] = True
-    else:
-        state["answer"] = f"Error en busqueda semantica: {rag_result.error}"
-        state["success"] = False
+        return response.content.strip()
 
+    def search(origin: str):
+        return search_by_origin(ctx.query, chroma_dir=state.get("chroma_dir"),
+                                db_path=state.get("db_path"), origin=origin,
+                                top_k=int(os.getenv("RAG_TOP_K", "5")))
+
+    # 1) Artículos principales del corpus; 2) solo si un juez dice que no responden, referencias citadas
+    principales = search("principal")
+    if not principales.success:
+        state["answer"] = f"Error en busqueda semantica: {principales.error}"
+        state["success"] = False
+        return state
+    shown = list(principales.articles)
+    answer = None
+    if not articles_answer_question(ctx.query, principales):
+        referencias = search("referencia")
+        if referencias.success and articles_answer_question(ctx.query, referencias):
+            shown += referencias.articles
+            answer = RAG_REFERENCES_PREFIX + answer_with(referencias)
+    if answer is None:
+        # Si las referencias tampoco sirven, se responde con los principales (el juez puede equivocarse)
+        answer = answer_with(principales)
+
+    state["answer"] = answer
+    state["rag_results"] = _rag_labels(shown)
+    state["articles_shown"] = [{"sr": a["SR"], "title": a.get("title", "")} for a in shown]
+    state["success"] = True
     return state
+
+def node_followup(state: dict) -> dict:
+    """
+    Nodo followup: la pregunta se refiere a artículos que el agente ya mostró
+    ("de esos cinco, ¿cuál…?"). Responde con esos artículos y, aparte, sugiere
+    otros del corpus que no estaban en la lista.
+    """
+    from src.layer3_rag.retriever import search_by_origin, _enrich_with_db
+    from src.layer2_agent.answer_synthesizer import synthesize_followup
+
+    ctx = state["schema_context"]
+    previous = _previous_articles(state)
+    db_path = state.get("db_path")
+
+    anteriores = _enrich_with_db(
+        [{"SR": a["sr"], "title": a["title"], "rank": i, "score": "-", "origen": "anterior"}
+         for i, a in enumerate(previous, 1)], db_path)
+    suggestions = search_by_origin(
+        ctx.query, chroma_dir=state.get("chroma_dir"), db_path=db_path,
+        top_k=int(os.getenv("FOLLOWUP_SUGGESTIONS", "3")), exclude_srs=[a["sr"] for a in previous])
+    for a in getattr(suggestions, "articles", []):
+        a["rank"] += len(anteriores)  # numeración continua: no confundir sugerencias con los anteriores
+
+    state["answer"] = synthesize_followup(ctx, anteriores, suggestions, db_path, state.get("history"))
+    state["rag_results"] = _rag_labels(anteriores) + _rag_labels(getattr(suggestions, "articles", []))
+    state["articles_shown"] = previous + _articles_from_rag(suggestions)
+    state["success"] = True
+    return state
+
+
+def node_network(state: dict) -> dict:
+    """
+    Nodo Capa 5 (graph / community / forecast): calcula redes, comunidades o series de tiempo
+    sobre la BD de la sesión y el LLM solo redacta la respuesta con esas cifras.
+    """
+    from src.layer5_network.context import network_context
+    from src.layer2_agent.answer_synthesizer import synthesize_network, log_error
+
+    intent = state.get("intent", "community")
+    query = state.get("rewritten_query") or state["user_query"]
+    try:
+        context, articles = network_context(intent, state.get("db_path"), query)
+    except Exception as e:
+        log_error(f"network_context ({intent})", e)
+        state["answer"] = f"No se pudo calcular el análisis de redes: {type(e).__name__}: {e}"
+        state["success"] = False
+        return state
+    state["network_context"] = context
+    state["answer"] = synthesize_network(query, intent, context, state.get("history"))
+    state["articles_shown"] = articles
+    state["success"] = True
+    return state
+
 
 # ── Funciones de routing ──────────────────────────────────────────────────────
 
@@ -236,6 +411,10 @@ def route_by_intent(state: dict) -> str:
         return "rag"
     if intent == "hybrid":
         return "hybrid"
+    if intent == "followup":
+        return "followup"
+    if intent in ("graph", "community", "forecast"):
+        return "network"
     return "sql"
 
 
@@ -281,6 +460,8 @@ def build_graph() -> StateGraph:
     graph.add_node("reflect",          node_reflect)
     graph.add_node("rag_search",       node_rag_search)
     graph.add_node("hybrid",           node_hybrid)
+    graph.add_node("followup",         node_followup)
+    graph.add_node("network",          node_network)
 
     # Flujo principal
     graph.set_entry_point("rewrite_query")
@@ -295,6 +476,8 @@ def build_graph() -> StateGraph:
             "sql": "generate_sql",
             "rag": "rag_search",
             "hybrid": "hybrid",
+            "followup": "followup",
+            "network": "network",
         }
     )
 
@@ -329,6 +512,8 @@ def build_graph() -> StateGraph:
     # Nodos finales
     graph.add_edge("rag_search",  END)
     graph.add_edge("hybrid",      END)
+    graph.add_edge("followup",    END)
+    graph.add_edge("network",     END)
 
     return graph
 
@@ -369,11 +554,13 @@ def run_agent(query: str, history: list[dict] | None = None, db_path: str | None
         "sql_result": None,
         "retry_count": 0,
         "rag_results": [],
+        "articles_shown": [],
         "history": history,
         "reflection_feedback": "",
         "reflect_count": 0,
         "reflection_adequate": True,
         "answer": "",
+        "network_context": "",
         "sql_visible": "",
         "success": False,
         "db_path": db_path,
@@ -386,6 +573,7 @@ def run_agent(query: str, history: list[dict] | None = None, db_path: str | None
     final_state["history"] = history + [{
         "question": query,
         "answer": final_state.get("answer", ""),
+        "articles": final_state.get("articles_shown", []),
     }]
     return final_state
 

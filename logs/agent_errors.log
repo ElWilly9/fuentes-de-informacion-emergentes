@@ -1,0 +1,112 @@
+--- 2026-10-14 19:50:43 · traducción de la consulta
+Traceback (most recent call last):
+  File "C:\Users\Willy\Documents\UNAL\RAG_Text2SQL\demo_limpio\.venv\Lib\site-packages\httpx\_transports\default.py", line 101, in map_httpcore_exceptions
+    yield
+  File "C:\Users\Willy\Documents\UNAL\RAG_Text2SQL\demo_limpio\.venv\Lib\site-packages\httpx\_transports\default.py", line 250, in handle_request
+    resp = self._pool.handle_request(req)
+  File "C:\Users\Willy\Documents\UNAL\RAG_Text2SQL\demo_limpio\.venv\Lib\site-packages\httpcore\_sync\connection_pool.py", line 256, in handle_request
+    raise exc from None
+  File "C:\Users\Willy\Documents\UNAL\RAG_Text2SQL\demo_limpio\.venv\Lib\site-packages\httpcore\_sync\connection_pool.py", line 236, in handle_request
+    response = connection.handle_request(
+        pool_request.request
+    )
+  File "C:\Users\Willy\Documents\UNAL\RAG_Text2SQL\demo_limpio\.venv\Lib\site-packages\httpcore\_sync\connection.py", line 101, in handle_request
+    raise exc
+  File "C:\Users\Willy\Documents\UNAL\RAG_Text2SQL\demo_limpio\.venv\Lib\site-packages\httpcore\_sync\connection.py", line 78, in handle_request
+    stream = self._connect(request)
+  File "C:\Users\Willy\Documents\UNAL\RAG_Text2SQL\demo_limpio\.venv\Lib\site-packages\httpcore\_sync\connection.py", line 124, in _connect
+    stream = self._network_backend.connect_tcp(**kwargs)
+  File "C:\Users\Willy\Documents\UNAL\RAG_Text2SQL\demo_limpio\.venv\Lib\site-packages\httpcore\_backends\sync.py", line 207, in connect_tcp
+    with map_exceptions(exc_map):
+         ~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\Willy\AppData\Local\Python\pythoncore-3.14-64\Lib\contextlib.py", line 162, in __exit__
+    self.gen.throw(value)
+    ~~~~~~~~~~~~~~^^^^^^^
+  File "C:\Users\Willy\Documents\UNAL\RAG_Text2SQL\demo_limpio\.venv\Lib\site-packages\httpcore\_exceptions.py", line 14, in map_exceptions
+    raise to_exc(exc) from exc
+httpcore.ConnectError: [WinError 10061] No se puede establecer una conexión ya que el equipo de destino denegó expresamente dicha conexión
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Willy\Documents\UNAL\RAG_Text2SQL\demo_limpio\src\layer3_rag\retriever.py", line 58, in to_search_query
+    text = llm.invoke([{"role": "system", "content": TRANSLATE_PROMPT},
+           ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                       {"role": "user", "content": query}]).content
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Willy\Documents\UNAL\RAG_Text2SQL\demo_limpio\.venv\Lib\site-packages\langchain_core\language_models\chat_models.py", line 488, in invoke
+    self.generate_prompt(
+    ~~~~~~~~~~~~~~~~~~~~^
+        [self._convert_input(input)],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+        **kwargs,
+        ^^^^^^^^^
+    ).generations[0][0],
+    ^
+  File "C:\Users\Willy\Documents\UNAL\RAG_Text2SQL\demo_limpio\.venv\Lib\site-packages\langchain_core\language_models\chat_models.py", line 1877, in generate_prompt
+    return self.generate(prompt_messages, stop=stop, callbacks=callbacks, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Willy\Documents\UNAL\RAG_Text2SQL\demo_limpio\.venv\Lib\site-packages\langchain_core\language_models\chat_models.py", line 1684, in generate
+    self._generate_with_cache(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        m,
+        ^^
+    ...<2 lines>...
+        **kwargs,
+        ^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Willy\Documents\UNAL\RAG_Text2SQL\demo_limpio\.venv\Lib\site-packages\langchain_core\language_models\chat_models.py", line 2022, in _generate_with_cache
+    result = self._generate(
+        messages, stop=stop, run_manager=run_manager, **kwargs
+    )
+  File "C:\Users\Willy\Documents\UNAL\RAG_Text2SQL\demo_limpio\.venv\Lib\site-packages\langchain_ollama\chat_models.py", line 1200, in _generate
+    final_chunk = self._chat_stream_with_aggregation(
+        messages, stop, run_manager, verbose=self.verbose, **kwargs
+    )
+  File "C:\Users\Willy\Documents\UNAL\RAG_Text2SQL\demo_limpio\.venv\Lib\site-packages\langchain_ollama\chat_models.py", line 1135, in _chat_stream_with_aggregation
+    for chunk in self._iterate_over_stream(messages, stop, **kwargs):
+                 ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Willy\Documents\UNAL\RAG_Text2SQL\demo_limpio\.venv\Lib\site-packages\langchain_ollama\chat_models.py", line 1224, in _iterate_over_stream
+    for stream_resp in self._create_chat_stream(messages, stop, **kwargs):
+                       ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Willy\Documents\UNAL\RAG_Text2SQL\demo_limpio\.venv\Lib\site-packages\langchain_ollama\chat_models.py", line 1122, in _create_chat_stream
+    yield from self._client.chat(**chat_params)
+  File "C:\Users\Willy\Documents\UNAL\RAG_Text2SQL\demo_limpio\.venv\Lib\site-packages\ollama\_client.py", line 184, in inner
+    with self._client.stream(*args, **kwargs) as r:
+         ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\Willy\AppData\Local\Python\pythoncore-3.14-64\Lib\contextlib.py", line 141, in __enter__
+    return next(self.gen)
+  File "C:\Users\Willy\Documents\UNAL\RAG_Text2SQL\demo_limpio\.venv\Lib\site-packages\httpx\_client.py", line 868, in stream
+    response = self.send(
+        request=request,
+    ...<2 lines>...
+        stream=True,
+    )
+  File "C:\Users\Willy\Documents\UNAL\RAG_Text2SQL\demo_limpio\.venv\Lib\site-packages\httpx\_client.py", line 914, in send
+    response = self._send_handling_auth(
+        request,
+    ...<2 lines>...
+        history=[],
+    )
+  File "C:\Users\Willy\Documents\UNAL\RAG_Text2SQL\demo_limpio\.venv\Lib\site-packages\httpx\_client.py", line 942, in _send_handling_auth
+    response = self._send_handling_redirects(
+        request,
+        follow_redirects=follow_redirects,
+        history=history,
+    )
+  File "C:\Users\Willy\Documents\UNAL\RAG_Text2SQL\demo_limpio\.venv\Lib\site-packages\httpx\_client.py", line 979, in _send_handling_redirects
+    response = self._send_single_request(request)
+  File "C:\Users\Willy\Documents\UNAL\RAG_Text2SQL\demo_limpio\.venv\Lib\site-packages\httpx\_client.py", line 1014, in _send_single_request
+    response = transport.handle_request(request)
+  File "C:\Users\Willy\Documents\UNAL\RAG_Text2SQL\demo_limpio\.venv\Lib\site-packages\httpx\_transports\default.py", line 249, in handle_request
+    with map_httpcore_exceptions():
+         ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Willy\AppData\Local\Python\pythoncore-3.14-64\Lib\contextlib.py", line 162, in __exit__
+    self.gen.throw(value)
+    ~~~~~~~~~~~~~~^^^^^^^
+  File "C:\Users\Willy\Documents\UNAL\RAG_Text2SQL\demo_limpio\.venv\Lib\site-packages\httpx\_transports\default.py", line 118, in map_httpcore_exceptions
+    raise mapped_exc(message) from exc
+httpx.ConnectError: [WinError 10061] No se puede establecer una conexión ya que el equipo de destino denegó expresamente dicha conexión
+

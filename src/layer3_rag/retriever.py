@@ -24,6 +24,15 @@ load_dotenv()
 
 RAG_TOP_K = int(os.getenv("RAG_TOP_K", "5"))
 DB_PATH   = os.getenv("DB_PATH", "data/db/bibliometria.db")
+# Los abstracts del corpus están en inglés: con la pregunta en español, nomic-embed-text puntúa más alto
+# cualquier texto en español. Medido en Q23–Q31: artículo esperado 1.º en 2/9 (español) vs 9/9 (inglés).
+RAG_TRANSLATE_QUERY = os.getenv("RAG_TRANSLATE_QUERY", "1") == "1"
+
+TRANSLATE_PROMPT = """Translate the user's question into English so it can be used as a semantic
+search query over English scientific abstracts. Keep technical terms, names, places and numbers.
+Reply with the English translation ONLY: no quotes, no explanations."""
+
+_translation_cache: dict[str, str] = {}
 
 
 @dataclass
@@ -34,6 +43,27 @@ class RAGResult:
     total_found: int = 0
     success: bool = False
     error: str | None = None
+    search_query: str = ""   # texto con el que se buscó en ChromaDB (traducción al inglés)
+
+
+def to_search_query(query: str) -> str:
+    """Traduce la pregunta al inglés para la búsqueda semántica (la respuesta sigue en español)."""
+    if not RAG_TRANSLATE_QUERY or not query.strip():
+        return query
+    if query not in _translation_cache:
+        from langchain_ollama import ChatOllama
+        llm = ChatOllama(base_url=os.getenv("OLLAMA_BASE_URL", "http://localhost:11434"),
+                         model=os.getenv("OLLAMA_MODEL", "glm4:9b"), temperature=0.0)
+        try:
+            text = llm.invoke([{"role": "system", "content": TRANSLATE_PROMPT},
+                               {"role": "user", "content": query}]).content
+            text = text.strip().splitlines()[0].strip().strip('"“”\'') if text.strip() else ""
+        except Exception as e:
+            from src.layer2_agent.answer_synthesizer import log_error
+            log_error("traducción de la consulta", e)
+            text = ""
+        _translation_cache[query] = text or query  # si falla, se busca con la pregunta original
+    return _translation_cache[query]
 
 
 def _enrich_with_db(articles: list[dict], db_path: str) -> list[dict]:
@@ -51,7 +81,8 @@ def _enrich_with_db(articles: list[dict], db_path: str) -> list[dict]:
         sr = art.get("SR", "")
         row = conn.execute(
             "SELECT title, abstract, year, cited_by, author_keywords, "
-            "source_title, document_type FROM Article WHERE SR = ?",
+            "source_title, document_type FROM Article WHERE SR = ? "
+            "ORDER BY ismainarticle DESC",
             (sr,)
         ).fetchone()
 
@@ -67,6 +98,85 @@ def _enrich_with_db(articles: list[dict], db_path: str) -> list[dict]:
 
     conn.close()
     return articles
+
+
+def _ensure_main_flag(collection, db_path: str) -> None:
+    """
+    Índices creados antes no guardan ismainarticle en la metadata. Se completa en el
+    sitio (sin recalcular embeddings) consultando la BD por SR.
+    """
+    sample = collection.get(limit=1, include=["metadatas"])
+    if not sample["ids"] or "ismainarticle" in (sample["metadatas"][0] or {}):
+        return
+    conn = sqlite3.connect(db_path)
+    flags = {str(sr).strip(): int(m or 0) for sr, m in conn.execute(
+        "SELECT SR, MAX(ismainarticle) FROM Article GROUP BY SR")}
+    conn.close()
+    data = collection.get(include=["metadatas"])
+    for i in range(0, len(data["ids"]), 500):
+        ids = data["ids"][i:i + 500]
+        metas = [{**(m or {}), "ismainarticle": flags.get(sr, 0)}
+                 for sr, m in zip(ids, data["metadatas"][i:i + 500])]
+        collection.update(ids=ids, metadatas=metas)
+
+
+def _query(collection, query: str, n: int, where: dict | None, exclude: set[str]) -> list[dict]:
+    """Consulta ChromaDB y devuelve artículos ordenados por similitud, sin los SR excluidos."""
+    n = min(n + len(exclude), collection.count())
+    if n <= 0:
+        return []
+    kwargs = {"where": where} if where else {}
+    try:
+        res = collection.query(query_texts=[query], n_results=n,
+                               include=["documents", "metadatas", "distances"], **kwargs)
+    except Exception:
+        return []  # p. ej. ningún documento cumple el filtro
+    out = []
+    for sr, doc, meta, dist in zip(res["ids"][0], res["documents"][0],
+                                   res["metadatas"][0], res["distances"][0]):
+        if sr in exclude:
+            continue
+        out.append({
+            "SR":           sr,
+            "score":        round(1 - dist, 4),  # distancia coseno → similitud
+            "title":        meta.get("title", ""),
+            "year":         meta.get("year", ""),
+            "cited_by":     meta.get("cited_by", "0"),
+            "source_title": meta.get("source_title", ""),
+            "snippet":      doc[:200] if doc else "",
+        })
+    return out
+
+
+def search_by_origin(query: str, chroma_dir, db_path, origin: str = "principal",
+                     top_k: int = RAG_TOP_K, exclude_srs=()) -> RAGResult:
+    """
+    Búsqueda semántica restringida a artículos principales del corpus (origin="principal",
+    ismainarticle = 1) o a referencias citadas (origin="referencia", ismainarticle = 0).
+
+    No se mezclan por similitud: las preguntas en español puntúan más alto cualquier texto en
+    español, así que las referencias en español desplazarían a los artículos principales.
+    Cada artículo lleva `origen` para que la respuesta pueda distinguirlos.
+    """
+    try:
+        collection = get_abstracts_collection(chroma_dir)
+        if collection.count() == 0:
+            return RAGResult(query=query, success=False,
+                             error="El índice de abstracts está vacío. Ejecuta: python src/layer3_rag/embedder.py")
+        _ensure_main_flag(collection, str(db_path))
+        exclude = {str(s).strip() for s in exclude_srs}
+
+        flag = 1 if origin == "principal" else 0
+        search_query = to_search_query(query)
+        articles = [{**a, "origen": origin}
+                    for a in _query(collection, search_query, top_k, {"ismainarticle": flag}, exclude)[:top_k]]
+        for i, a in enumerate(articles, 1):
+            a["rank"] = i
+        articles = _enrich_with_db(articles, db_path)
+        return RAGResult(query=query, articles=articles, total_found=len(articles), success=True,
+                         search_query=search_query)
+    except Exception as e:
+        return RAGResult(query=query, error=str(e), success=False)
 
 
 def search_articles(query: str, chroma_dir: Path, db_path: Path, top_k: int = RAG_TOP_K) -> RAGResult:
@@ -149,10 +259,17 @@ def format_rag_context(rag_result: RAGResult) -> str:
 
     lines = []
     for art in rag_result.articles:
-        lines.append(f"--- Artículo {art['rank']} (similitud: {art['score']}) ---")
+        origen = {"principal": " [ARTÍCULO PRINCIPAL DEL CORPUS]",
+                  "referencia": " [REFERENCIA CITADA: no es artículo principal del corpus]",
+                  "anterior": " [MOSTRADO EN LA RESPUESTA ANTERIOR]"}.get(art.get("origen"), "")
+        lines.append(f"--- Artículo {art['rank']} (similitud: {art['score']}){origen} ---")
         lines.append(f"Título: {art.get('title', 'N/A')}")
         lines.append(f"Año: {art.get('year', 'N/A')} | Citas: {art.get('cited_by', '0')}")
         lines.append(f"Revista: {art.get('source_title', 'N/A')}")
+        if art.get("authors"):
+            lines.append(f"Autores: {art['authors']}")
+        if art.get("countries"):
+            lines.append(f"Países: {art['countries']}")
 
         kw = art.get("author_keywords", "")
         if kw:

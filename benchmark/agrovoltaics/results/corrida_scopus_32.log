@@ -1,0 +1,56 @@
+Modelo: glm4:9b | 32 preguntas
+  Q01 [SQL puro] ruta=sql ok=True (52.0s)
+  Q02 [SQL puro] ruta=sql ok=True (28.2s)
+  Q03 [SQL puro] ruta=sql ok=True (29.6s)
+  Q04 [SQL puro] ruta=sql ok=True (39.5s)
+  Q05 [SQL puro] ruta=sql ok=False (44.7s)
+  Q06 [SQL puro] ruta=sql ok=False (37.6s)
+  Q07 [SQL puro] ruta=sql ok=True (24.9s)
+  Q08 [SQL puro] ruta=sql ok=True (28.5s)
+  Q09 [SQL puro] ruta=sql ok=False (53.6s)
+  Q10 [SQL puro] ruta=sql ok=True (57.1s)
+  Q11 [SQL puro] ruta=sql ok=True (38.4s)
+  Q12 [SQL puro] ruta=sql ok=True (28.4s)
+  Q13 [Híbrida] ruta=sql ok=True (33.0s)
+  Q14 [Híbrida] ruta=sql ok=True (40.9s)
+  Q15 [Híbrida] ruta=hybrid ok=True (45.4s)
+  Q16 [Híbrida] ruta=hybrid ok=True (51.0s)
+      Intento 1/3: corrigiendo SQL...
+      Error: Error SQLite: no such column: c.cited_by
+      Intento 2/3: corrigiendo SQL...
+      Error: Error SQLite: no such column: c.cited_by
+      Intento 3/3: corrigiendo SQL...
+      Error: Error SQLite: no such column: c.cited_by
+      No se pudo corregir después de 3 intentos
+  Q17 [Híbrida] ruta=hybrid ok=True (106.6s)
+  Q18 [Híbrida] ruta=hybrid ok=True (102.4s)
+  Q19 [Híbrida] ruta=hybrid ok=True (76.4s)
+  Q20 [Híbrida] ruta=hybrid ok=True (77.3s)
+      Intento 1/3: corrigiendo SQL...
+      Error: Error SQLite: near "sr": syntax error
+      Intento 2/3: corrigiendo SQL...
+      Error: Error SQLite: no such table: source_title
+      Intento 3/3: corrigiendo SQL...
+      Error: Error SQLite: no such table: source_title
+      No se pudo corregir después de 3 intentos
+  Q21 [Híbrida] ruta=hybrid ok=True (106.5s)
+  Q22 [Híbrida] ruta=hybrid ok=True (52.0s)
+      Intento 1/3: corrigiendo SQL...
+      Error: Error SQLite: no such table: author_keywords
+      Intento 2/3: corrigiendo SQL...
+      Error: Error SQLite: no such table: author_keywords
+      Intento 3/3: corrigiendo SQL...
+      Error: Error SQLite: no such table: author_keywords
+      No se pudo corregir después de 3 intentos
+  Q23 [RAG puro] ruta=hybrid ok=True (84.2s)
+  Q24 [RAG puro] ruta=hybrid ok=True (53.9s)
+  Q25 [RAG puro] ruta=rag ok=True (37.5s)
+  Q26 [RAG puro] ruta=rag ok=True (33.5s)
+  Q27 [RAG puro] ruta=hybrid ok=True (62.8s)
+  Q28 [RAG puro] ruta=rag ok=True (36.0s)
+  Q29 [RAG puro] ruta=rag ok=True (34.0s)
+  Q30 [RAG puro] ruta=rag ok=True (30.2s)
+  Q31 [RAG puro] ruta=rag ok=True (27.0s)
+  Q32 [RAG puro] ruta=hybrid ok=True (57.1s)
+
+Guardado en benchmark\agrovoltaics\results\respuestas_preguntas_scopus_32_20261007_084249_glm4-9b.md y .json

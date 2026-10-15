@@ -8,7 +8,12 @@ Autor: Daniel Camilo Blanco Galán — Universidad Nacional de Colombia
 """
 
 import os
+import re
 import math
+import traceback
+from datetime import datetime
+from pathlib import Path
+
 import httpx
 
 from dotenv import load_dotenv
@@ -21,6 +26,19 @@ load_dotenv()
 
 OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
 OLLAMA_MODEL    = os.getenv("OLLAMA_MODEL", "glm4:9b")
+
+ERROR_LOG = Path(__file__).resolve().parents[2] / "logs" / "agent_errors.log"
+
+
+def log_error(where: str, exc: Exception) -> None:
+    """Registra una excepción que el agente se tragaba para usar un respaldo (antes se perdía en silencio)."""
+    print(f"      [ERROR registrado] {where}: {type(exc).__name__}: {exc}", flush=True)
+    try:
+        ERROR_LOG.parent.mkdir(exist_ok=True)
+        with ERROR_LOG.open("a", encoding="utf-8") as f:
+            f.write(f"--- {datetime.now():%Y-%m-%d %H:%M:%S} · {where}\n{traceback.format_exc()}\n")
+    except OSError:
+        pass
 
 SYNTH_SYSTEM_PROMPT = """Eres un asistente experto en bibliometría. Tu trabajo es responder
 preguntas sobre un corpus académico de forma clara y concisa en español.
@@ -45,6 +63,32 @@ RESULTADOS ({row_count} filas):
 {results}
 
 RESPUESTA EN ESPAÑOL:"""
+
+
+# ── Artículos principales vs referencias (búsqueda semántica) ─────────────────
+
+# Juez aparte (no dentro del prompt de respuesta: con glm4, pedir "responde solo X si nada sirve"
+# volvía las respuestas mínimas). Decide si hay que pasar a buscar en las referencias citadas.
+JUDGE_SYSTEM_PROMPT = """Decides si una lista de artículos científicos contiene información que
+responde una pregunta. Responde solo SI o NO."""
+
+
+def articles_answer_question(query: str, rag_result) -> bool:
+    """True si al menos uno de los artículos recuperados responde la pregunta (ante la duda, True)."""
+    if not rag_result or not getattr(rag_result, "articles", None):
+        return False
+    listing = "\n".join(
+        f"- {a.get('title', '')}: {(a.get('abstract') or '')[:300]}" for a in rag_result.articles)
+    llm = ChatOllama(base_url=OLLAMA_BASE_URL, model=OLLAMA_MODEL, temperature=0.0)
+    try:
+        verdict = llm.invoke([
+            {"role": "system", "content": JUDGE_SYSTEM_PROMPT},
+            {"role": "user", "content": f"PREGUNTA: {query}\n\nARTÍCULOS:\n{listing}\n\n¿Alguno responde la pregunta? (SI/NO):"},
+        ]).content.strip().upper()
+    except Exception as e:
+        log_error("juez de artículos", e)
+        return True
+    return not verdict.startswith("NO")
 
 
 # ── Prompts para canal hybrid (SQL + RAG) ─────────────────────────────────────
@@ -73,6 +117,36 @@ SQL: {sql}
 {rag_context}
 
 RESPUESTA EN ESPAÑOL:"""
+
+# ── Prompts para preguntas de seguimiento sobre artículos ya mostrados ───────
+
+FOLLOWUP_SYSTEM_PROMPT = """Eres un asistente experto en bibliometría. El usuario pregunta por
+artículos que tú ya le mostraste en tu respuesta anterior.
+
+REGLAS:
+1. Responde en español, de forma clara y concisa.
+2. La respuesta principal se basa SOLO en los ARTÍCULOS DE TU RESPUESTA ANTERIOR: elige,
+   compara o describe esos artículos, no otros. Nunca presentes una SUGERENCIA como si fuera
+   uno de los artículos anteriores.
+3. Si ninguno de los artículos anteriores trata el tema por el que pregunta el usuario, dilo
+   claramente ("ninguno de esos artículos trata de ..."). No fuerces ni inventes una relación;
+   si acaso, indica cuál es el menos alejado y por qué la relación es débil.
+4. Después, en un párrafo aparte que empiece con "Sugerencias adicionales:", puedes mencionar
+   como máximo 2 de las SUGERENCIAS si de verdad tienen que ver con lo que pregunta el usuario,
+   aclarando que no estaban en la lista anterior. Si ninguna aporta, omite ese párrafo.
+5. Si una sugerencia es una referencia citada, dilo: no es un artículo principal del corpus.
+6. No inventes datos: usa solo lo que aparece en los artículos."""
+
+FOLLOWUP_USER_TEMPLATE = """PREGUNTA DEL USUARIO: {query}
+
+— ARTÍCULOS DE TU RESPUESTA ANTERIOR (responde con estos) —
+{previous}
+
+— SUGERENCIAS (no estaban en la lista anterior; solo como sugerencia) —
+{suggestions}
+
+RESPUESTA EN ESPAÑOL:"""
+
 
 # ── Prompt para auto-reflexión sobre la respuesta ─────────────────────────────
 
@@ -219,7 +293,7 @@ def _format_results(result: SQLResult, max_rows: int = 15) -> str:
 
 
 def synthesize_answer(
-    ctx: SchemaContext, result: SQLResult, history: list[dict] | None = None
+    ctx: SchemaContext, result: SQLResult, history: list[dict] | None = None, note: str = ""
 ) -> str:
     """
     Genera una respuesta en español a partir de los resultados SQL.
@@ -233,6 +307,9 @@ def synthesize_answer(
     history : list[dict] | None
         Turnos previos de la conversación {"question", "answer"} para dar
         continuidad multi-turno.
+    note : str
+        Aviso para el LLM que va antes de la plantilla (p. ej. que los resultados
+        salen de las referencias citadas y no de los artículos principales).
 
     Retorna
     -------
@@ -257,7 +334,7 @@ def synthesize_answer(
 
     results_text = _format_results(result)
 
-    user_msg = _format_history(ctx.query, history) + SYNTH_USER_TEMPLATE.format(
+    user_msg = _format_history(ctx.query, history) + note + SYNTH_USER_TEMPLATE.format(
         query=ctx.query,
         sql=result.query,
         row_count=result.row_count,
@@ -272,6 +349,7 @@ def synthesize_answer(
         return response.content.strip()
 
     except Exception as e:
+        log_error("synthesize_answer", e)
         # Fallback: respuesta básica sin LLM
         return (f"Se encontraron {result.row_count} resultados. "
                 f"Columnas: {', '.join(result.columns)}. "
@@ -283,6 +361,7 @@ def synthesize_hybrid(
     sql_result: SQLResult | None,
     rag_result,
     history: list[dict] | None = None,
+    note: str = "",
 ) -> str:
     """
     Sintetiza una respuesta combinando resultados SQL (cifras exactas) y
@@ -315,7 +394,7 @@ def synthesize_hybrid(
     # Si ninguna fuente aportó nada, delegar al sintetizador SQL (maneja errores/vacíos)
     if not has_sql and not has_rag:
         if sql_result is not None:
-            return synthesize_answer(ctx, sql_result, history)
+            return synthesize_answer(ctx, sql_result, history, note=note)
         return ("No encontré información para responder esa pregunta, ni por consulta "
                 "estructurada ni por búsqueda semántica en el corpus.")
 
@@ -328,7 +407,7 @@ def synthesize_hybrid(
         temperature=0.3,
     )
 
-    user_msg = _format_history(ctx.query, history) + HYBRID_USER_TEMPLATE.format(
+    user_msg = _format_history(ctx.query, history) + note + HYBRID_USER_TEMPLATE.format(
         query=ctx.query,
         row_count=sql_result.row_count if has_sql else 0,
         sql=sql_result.query if sql_result else "(sin SQL)",
@@ -342,11 +421,67 @@ def synthesize_hybrid(
             {"role": "user",   "content": user_msg},
         ])
         return response.content.strip()
-    except Exception:
+    except Exception as e:
+        log_error("synthesize_hybrid", e)
         # Fallback: si falla la integración, devolver al menos lo que haya
         if has_sql:
             return synthesize_answer(ctx, sql_result, history)
         return format_rag_context(rag_result)
+
+
+def _authors_and_countries(srs: list[str], db_path: str | None) -> dict[str, tuple[str, str]]:
+    """Autores y países de cada artículo, para responder seguimientos sin volver a la BD."""
+    if not db_path or not srs:
+        return {}
+    import sqlite3
+    conn = sqlite3.connect(db_path)
+    out = {}
+    for sr in srs:
+        authors = [r[0] for r in conn.execute(
+            "SELECT DISTINCT au.AuthorName FROM ArticleAuthor aa JOIN Author au ON au.AuthorID = aa.AuthorID "
+            "WHERE aa.SR = ? ORDER BY aa.AuthorOrder", (sr,)) if r[0]]
+        countries = [r[0] for r in conn.execute(
+            "SELECT DISTINCT Country FROM Affiliation WHERE SR = ? AND Country IS NOT NULL", (sr,))]
+        out[sr] = ("; ".join(authors[:8]), ", ".join(countries))
+    conn.close()
+    return out
+
+
+def synthesize_followup(ctx: SchemaContext, previous: list[dict], suggestions, db_path: str | None,
+                        history: list[dict] | None = None) -> str:
+    """
+    Responde una pregunta de seguimiento sobre artículos que el agente ya mostró.
+
+    Parámetros
+    ----------
+    previous : list[dict]
+        Artículos del turno anterior, ya enriquecidos con la BD (título, abstract, año…).
+    suggestions : RAGResult
+        Búsqueda semántica que excluye los artículos anteriores; solo se ofrecen como sugerencia.
+    """
+    from src.layer3_rag.retriever import format_rag_context, RAGResult
+
+    extra = _authors_and_countries([a["SR"] for a in previous], db_path)
+    for a in previous:
+        a["authors"], a["countries"] = extra.get(a["SR"], ("", ""))
+    previous_text = format_rag_context(RAGResult(query=ctx.query, articles=previous, success=True))
+    has_sugg = bool(suggestions and getattr(suggestions, "success", False) and suggestions.articles)
+    sugg_text = format_rag_context(suggestions) if has_sugg else "(sin sugerencias)"
+    # "Sugerencia N" y no "Artículo N": evita que el modelo las confunda con los artículos anteriores
+    sugg_text = re.sub(r"--- Artículo \d+", "--- Sugerencia", sugg_text)
+
+    llm = ChatOllama(base_url=OLLAMA_BASE_URL, model=OLLAMA_MODEL, temperature=0.3)
+    user_msg = _format_history(ctx.query, history) + FOLLOWUP_USER_TEMPLATE.format(
+        query=ctx.query, previous=previous_text, suggestions=sugg_text)
+    try:
+        response = llm.invoke([
+            {"role": "system", "content": FOLLOWUP_SYSTEM_PROMPT},
+            {"role": "user",   "content": user_msg},
+        ])
+        return response.content.strip()
+    except Exception as e:
+        log_error("synthesize_followup", e)
+        return previous_text
 
 
 def reflect_on_answer(
@@ -397,9 +532,52 @@ def reflect_on_answer(
                 break
         return adequate, critique or text
 
-    except Exception:
+    except Exception as e:
+        log_error("reflect_on_answer", e)
         # Si el juez falla, no bloquear: aceptar la respuesta
         return True, "reflexión omitida (error del evaluador)"
+
+
+# ── Respuestas de la Capa 5 (redes, comunidades, series de tiempo) ───────────
+
+NETWORK_SYSTEM_PROMPT = """Eres un asistente experto en bibliometría y análisis de redes científicas.
+Respondes preguntas sobre redes de coautoría y de citas, frentes de investigación y tendencias de
+un corpus académico. Todas las cifras ya fueron calculadas: tú solo las explicas.
+
+REGLAS:
+1. Responde en español, de forma clara. Puedes traducir las palabras clave entre paréntesis.
+2. Usa SOLO las cifras del ANÁLISIS: no calcules, no redondees de otra forma, no inventes.
+3. Explica en una frase el método cuando ayude a entender el resultado (qué es un frente, un autor
+   puente, un pronóstico ARIMA).
+4. Si el análisis dice "Ninguno", "N/D" o que algo no se calcula, dilo tal cual y por qué.
+5. Distingue tendencias significativas de no significativas y "EMERGENTE" de "SEÑAL DÉBIL".
+   Los pronósticos van siempre con su intervalo de confianza.
+6. Responde a lo que se pregunta: no repitas todo el análisis."""
+
+NETWORK_USER_TEMPLATE = """PREGUNTA DEL USUARIO: {query}
+
+ANÁLISIS ({kind}):
+{context}
+
+RESPUESTA EN ESPAÑOL:"""
+
+
+def synthesize_network(query: str, kind: str, context: str, history: list[dict] | None = None) -> str:
+    """Redacta la respuesta de una pregunta de redes, comunidades o tendencias a partir del análisis ya calculado."""
+    llm = ChatOllama(base_url=OLLAMA_BASE_URL, model=OLLAMA_MODEL, temperature=0.2)
+    kind_label = {"graph": "redes de coautoría y acoplamiento", "community": "frentes de investigación y temas",
+                  "forecast": "series de tiempo y tendencias"}.get(kind, kind)
+    user_msg = _format_history(query, history) + NETWORK_USER_TEMPLATE.format(
+        query=query, kind=kind_label, context=context)
+    try:
+        response = llm.invoke([
+            {"role": "system", "content": NETWORK_SYSTEM_PROMPT},
+            {"role": "user",   "content": user_msg},
+        ])
+        return response.content.strip()
+    except Exception as e:
+        log_error("synthesize_network", e)
+        return context
 
 
 # ── Entry point ───────────────────────────────────────────────────────────────

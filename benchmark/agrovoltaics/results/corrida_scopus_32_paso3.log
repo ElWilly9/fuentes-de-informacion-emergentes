@@ -1,0 +1,45 @@
+Modelo: glm4:9b | 32 preguntas
+  Q01 [SQL puro] ruta=sql ok=True (51.5s)
+  Q02 [SQL puro] ruta=sql ok=True (32.2s)
+  Q03 [SQL puro] ruta=sql ok=True (32.4s)
+  Q04 [SQL puro] ruta=sql ok=True (32.6s)
+  Q05 [SQL puro] ruta=sql ok=True (34.0s)
+  Q06 [SQL puro] ruta=sql ok=True (35.4s)
+  Q07 [SQL puro] ruta=sql ok=True (37.4s)
+  Q08 [SQL puro] ruta=sql ok=True (32.6s)
+  Q09 [SQL puro] ruta=sql ok=True (36.1s)
+  Q10 [SQL puro] ruta=sql ok=True (37.4s)
+  Q11 [SQL puro] ruta=sql ok=True (44.4s)
+  Q12 [SQL puro] ruta=sql ok=True (32.6s)
+  Q13 [Híbrida] ruta=sql ok=True (34.3s)
+  Q14 [Híbrida] ruta=sql ok=True (42.8s)
+  Q15 [Híbrida] ruta=hybrid ok=True (60.6s)
+  Q16 [Híbrida] ruta=hybrid ok=True (60.9s)
+      Intento 1/3: corrigiendo SQL...
+      Error: Error SQLite: no such column: c.cited_by
+      Intento 2/3: corrigiendo SQL...
+      Error: Error SQLite: no such column: c.cited_by
+      Intento 3/3: corrigiendo SQL...
+      Error: Error SQLite: no such column: c.cited_by
+      No se pudo corregir después de 3 intentos
+  Q17 [Híbrida] ruta=hybrid ok=True (135.3s)
+  Q18 [Híbrida] ruta=hybrid ok=True (162.8s)
+  Q19 [Híbrida] ruta=hybrid ok=True (133.0s)
+  Q20 [Híbrida] ruta=hybrid ok=True (75.6s)
+  Q21 [Híbrida] ruta=hybrid ok=True (37.7s)
+  Q22 [Híbrida] ruta=hybrid ok=True (69.9s)
+      Intento 1/3: corrigiendo SQL...
+      Error: Error SQLite: no such table: author_keywords
+      SQL corregido exitosamente en intento 1
+  Q23 [RAG puro] ruta=hybrid ok=True (77.1s)
+  Q24 [RAG puro] ruta=hybrid ok=True (69.0s)
+  Q25 [RAG puro] ruta=rag ok=True (57.2s)
+  Q26 [RAG puro] ruta=rag ok=True (51.8s)
+  Q27 [RAG puro] ruta=hybrid ok=True (61.1s)
+  Q28 [RAG puro] ruta=rag ok=True (49.7s)
+  Q29 [RAG puro] ruta=rag ok=True (59.2s)
+  Q30 [RAG puro] ruta=rag ok=True (70.5s)
+  Q31 [RAG puro] ruta=rag ok=True (59.3s)
+  Q32 [RAG puro] ruta=hybrid ok=True (61.8s)
+
+Guardado en benchmark\agrovoltaics\results\respuestas_preguntas_scopus_32_20261008_104344_glm4-9b.md y .json

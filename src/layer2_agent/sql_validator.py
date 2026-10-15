@@ -83,6 +83,127 @@ def validate_syntax(sql: str) -> tuple[bool, str | None]:
     return True, None
 
 
+_SQL_KEYWORDS = {
+    "on", "where", "join", "left", "right", "inner", "outer", "cross", "group", "order", "limit",
+    "having", "union", "as", "select", "from", "and", "or", "not", "in", "exists", "using", "natural",
+}
+
+
+def repair_column_refs(sql: str) -> str:
+    """
+    Corrige `alias(columna)` → `alias.columna` cuando `alias` es una tabla o un alias del FROM/JOIN.
+
+    El LLM imita el formato `tabla(col1, col2)` con el que ve el esquema y escribe `a(sr)`, que
+    SQLite interpreta como una función inexistente. Funciones reales (COUNT, CAST…) no se tocan
+    porque no son tablas ni alias de la consulta.
+    """
+    names = set()
+    for table, alias in re.findall(r"\b(?:FROM|JOIN)\s+(\w+)(?:\s+(?:AS\s+)?(\w+))?", sql, re.IGNORECASE):
+        names.add(table.lower())
+        if alias and alias.lower() not in _SQL_KEYWORDS:
+            names.add(alias.lower())
+    if not names:
+        return sql
+    return re.sub(r"\b(\w+)\(\s*(\w+)\s*\)",
+                  lambda m: f"{m.group(1)}.{m.group(2)}" if m.group(1).lower() in names else m.group(0),
+                  sql)
+
+
+# Vistas de alcance: article mezcla artículos del corpus (ismainarticle = 1) con las referencias que
+# citan (= 0). El LLM no filtra de forma estable, así que por defecto article se lee como corpus_articles.
+SCOPE_VIEWS = {
+    "corpus_articles":    "SELECT * FROM Article WHERE ismainarticle = 1",
+    "reference_articles": "SELECT * FROM Article WHERE ismainarticle = 0",
+}
+
+
+def scope_to_corpus(sql: str) -> str:
+    """
+    Si la consulta no menciona ismainarticle, lee `article` como la vista `corpus_articles`
+    (solo artículos principales). Se conserva el nombre como alias para que `article.sr` siga valiendo.
+    Si el LLM filtra ismainarticle (= 1 o = 0), se respeta tal cual.
+    """
+    if re.search(r"ismainarticle", sql, re.IGNORECASE):
+        return sql
+
+    def swap(m: re.Match) -> str:
+        kw, rest, alias = m.group(1), m.group(2) or "", m.group(3)
+        if alias and alias.lower() not in _SQL_KEYWORDS:
+            return f"{kw} corpus_articles{rest}"
+        return f"{kw} corpus_articles AS article{rest}"
+
+    return re.sub(r"(FROM|JOIN)\s+article(?!\w)(\s+(?:AS\s+)?(\w+))?", swap, sql, flags=re.IGNORECASE)
+
+
+_CLAUSES = re.compile(r"\b(SELECT|FROM|WHERE|GROUP\s+BY|HAVING|ORDER\s+BY|LIMIT|UNION)\b", re.IGNORECASE)
+_AGG = r"\b(?:SUM|AVG|COUNT|MAX|MIN)\s*\((?:[^()]|\([^()]*\))*\)(?:\s+AS\s+\w+)?"
+
+
+def _top_level_clauses(sql: str) -> dict[str, str] | None:
+    """Parte un SELECT en sus cláusulas del nivel exterior (ignora subconsultas y texto entre comillas)."""
+    masked = re.sub(r"'[^']*'", lambda m: "'" + "_" * (len(m.group()) - 2) + "'", sql)
+    depth, depths = 0, []
+    for ch in masked:
+        depth += (ch == "(") - (ch == ")")
+        depths.append(depth)
+    found = [(re.sub(r"\s+", " ", m.group(1).upper()), m.start(), m.end())
+             for m in _CLAUSES.finditer(masked) if depths[m.start()] == 0]
+    out: dict[str, str] = {}
+    for i, (kw, _, end) in enumerate(found):
+        stop = found[i + 1][1] if i + 1 < len(found) else len(sql)
+        if kw in out:
+            return None
+        out[kw] = sql[end:stop].strip().rstrip(";").strip()
+    return out
+
+
+def dedupe_fanout(sql: str) -> str:
+    """
+    Evita contar o sumar varias veces el mismo artículo cuando se une con tablas hijas
+    (affiliation, articleauthor, author…: un artículo tiene varias filas en cada una).
+
+    - Con GROUP BY: COUNT(*) / COUNT(1) / COUNT(alias.sr) pasa a COUNT(DISTINCT alias.sr).
+    - Sin GROUP BY y con solo agregados sobre columnas del artículo (SUM de citas, AVG…): se calculan
+      sobre los artículos que cumplen las condiciones (semi-join `sr IN (…)`), cada uno una sola vez.
+    Lo que ya usa COUNT(DISTINCT …) o agrega columnas de otras tablas no se toca.
+    """
+    if not re.search(r"\bJOIN\b", sql, re.IGNORECASE):
+        return sql
+    c = _top_level_clauses(sql)
+    if not c or "SELECT" not in c or "FROM" not in c or "UNION" in c:
+        return sql
+    m = re.search(r"(?:^|\bJOIN\s+)(corpus_articles|reference_articles|article)(?!\w)(?:\s+(?:AS\s+)?(\w+))?",
+                  c["FROM"], re.IGNORECASE)
+    if not m:
+        return sql
+    name = m.group(1)
+    alias = m.group(2) if m.group(2) and m.group(2).lower() not in _SQL_KEYWORDS else name
+    sel = c["SELECT"]
+
+    if "GROUP BY" in c:
+        new_sel = re.sub(rf"\bCOUNT\s*\(\s*(?:\*|1|(?:{alias}\.)?sr)\s*\)", f"COUNT(DISTINCT {alias}.sr)",
+                         sel, flags=re.IGNORECASE)
+        if new_sel == sel:
+            return sql
+        c["SELECT"] = new_sel
+    else:
+        only_aggs = not re.sub(_AGG, "", sel, flags=re.IGNORECASE).strip(" ,")
+        needs_fix = re.search(r"\b(?:SUM|AVG)\s*\(|\bCOUNT\s*\((?!\s*DISTINCT)", sel, re.IGNORECASE)
+        other_tables = {t for t in re.findall(r"\b(\w+)\.", sel) if t.lower() != alias.lower()}
+        if not (only_aggs and needs_fix) or other_tables or "HAVING" in c \
+                or len(re.findall(r"\bSELECT\b", sql, re.IGNORECASE)) != 1:
+            return sql
+        where = c.get("WHERE", "")
+        scope = ("corpus_articles" if re.search(r"ismainarticle\s*=\s*(?:'1'|1)\b", where, re.IGNORECASE)
+                 else "reference_articles" if re.search(r"ismainarticle\s*=\s*(?:'0'|0)\b", where, re.IGNORECASE)
+                 else name)
+        inner = f"SELECT {alias}.sr FROM {c['FROM']}" + (f" WHERE {where}" if where else "")
+        c = {"SELECT": sel, "FROM": f"{scope} AS {alias}", "WHERE": f"{alias}.sr IN ({inner})",
+             **{k: v for k, v in c.items() if k in ("ORDER BY", "LIMIT")}}
+
+    return " ".join(f"{kw} {body}" for kw, body in c.items())
+
+
 def clean_sql(sql: str) -> str:
     """
     Limpia el SQL extraído de la respuesta del LLM.
@@ -97,8 +218,11 @@ def clean_sql(sql: str) -> str:
     sql = sql.strip()
     sql = sql.rstrip(";") + ";"  # Normalizar punto y coma al final
     sql = re.sub(r"\s+", " ", sql)  # Colapsar espacios múltiples
+    sql = repair_column_refs(sql)
+    sql = scope_to_corpus(sql)
+    sql = dedupe_fanout(sql)
 
-    return sql
+    return sql.rstrip(";").strip() + ";"
 
 
 def execute_sql(sql: str, db_path: str = DB_PATH) -> SQLResult:
@@ -150,6 +274,8 @@ def execute_sql(sql: str, db_path: str = DB_PATH) -> SQLResult:
     try:
         conn = sqlite3.connect(db_path)
         conn.row_factory = sqlite3.Row  # Resultados como diccionarios
+        for name, body in SCOPE_VIEWS.items():  # vistas temporales: valen también para BDs ya creadas
+            conn.execute(f"CREATE TEMP VIEW IF NOT EXISTS {name} AS {body}")
         cursor = conn.execute(sql_clean)
 
         # Obtener nombres de columnas

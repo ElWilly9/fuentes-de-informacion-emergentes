@@ -1,0 +1,9 @@
+Modelo: glm4:9b | 6 preguntas
+  Q04 [SQL puro] ruta=sql ok=True (57.2s)
+  Q09 [SQL puro] ruta=sql ok=True (35.5s)
+  Q13 [Híbrida] ruta=sql ok=True (50.9s)
+  Q16 [Híbrida] ruta=hybrid ok=True (66.7s)
+  Q26 [RAG puro] ruta=rag ok=True (51.1s)
+  Q29 [RAG puro] ruta=rag ok=True (56.2s)
+
+Guardado en benchmark\agrovoltaics\results\respuestas_preguntas_scopus_32_20261008_113716_glm4-9b.md y .json

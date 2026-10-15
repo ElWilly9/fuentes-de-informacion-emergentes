@@ -65,10 +65,11 @@ def index_abstracts(
     conn = sqlite3.connect(db_path)
     conn.row_factory = sqlite3.Row
     rows = conn.execute("""
-        SELECT SR, title, abstract, author_keywords
+        SELECT SR, title, abstract, author_keywords, ismainarticle
         FROM Article
         WHERE (abstract IS NOT NULL AND abstract != '')
            OR (author_keywords IS NOT NULL AND author_keywords != '')
+        ORDER BY ismainarticle DESC  -- con SR repetido, se queda el artículo principal
     """).fetchall()
     conn.close()
 
@@ -105,6 +106,7 @@ def index_abstracts(
             "title":         str(art.get("title", ""))[:200],
             "year":          "N/A", # Metadatos simplificados
             "source_title":  str(art.get("source_title", "")),
+            "ismainarticle": int(art.get("ismainarticle") or 0),
         })
 
     # Indexar en batches

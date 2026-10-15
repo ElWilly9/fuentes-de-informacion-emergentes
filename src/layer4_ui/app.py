@@ -165,10 +165,18 @@ if st.session_state.app_state == "SETUP":
     with col2:
         st.image("https://img.icons8.com/clouds/500/database.png", width=300)
 else:
+    vista = st.segmented_control("Vista", ["💬 Chat", "🕸️ Red del corpus"], default="💬 Chat", required=True,
+                                 key="vista", label_visibility="collapsed")
+    if vista == "🕸️ Red del corpus":
+        from src.layer4_ui.network_tab import render_network_view
+        render_network_view(get_session_paths(st.session_state.current_session)["db"])
+        st.stop()
+
     st.title(f"📚 Chat: {st.session_state.current_session}")
     st.markdown("""
         Haz preguntas en lenguaje natural sobre tu corpus bibliométrico.
-        El sistema decidirá si usar **SQL** (para estadísticas), **RAG** (para conceptos) o un enfoque **Híbrido**.
+        El sistema decidirá si usar **SQL** (para estadísticas), **RAG** (para conceptos), un enfoque **Híbrido**
+        o un **análisis de redes** (frentes de investigación, autores puente, tendencias y pronósticos).
     """)
 
     # Initialize chat history
@@ -184,6 +192,9 @@ else:
             if "rag" in message:
                 with st.expander("📚 Fuentes RAG"):
                     st.markdown(message["rag"])
+            if "network" in message:
+                with st.expander("🕸️ Análisis de redes calculado"):
+                    st.text(message["network"])
 
     # Chat input
     if prompt := st.chat_input("Ej: ¿Quién es el autor más citado?"):
@@ -199,7 +210,9 @@ else:
                     if i+1 < len(st.session_state.messages):
                         proper_history.append({
                             "question": st.session_state.messages[i]["content"],
-                            "answer": st.session_state.messages[i+1]["content"]
+                            "answer": st.session_state.messages[i+1]["content"],
+                            # Artículos que se mostraron en ese turno (para "de esos cinco…")
+                            "articles": st.session_state.messages[i+1].get("articles", []),
                         })
 
                 try:
@@ -217,6 +230,7 @@ else:
                     answer = result.get("answer", "No pude generar una respuesta.")
                     sql = result.get("sql_visible", "")
                     rag_results = result.get("rag_results", [])
+                    network = result.get("network_context", "")
 
                     st.markdown(answer)
                     if sql:
@@ -225,10 +239,15 @@ else:
                         with st.expander("📚 Fuentes RAG"):
                             for res in rag_results:
                                 st.markdown(f"- {res}")
+                    if network:
+                        with st.expander("🕸️ Análisis de redes calculado"):
+                            st.text(network)
 
                     msg_data = {"role": "assistant", "content": answer}
                     if sql: msg_data["sql"] = sql
                     if rag_results: msg_data["rag"] = "\n".join([f"- {r}" for r in rag_results])
+                    if network: msg_data["network"] = network
+                    msg_data["articles"] = result.get("articles_shown", [])
                     st.session_state.messages.append(msg_data)
 
                 except Exception as e:

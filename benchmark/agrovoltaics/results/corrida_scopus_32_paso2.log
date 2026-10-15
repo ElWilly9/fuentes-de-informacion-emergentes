@@ -1,0 +1,62 @@
+Modelo: glm4:9b | 32 preguntas
+  Q01 [SQL puro] ruta=sql ok=True (36.8s)
+  Q02 [SQL puro] ruta=sql ok=True (31.1s)
+  Q03 [SQL puro] ruta=sql ok=True (32.0s)
+  Q04 [SQL puro] ruta=sql ok=True (45.7s)
+  Q05 [SQL puro] ruta=sql ok=True (34.7s)
+  Q06 [SQL puro] ruta=sql ok=True (33.1s)
+  Q07 [SQL puro] ruta=sql ok=False (43.4s)
+  Q08 [SQL puro] ruta=sql ok=True (31.7s)
+  Q09 [SQL puro] ruta=sql ok=True (36.2s)
+  Q10 [SQL puro] ruta=sql ok=True (34.8s)
+  Q11 [SQL puro] ruta=sql ok=True (42.2s)
+  Q12 [SQL puro] ruta=sql ok=True (31.1s)
+  Q13 [Híbrida] ruta=sql ok=True (48.8s)
+  Q14 [Híbrida] ruta=sql ok=False (56.7s)
+  Q15 [Híbrida] ruta=hybrid ok=True (57.0s)
+      Intento 1/3: corrigiendo SQL...
+      Error: Error SQLite: no such column: aa.affiliation
+      Intento 2/3: corrigiendo SQL...
+      Error: Error SQLite: no such column: aa.affiliation
+      Intento 3/3: corrigiendo SQL...
+      Error: Error SQLite: no such column: aa.affiliation
+      No se pudo corregir después de 3 intentos
+  Q16 [Híbrida] ruta=hybrid ok=True (102.3s)
+      Intento 1/3: corrigiendo SQL...
+      Error: Error SQLite: no such column: casted_by
+      SQL corregido exitosamente en intento 1
+  Q17 [Híbrida] ruta=hybrid ok=True (50.6s)
+  Q18 [Híbrida] ruta=hybrid ok=True (139.1s)
+  Q19 [Híbrida] ruta=hybrid ok=True (104.8s)
+  Q20 [Híbrida] ruta=hybrid ok=True (86.5s)
+      Intento 1/3: corrigiendo SQL...
+      Error: Error SQLite: no such table: source_title
+      Intento 2/3: corrigiendo SQL...
+      Error: Error SQLite: no such table: source_title
+      Intento 3/3: corrigiendo SQL...
+      Error: Error SQLite: no such table: source_title
+      No se pudo corregir después de 3 intentos
+  Q21 [Híbrida] ruta=hybrid ok=True (106.1s)
+  Q22 [Híbrida] ruta=hybrid ok=True (78.3s)
+      Intento 1/3: corrigiendo SQL...
+      Error: Error SQLite: no such table: author_keywords
+      SQL corregido exitosamente en intento 1
+  Q23 [RAG puro] ruta=hybrid ok=True (70.4s)
+      Intento 1/3: corrigiendo SQL...
+      Error: Error SQLite: ambiguous column name: title
+      Intento 2/3: corrigiendo SQL...
+      Error: Error SQLite: ambiguous column name: title
+      Intento 3/3: corrigiendo SQL...
+      Error: Error SQLite: ambiguous column name: title
+      No se pudo corregir después de 3 intentos
+  Q24 [RAG puro] ruta=hybrid ok=True (92.6s)
+  Q25 [RAG puro] ruta=rag ok=True (44.7s)
+  Q26 [RAG puro] ruta=rag ok=True (41.1s)
+  Q27 [RAG puro] ruta=hybrid ok=True (57.4s)
+  Q28 [RAG puro] ruta=rag ok=True (40.5s)
+  Q29 [RAG puro] ruta=rag ok=True (36.3s)
+  Q30 [RAG puro] ruta=rag ok=True (32.7s)
+  Q31 [RAG puro] ruta=rag ok=True (33.2s)
+  Q32 [RAG puro] ruta=hybrid ok=True (89.0s)
+
+Guardado en benchmark\agrovoltaics\results\respuestas_preguntas_scopus_32_20261008_095238_glm4-9b.md y .json

@@ -216,26 +216,6 @@ SCHEMA_DOCUMENTS = [
             "keywords": "tree of science raiz tronco hoja fundacional frontera robledo algoritmo"
         }
     },
-    {
-        "id":    "table_egosauthors",
-        "table": "egosauthors",
-        "text": (
-            "Tabla egosauthors: red de coautoría entre investigadores del corpus. "
-            "Columnas: Source (autor origen), Target (autor destino), "
-            "Type (tipo de relación, generalmente 'Undirected'), "
-            "Weight (peso del enlace = número de papers coautorados juntos). "
-            "Usar para: analizar redes de colaboración, "
-            "encontrar pares de autores que más colaboran, "
-            "identificar autores centrales en la red de coautoría, "
-            "análisis de ego-networks."
-        ),
-        "metadata": {
-            "table": "egosauthors",
-            "pk": "Source,Target",
-            "type": "network",
-            "keywords": "coautoria red colaboracion autores peso enlace network"
-        }
-    },
 ]
 
 # ─────────────────────────────────────────────────────────────────────────────

@@ -55,7 +55,23 @@ def _build_schema_text(ctx: SchemaContext) -> str:
     lines = []
     for table in ctx.relevant_tables:
         cols = ctx.relevant_columns.get(table, [])
-        lines.append(f"  {table}({', '.join(cols)})")
+        # "tabla: col, col" y no "tabla(col, col)": con paréntesis el LLM escribía alias(columna)
+        lines.append(f"  {table}: {', '.join(cols)}")
+
+    if "ismainarticle" in ctx.relevant_columns.get("article", []):
+        lines.append("")
+        lines.append("SIGNIFICADO DE COLUMNAS:")
+        lines.append("  article.ismainarticle: 1 = artículo principal del corpus (los que se analizan); "
+                     "0 = referencia citada por esos artículos. La tabla article mezcla ambos: cuando la "
+                     "pregunta habla del corpus o de 'los artículos' (conteos, rankings, años, países, autores, "
+                     "revistas) filtra article.ismainarticle = 1, salvo que pida explícitamente las referencias. "
+                     "(Si olvidas el filtro, el sistema limita article a los artículos principales.)")
+
+    if getattr(ctx, "value_hints", None):
+        lines.append("")
+        lines.append("CÓMO ESTÁN ESCRITOS LOS VALORES DE TEXTO:")
+        for hint in ctx.value_hints:
+            lines.append(f"  {hint}")
 
     if ctx.foreign_keys:
         lines.append("")
