@@ -27,6 +27,10 @@ DB_PATH   = os.getenv("DB_PATH", "data/db/bibliometria.db")
 # Los abstracts del corpus están en inglés: con la pregunta en español, nomic-embed-text puntúa más alto
 # cualquier texto en español. Medido en Q23–Q31: artículo esperado 1.º en 2/9 (español) vs 9/9 (inglés).
 RAG_TRANSLATE_QUERY = os.getenv("RAG_TRANSLATE_QUERY", "1") == "1"
+# Los abstracts van completos (antes se cortaban a 300 caracteres: en WikiEval eso dejaba la respuesta fuera
+# del contexto). Solo si entre todos pasan este total se recortan por igual, para no superar el contexto de
+# 8.192 tokens con el que Ollama carga glm4 (si se supera, recorta el principio del prompt sin avisar).
+RAG_CONTEXT_BUDGET = int(os.getenv("RAG_CONTEXT_BUDGET", "20000"))
 
 TRANSLATE_PROMPT = """Translate the user's question into English so it can be used as a semantic
 search query over English scientific abstracts. Keep technical terms, names, places and numbers.
@@ -257,6 +261,9 @@ def format_rag_context(rag_result: RAGResult) -> str:
     if not rag_result.success or not rag_result.articles:
         return "(sin resultados de búsqueda semántica)"
 
+    total = sum(len(a.get("abstract") or "") for a in rag_result.articles)
+    per_article = None if total <= RAG_CONTEXT_BUDGET else max(300, RAG_CONTEXT_BUDGET // len(rag_result.articles))
+
     lines = []
     for art in rag_result.articles:
         origen = {"principal": " [ARTÍCULO PRINCIPAL DEL CORPUS]",
@@ -277,7 +284,9 @@ def format_rag_context(rag_result: RAGResult) -> str:
 
         abstract = art.get("abstract", "")
         if abstract:
-            lines.append(f"Abstract: {abstract[:300]}...")
+            if per_article and len(abstract) > per_article:
+                abstract = abstract[:per_article] + "..."
+            lines.append(f"Abstract: {abstract}")
 
         lines.append("")
 

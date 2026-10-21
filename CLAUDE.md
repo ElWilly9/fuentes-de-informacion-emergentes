@@ -43,8 +43,51 @@ procesados con el algoritmo de Robledo / Tree of Science) decidiendo entre SQL, 
 - RAG se evalúa con RAGAS/DeepEval y SQL con BIRD/Spider (EX). **No existe** una herramienta que
   unifique ambas. El antecedente más cercano es Vu, Minh & The, "Academic Query Orchestration: An AI
   Agent Framework Utilizing RAG and Text-to-SQL" (Springer CCIS 2943, ICCIES 2026,
-  doi 10.1007/978-3-032-21625-0_6): reportan tres bloques por separado (SQL / RAG / híbrido propio).
-  Se redactó una carta pidiéndoles detalles de su benchmark híbrido; aún sin respuesta.
+  doi 10.1007/978-3-032-21625-0_6). Leído completo (2026-10-15): Gemini 2.5 Pro/Flash; evalúan solo por
+  separado: RAG con WikiEval + 4 métricas RAGAS, multi-hop con HotpotQA (EM/F1), SQL con Spider (EX/EM, modelo
+  solo vs. dentro del agente: Pro 77,8→80,0 %). **No hay benchmark híbrido en los experimentos** (el resumen
+  lo menciona; lo híbrido solo aparece en 3 ejemplos cualitativos). Tampoco reportan acierto de ruta,
+  ablaciones ni latencia. Su Tabla 5 compara contra Antal & Buza 2025 (RAGAS sobre resúmenes de tesis,
+  doi 10.1007/s44427-025-00006-3), otro corpus. Se redactó una carta pidiéndoles detalles de su benchmark
+  híbrido; aún sin respuesta.
+- (2026-10-15, pedido por William) **Réplica de las pruebas de Vu et al.** en `benchmark/externos/` (WikiEval → HotpotQA →
+  Spider). RAGAS 0.4.3 instalado en el `.venv` **sin `scikit-network`** (no compila en Python 3.14; solo se usa para generar
+  testsets) y con un shim de `ChatVertexAI` dentro del script (langchain-community 0.4 lo quitó). `wikieval/run_wikieval.py`:
+  las 50 páginas en una colección Chroma aparte, nuestro retriever (top-5) + prompt de `node_rag_search` en inglés; config
+  `tal_cual` (con el corte a 300 caracteres de `format_rag_context`) y `completo` (pasaje entero, num_ctx 16384). Juez RAGAS
+  glm4:9b (local, ~2 min/pregunta, se evalúa a sí mismo), `gpt-oss:120b-cloud` (Ollama, ~1 min/pregunta, máx. 3 en
+  paralelo: con 8 da 429) o Google AI Studio por el endpoint OpenAI (`GEMINI_API_KEY` en `.env`, ya ignorado por git;
+  nivel gratuito: Gemini 3.8 Flash 5 RPM/20 RPD, inútil; Gemma 4 31B 14.400 RPD pero ~7 min/pregunta). Resultados en
+  `wikieval/RESULTADOS.md`: con el texto completo (B) y juez gpt-oss: faithfulness 0,957 · answer relevancy 0,957 ·
+  context precision 1,0 · context recall 0,981 (Vu et al. Flash: 0,981/0,901/0,817/0,978). Con el corte de 300 (A):
+  0,818/0,784/0,680/0,349. **Hallazgo**: `format_rag_context` cortaba cada abstract a 300 caracteres también en el agente
+  real; explicaba casi toda la caída.
+- [x] (2026-10-16, aprobado por William) `format_rag_context` pasa el **abstract completo**; solo si entre todos superan
+  `RAG_CONTEXT_BUDGET` (20.000 caracteres) se recortan por igual. Motivo del tope: Ollama carga glm4 con num_ctx 8192 por
+  defecto y recorta el principio del prompt sin avisar; no se subió num_ctx porque cambiarlo solo en algunas llamadas hace
+  que Ollama recargue el modelo. Abstracts principales: Agrovoltaics media 1.673 / máx. 3.766 caracteres. Q26 sigue mal:
+  la recuperación pone el artículo esperado 1.º, pero glm4 responde con el 2.º (fallo de generación, no tocado).
+  **Corrida 5** (`respuestas_preguntas_scopus_32_20261016_120734`, nota en `results/evaluacion_scopus_32_20261016_corrida5.md`):
+  SQL 4,50 · híbridas 3,30 · RAG 3,90 · total 3,94 (corrida 4: 3,88). Mejoran en detalle Q15, Q18, Q24, Q25, Q28, Q31;
+  empeoran Q26 y Q29 porque glm4 responde con otro artículo aunque el correcto sale 1.º en la recuperación, y Q19.
+  Una sola corrida: la diferencia está dentro de la variación esperable.
+- (2026-10-16) **HotpotQA preparado**: `hotpotqa/run_hotpotqa.py` + `data/hotpot_dev_distractor.parquet` (Hugging Face
+  `hotpotqa/hotpot_qa`, 7.405 preguntas; el servidor de CMU no respondía). Los 10 párrafos de cada pregunta en una
+  colección Chroma en memoria con nuestro embedder, top-5, `format_rag_context`, glm4 con prompt en inglés + respuesta
+  corta; EM/F1/P/R oficiales + párrafos de apoyo en el top-k. ~10 s/pregunta. Correr:
+  `python benchmark/externos/hotpotqa/run_hotpotqa.py --n 300` (semilla 42, retoma si se corta). **Corrido 2026-10-16**
+  (`hotpotqa/RESULTADOS.md`): n = 300, EM 0,457 · F1 0,563 · P 0,576 · R 0,566 (AQO Flash 0,602/0,733; Pro 0,631/0,759).
+  Puente EM 0,426, comparación 0,636. Los 2 párrafos de apoyo en el top-5: 81 %; con ambos EM 0,508, sin alguno 0,232 →
+  la brecha viene sobre todo de la búsqueda en un solo paso (AQO descompone y reintenta). 52 respuestas parciales (F1>0, EM=0).
+- (2026-10-16) **Spider** (`spider/run_spider.py`, `spider/RESULTADOS.md`): dev, 300 preguntas (semilla 42), BD del zip oficial
+  en `spider/data/` (205 MB, ignorado por git), evaluador oficial test-suite-sql-eval en `spider/eval_oficial/` (necesita `nltk`).
+  glm4 solo (prompt zero-shot en inglés con CREATE TABLE): **EX 0,690 · EM 0,203**. glm4 dentro del flujo SQL del agente
+  (prompts y funciones sin tocar; esquema completo en vez de la Capa 1): **EX 0,593 · EM 0,107** (Vu et al.: Pro 0,778→0,800).
+  El agente empeora por reglas de dominio del prompt: `LIMIT 10` por defecto (111/300 consultas; sin él, EX 0,637
+  contrafactual), `CAST` de year/cited_by (50), `LIKE`; refine rescata 3 de 30. Propuesta sin aplicar: reglas de dominio
+  solo para el esquema bibliométrico y tipos de columna en el esquema.
+- Observaciones sobre la metodología de Vu et al. para el paper (juez de RAGAS no especificado, sin benchmark híbrido,
+  Tabla 5 con otro corpus, EM > EX…): `benchmark/externos/NOTAS_PAPER_vu2026.md`.
 - Datasets útiles: ScienceBenchmark/CORDIS (VLDB 2024), DBLP-QuAD (plantillas de preguntas), HeteQA
   (plantilla para set híbrido).
 - Modelos candidatos para mejorar SQL: Arctic-Text2SQL-R1-7B (GGUF, importable a Ollama). Según
@@ -235,6 +278,23 @@ Para citas, el Word coincide tomando el máximo entre Scopus y WoS. El agente no
     `results/prueba_capa5_Agrovoltaics_20261014_201010.md`: cifras correctas en las 7. Agrovoltaics: 4 frentes (secado
     solar/invernaderos 21 art., agrovoltaica/sombreado 7, biogás 5, Anaplasma 3 = señal débil), ningún autor puente,
     ARIMA(1,1,0) del total: 2025 13,5 (10,9–16,1). Agrovoltaica: 7 artículos, +88 %/año, emergente, sin ARIMA (serie corta).
+  - (2026-10-20, pedido por William) **Diagnóstico del ARIMA** (`benchmark/series_tiempo/diagnostico_arima.py`,
+    `RESULTADOS.md`), serie Agrovoltaics 2007–2024: ADF/KPSS → nivel no estacionario; 1.ª diferencia en el límite
+    (ADF p 0,10, KPSS p 0,054); 2.ª diferencia estacionaria; en log(1+y) basta d = 1. Fuera de muestra (2022–2024 y
+    origen móvil desde 2016): el modelo actual (AIC con d ≤ 1 → ARIMA(1,1,0)) apenas mejora al ingenuo (MAE 2,80 vs 2,90),
+    subestima (sesgo +2,6) y su IC 95 % cubre el 67 %; **ARIMA(0,2,0)** MAE 2,00, sesgo +1,33, cobertura 95 %, residuos
+    compatibles con ruido blanco (Ljung-Box, JB, Shapiro, heterocedasticidad; todos los candidatos pasan, n = 16–17).
+    **Repetido en `ai` y `pendulo` + log(1+y) (sección 5 del informe): ARIMA(0,2,0) NO generaliza** (pendulo ×1,59 el
+    ingenuo, pronostica 10→5→0; ai peor que el ingenuo en el corte 2023–25). Los errores del agente se repiten en los 3
+    corpus (= ingenuo ×1,00–1,02, subestima, IC 30–38 % en los que aceleran). En conteos `ai` tiene residuos
+    heterocedásticos; en log todos pasan. En log, ADF/KPSS coinciden en d = 1 en los 3 (d = 2 en log da MA = −1:
+    sobrediferenciación). Más coherente: **log(1+y) ARIMA(0,1,0)/(1,1,0) con deriva impuesta** (×0,87 / ×0,71 / ×1,03–1,08;
+    el AICc quita la deriva y vuelve al ingenuo); IC muy anchos. Poisson es la referencia más regular (×0,76–0,90).
+  - [x] (2026-10-20, aprobado) `trends.arima_forecast` = **log(1+y) ARIMA(p,1,q) con deriva fija, p,q ≤ 1 por AICc**,
+    pronóstico e IC con expm1; devuelve `aicc` y `drift_growth` (ya no `aic`); `context.py` actualizado. Elige (0,1,0)
+    en los 3 corpus. Origen móvil: ×0,88 / ×0,78 / ×1,08 el ingenuo (antes ×1,00 / ×1,01 / ×1,02). Sección 6 del informe.
+    Ojo: la deriva (+9,5 %/año en Agrovoltaics) no coincide con el crecimiento de Poisson (+22 %): la deriva solo
+    depende del primer y último año; Poisson ajusta toda la serie.
   - Pendiente: preguntas con respuesta esperada para la Capa 5 en el benchmark; probar en `ai`/`pendulo`;
     validar los frentes contra las ramas del Tree of Science con una medida (p. ej. NMI).
 - [x] (2026-10-14) **Visor de redes en la UI** (pedido por William): la app tiene arriba un selector "💬 Chat / 🕸️ Red

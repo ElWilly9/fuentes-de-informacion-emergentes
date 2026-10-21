@@ -1,0 +1,780 @@
+<title>Pronóstico de publicaciones con ARIMA</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&display=swap">
+<style>
+/* Layout: informe técnico de una columna (~70 caracteres) con índice fijo a la izquierda en pantallas anchas;
+   las definiciones van en recuadros al margen del texto, las fórmulas en bloques de laboratorio. */
+:root {
+  --bg: #f5f7fa;
+  --surface: #ffffff;
+  --ink: #131821;
+  --ink-2: #485164;
+  --muted: #6a7385;
+  --rule: #dce1e9;
+  --accent: #1f5fb8;
+  --def-bg: #edf3fc;
+  --def-rule: #b9cff0;
+  --warn-bg: #fcf3e6;
+  --warn-rule: #ecc98f;
+  --ok-bg: #e9f6f0;
+  --ok-rule: #a8dbc3;
+  --code-bg: #eef1f6;
+  /* series de las gráficas (paleta validada: CVD y contraste) */
+  --s-nuevo: #2a78d6;
+  --s-anterior: #eb6834;
+  --s-a020: #1baf7a;
+  --s-poisson: #eda100;
+  --s-obs: #2d3442;
+  --grid: #e6e9ef;
+  --font-display: "Source Serif 4", Georgia, "Times New Roman", serif;
+  --font-body: "IBM Plex Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #11141a; --surface: #191d25; --ink: #e8ecf3; --ink-2: #b3bccb; --muted: #8a93a4; --rule: #2b313c;
+    --accent: #7eaaf0; --def-bg: #17223a; --def-rule: #2e4572; --warn-bg: #2a2216; --warn-rule: #6b5124;
+    --ok-bg: #132720; --ok-rule: #2a5a46; --code-bg: #1f242e;
+    --s-nuevo: #3987e5; --s-anterior: #d95926; --s-a020: #199e70; --s-poisson: #c98500; --s-obs: #d5dbe6; --grid: #262c37;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #11141a; --surface: #191d25; --ink: #e8ecf3; --ink-2: #b3bccb; --muted: #8a93a4; --rule: #2b313c;
+  --accent: #7eaaf0; --def-bg: #17223a; --def-rule: #2e4572; --warn-bg: #2a2216; --warn-rule: #6b5124;
+  --ok-bg: #132720; --ok-rule: #2a5a46; --code-bg: #1f242e;
+  --s-nuevo: #3987e5; --s-anterior: #d95926; --s-a020: #199e70; --s-poisson: #c98500; --s-obs: #d5dbe6; --grid: #262c37;
+  color-scheme: dark;
+}
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 16.5px; line-height: 1.62; }
+.wrap { max-width: 1180px; margin: 0 auto; padding-block: 40px 80px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: grid; grid-template-columns: 1fr; gap: 40px; }
+@media (min-width: 1040px) { .wrap { grid-template-columns: 220px minmax(0, 1fr); } }
+nav.toc { display: none; }
+@media (min-width: 1040px) {
+  nav.toc { display: block; position: sticky; top: calc(env(safe-area-inset-top, 0px) + 24px); align-self: start;
+    font-size: 13.5px; line-height: 1.4; }
+}
+nav.toc p { font-size: 11.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0 0 10px; font-weight: 600; }
+nav.toc ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 7px; counter-reset: t; }
+nav.toc li { counter-increment: t; display: grid; grid-template-columns: 22px 1fr; }
+nav.toc li::before { content: counter(t); color: var(--muted); font-family: var(--font-mono); font-size: 12px; }
+nav.toc a { color: var(--ink-2); text-decoration: none; }
+nav.toc a:hover, nav.toc a:focus-visible { color: var(--accent); text-decoration: underline; }
+main { min-width: 0; max-width: 780px; }
+header.hero { display: grid; gap: 14px; padding-bottom: 28px; border-bottom: 1px solid var(--rule); margin-bottom: 8px; }
+.eyebrow { font-size: 12px; letter-spacing: .09em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+h1 { font-family: var(--font-display); font-weight: 700; font-size: clamp(2rem, 4.6vw, 2.9rem); line-height: 1.1; margin: 0; text-wrap: balance; letter-spacing: -.01em; }
+.lead { font-size: 1.12rem; color: var(--ink-2); margin: 0; max-width: 68ch; }
+h2 { font-family: var(--font-display); font-weight: 600; font-size: 1.72rem; line-height: 1.2; margin: 0; text-wrap: balance; }
+h3 { font-size: 1.06rem; font-weight: 600; margin: 8px 0 0; }
+section { display: grid; gap: 16px; padding-top: 44px; scroll-margin-top: 20px; }
+section > p, section > ul, section > ol { margin: 0; max-width: 68ch; }
+.secnum { font-family: var(--font-mono); font-size: 13px; color: var(--accent); letter-spacing: .04em; }
+.sechead { display: grid; gap: 4px; }
+a { color: var(--accent); }
+strong { font-weight: 600; }
+ul, ol { padding-left: 1.3em; }
+li + li { margin-top: 5px; }
+.glance { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 20px 22px; display: grid; gap: 12px; }
+.glance h2 { font-size: 1.15rem; font-family: var(--font-body); font-weight: 600; }
+.glance ol { margin: 0; display: grid; gap: 8px; }
+.glance li + li { margin-top: 0; }
+.box { border-left: 3px solid var(--def-rule); background: var(--def-bg); padding: 12px 16px; border-radius: 0 8px 8px 0; display: grid; gap: 6px; max-width: 68ch; }
+.box p { margin: 0; }
+.box .tag { font-size: 11.5px; letter-spacing: .08em; text-transform: uppercase; font-weight: 600; color: var(--accent); }
+.box.warn { border-color: var(--warn-rule); background: var(--warn-bg); }
+.box.warn .tag { color: var(--ink-2); }
+.box.ok { border-color: var(--ok-rule); background: var(--ok-bg); }
+.box.ok .tag { color: var(--ink-2); }
+.defs { display: grid; gap: 10px; grid-template-columns: 1fr; }
+@media (min-width: 720px) { .defs.two { grid-template-columns: 1fr 1fr; } }
+.defs .box { max-width: none; }
+.formula { font-family: var(--font-mono); background: var(--code-bg); border-radius: 8px; padding: 14px 18px; font-size: 15px;
+  line-height: 1.75; overflow-x: auto; color: var(--ink); max-width: 68ch; }
+.formula .c { color: var(--muted); font-family: var(--font-body); font-size: 13.5px; }
+.formula b { font-weight: 500; color: var(--accent); }
+code { font-family: var(--font-mono); font-size: .9em; background: var(--code-bg); padding: 1px 5px; border-radius: 4px; }
+.tablewrap { overflow-x: auto; border: 1px solid var(--rule); border-radius: 10px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: 14.5px; font-variant-numeric: tabular-nums; }
+caption { caption-side: top; text-align: left; padding: 12px 14px 4px; font-weight: 600; font-size: 14px; color: var(--ink); }
+th, td { padding: 8px 12px; text-align: left; border-bottom: 1px solid var(--rule); vertical-align: top; }
+thead th { font-size: 12px; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); font-weight: 600; background: var(--surface); }
+tbody tr:last-child td { border-bottom: 0; }
+td.n, th.n { text-align: right; white-space: nowrap; }
+tr.hl td { background: var(--def-bg); }
+.pill { display: inline-block; font-size: 12px; font-weight: 600; padding: 1px 8px; border-radius: 999px; border: 1px solid var(--rule); white-space: nowrap; }
+.pill.good { background: var(--ok-bg); border-color: var(--ok-rule); }
+.pill.bad { background: var(--warn-bg); border-color: var(--warn-rule); }
+figure { margin: 0; background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 16px 16px 12px; display: grid; gap: 10px; min-width: 0; }
+figcaption { font-size: 13.5px; color: var(--ink-2); max-width: 70ch; }
+figcaption strong { color: var(--ink); }
+.fig-title { font-weight: 600; font-size: 15px; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 13px; color: var(--ink-2); }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.sw { width: 18px; height: 3px; border-radius: 2px; display: inline-block; }
+.sw.dot { width: 10px; height: 10px; border-radius: 50%; }
+.sw.bar { width: 12px; height: 12px; border-radius: 3px; }
+.sw.band { width: 18px; height: 10px; border-radius: 2px; opacity: .25; }
+.multiples { display: grid; gap: 14px; grid-template-columns: 1fr; }
+@media (min-width: 760px) { .multiples.three { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.panel { display: grid; gap: 4px; min-width: 0; position: relative; }
+.panel h4 { margin: 0; font-size: 13.5px; font-weight: 600; }
+.panel .sub { font-size: 12px; color: var(--muted); }
+svg.chart { display: block; overflow: visible; max-width: 100%; }
+svg.chart text { font-family: var(--font-body); fill: var(--muted); font-size: 11px; }
+svg.chart .lbl { fill: var(--ink-2); font-size: 11.5px; font-weight: 500; }
+.tip { position: absolute; pointer-events: none; background: var(--surface); border: 1px solid var(--rule); border-radius: 8px;
+  box-shadow: 0 6px 20px rgba(10, 20, 40, .14); padding: 8px 10px; font-size: 12.5px; line-height: 1.45; min-width: 150px; z-index: 5;
+  font-variant-numeric: tabular-nums; color: var(--ink); }
+.tip b { font-weight: 600; }
+.tip .row { display: flex; align-items: center; gap: 6px; justify-content: space-between; }
+.tip .row span:first-child { display: inline-flex; align-items: center; gap: 6px; color: var(--ink-2); }
+.steps { list-style: none; padding: 0; margin: 0; display: grid; gap: 0; max-width: 68ch; counter-reset: s; }
+.steps li { counter-increment: s; display: grid; grid-template-columns: 34px 1fr; gap: 12px; padding: 12px 0; border-top: 1px solid var(--rule); margin: 0; }
+.steps li:first-child { border-top: 0; }
+.steps li::before { content: counter(s); font-family: var(--font-mono); font-size: 13px; color: var(--accent); border: 1px solid var(--def-rule);
+  border-radius: 50%; width: 26px; height: 26px; display: grid; place-items: center; margin-top: 1px; }
+.steps p { margin: 0; }
+dl.gloss { display: grid; grid-template-columns: 1fr; gap: 2px 18px; margin: 0; max-width: 72ch; }
+@media (min-width: 700px) { dl.gloss { grid-template-columns: 190px 1fr; } }
+dl.gloss dt { font-weight: 600; padding-top: 10px; }
+dl.gloss dd { margin: 0; color: var(--ink-2); padding-top: 10px; border-top: 1px solid var(--rule); }
+@media (min-width: 700px) { dl.gloss dt { border-top: 1px solid var(--rule); } }
+footer { margin-top: 56px; padding-top: 18px; border-top: 1px solid var(--rule); font-size: 13px; color: var(--muted); display: grid; gap: 6px; }
+footer code { font-size: 12px; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+</style>
+
+<div class="wrap">
+<nav class="toc" aria-label="Índice">
+  <p>Contenido</p>
+  <ol>
+    <li><a href="#pregunta">La pregunta</a></li>
+    <li><a href="#herramientas">Crecimiento y pronóstico</a></li>
+    <li><a href="#inicio">El método original</a></li>
+    <li><a href="#estacionariedad">¿Hay que diferenciar?</a></li>
+    <li><a href="#validacion">Probar con datos no vistos</a></li>
+    <li><a href="#residuos">¿Los residuos son ruido?</a></li>
+    <li><a href="#problemas">Los problemas</a></li>
+    <li><a href="#decision">Cómo elegimos</a></li>
+    <li><a href="#cambios">Los cinco cambios</a></li>
+    <li><a href="#modelo">El modelo, en álgebra</a></li>
+    <li><a href="#limites">Límites</a></li>
+    <li><a href="#glosario">Glosario</a></li>
+  </ol>
+</nav>
+
+<main>
+<header class="hero">
+  <div class="eyebrow">Tesis TDG · Capa 5 del agente bibliométrico · 20 de octubre de 2026</div>
+  <h1>Pronóstico de publicaciones con ARIMA</h1>
+  <p class="lead">Este reporte cuenta, de principio a fin, cómo el agente pronostica cuántos artículos se publicarán sobre un tema: por qué usamos ARIMA, qué pruebas le hicimos, qué problemas aparecieron, cómo los corregimos y por qué quedó el modelo que quedó. Cada término técnico se define la primera vez que aparece.</p>
+</header>
+
+<div class="glance" style="margin-top:28px">
+  <h2>En una mirada</h2>
+  <ol>
+    <li><strong>El método original no servía para pronosticar.</strong> En los tres corpus probados (Agrovoltaics, ai y pendulo) acertaba lo mismo que repetir el último año, se quedaba corto de forma sistemática y, en las series que crecen, su intervalo del 95&nbsp;% solo contenía el valor real 1 de cada 3 veces.</li>
+    <li><strong>Lo diagnosticamos con tres familias de pruebas:</strong> estacionariedad (ADF y KPSS), validación con datos que el modelo no vio (un corte fijo de 3 años y un origen móvil) y pruebas de ruido blanco sobre los residuos.</li>
+    <li><strong>Un primer candidato, ARIMA(0,2,0), funcionó muy bien en Agrovoltaics y mal en los otros dos corpus:</strong> en pendulo llegó a pronosticar 0 artículos para 2027. Elegir con un solo corpus fue un error que corregimos.</li>
+    <li><strong>El modelo final trabaja con el logaritmo de (1 + artículos), una diferencia y una deriva fija:</strong> supone un crecimiento porcentual constante. Las pruebas coinciden en los tres corpus, los residuos son ruido blanco y el error baja un 12&nbsp;% en Agrovoltaics y un 22&nbsp;% en ai frente al pronóstico ingenuo.</li>
+  </ol>
+</div>
+
+<!-- 1 -->
+<section id="pregunta">
+  <div class="sechead"><span class="secnum">1</span><h2>La pregunta: ¿cuántos artículos se publicarán?</h2></div>
+  <p>El agente de la tesis responde preguntas sobre un <strong>corpus bibliométrico</strong>: el conjunto de artículos científicos de un tema, exportado de Scopus. Su Capa 5 busca <strong>frentes de investigación emergentes</strong>, y para eso necesita dos cosas sobre cada tema: saber si está creciendo y estimar cuánto se publicará en los próximos años.</p>
+  <div class="defs two">
+    <div class="box"><span class="tag">Definición</span><p><strong>Serie de tiempo:</strong> una lista de mediciones ordenadas en el tiempo. Aquí, el número de artículos publicados cada año.</p></div>
+    <div class="box"><span class="tag">Definición</span><p><strong>Pronóstico:</strong> una estimación de valores futuros de la serie, acompañada de un rango de incertidumbre (el intervalo de confianza).</p></div>
+  </div>
+  <p>Trabajamos con tres corpus de prueba. Solo cuentan los artículos principales del corpus, no las referencias que citan.</p>
+  <figure>
+    <div class="fig-title">Artículos publicados por año en cada corpus</div>
+    <div class="multiples three" id="fig-series"></div>
+    <figcaption>Cada panel tiene su propia escala vertical porque los tamaños son muy distintos (ai llega a 54 artículos al año; Agrovoltaics, a 13). Pasa el cursor por las columnas para ver cada valor.</figcaption>
+  </figure>
+  <div class="tablewrap"><table>
+    <caption>Los tres corpus</caption>
+    <thead><tr><th>Corpus</th><th class="n">Años</th><th class="n">Artículos</th><th>Forma de la serie</th></tr></thead>
+    <tbody>
+      <tr><td>Agrovoltaics</td><td class="n">2007–2024 (18)</td><td class="n">65</td><td>Casi plana hasta 2019 y luego acelera: 4, 6, 9, 12, 13</td></tr>
+      <tr><td>ai</td><td class="n">2006–2025 (20)</td><td class="n">262</td><td>Acelera mucho desde 2019: 12, 12, 25, 24, 39, 52, 54</td></tr>
+      <tr><td>pendulo</td><td class="n">2006–2024 (19)</td><td class="n">153</td><td>Ruidosa, sube y baja (13 en 2012, 1 en 2015, 20 en 2023), sin aceleración clara</td></tr>
+    </tbody>
+  </table></div>
+  <p>Estas series son <strong>cortas</strong> (18 a 20 datos) y de <strong>conteos pequeños</strong>. Eso condiciona todo lo que sigue: con tan pocos datos, cualquier prueba estadística tiene poca potencia y los modelos complicados se sobreajustan con facilidad.</p>
+</section>
+
+<!-- 2 -->
+<section id="herramientas">
+  <div class="sechead"><span class="secnum">2</span><h2>Dos herramientas: una mide el crecimiento, la otra pronostica</h2></div>
+  <h3>Crecimiento: regresión de Poisson</h3>
+  <p>Para decir si un tema crece, el agente ajusta una <strong>regresión de Poisson</strong>: una curva exponencial que pasa lo más cerca posible de todos los puntos de la serie. De ella sale una tasa de crecimiento anual y un p-valor que dice si esa tendencia es real o podría ser casualidad. En Agrovoltaics da <strong>+22&nbsp;% por año</strong>, con p&nbsp;&lt;&nbsp;0,001.</p>
+  <div class="box"><span class="tag">Definición</span><p><strong>p-valor:</strong> la probabilidad de ver datos como los observados si en realidad no hubiera ningún efecto. Si es menor que 0,05, se acepta que el efecto existe (con un 5&nbsp;% de riesgo de equivocarse).</p></div>
+  <h3>Pronóstico: ARIMA</h3>
+  <p>Para el pronóstico se usa <strong>ARIMA</strong>, el modelo clásico de series de tiempo. Se eligió por tres razones: es interpretable (cada parte tiene un significado concreto), funciona con series cortas y entrega un intervalo de confianza. Prophet se descartó porque es menos interpretable y pide series más largas.</p>
+  <p>El nombre ARIMA junta tres ideas, y cada una tiene un número que la controla:</p>
+  <div class="defs">
+    <div class="box"><span class="tag">AR · autorregresivo · p</span><p>El valor de este año depende de los valores de años anteriores. Es la <strong>inercia</strong> de la serie. <em>p</em> dice cuántos años atrás se miran.</p></div>
+    <div class="box"><span class="tag">I · integrado · d</span><p>En vez de modelar el número de artículos, se modela <strong>el cambio de un año a otro</strong> (año actual menos año anterior). A eso se le llama <em>diferenciar</em>. <em>d</em> dice cuántas veces se hace: d&nbsp;=&nbsp;1 modela los cambios; d&nbsp;=&nbsp;2, los cambios de los cambios.</p></div>
+    <div class="box"><span class="tag">MA · media móvil · q</span><p>El valor de este año depende de las <strong>sorpresas</strong> de años anteriores, es decir, de lo que el modelo no logró prever. Es el <strong>eco</strong> de un año inesperado. <em>q</em> dice cuántas sorpresas pasadas cuentan.</p></div>
+    <div class="box"><span class="tag">Deriva · μ</span><p>Un término constante que se suma cada año: el <strong>crecimiento medio</strong> de la serie. Sin deriva, un modelo con d&nbsp;=&nbsp;1 pronostica que la serie se queda donde está.</p></div>
+  </div>
+  <p>Un modelo se escribe <strong>ARIMA(p,&nbsp;d,&nbsp;q)</strong>. Por ejemplo, ARIMA(1,1,0) mira los cambios anuales (d&nbsp;=&nbsp;1) y les añade un año de inercia (p&nbsp;=&nbsp;1), sin eco de sorpresas (q&nbsp;=&nbsp;0).</p>
+</section>
+
+<!-- 3 -->
+<section id="inicio">
+  <div class="sechead"><span class="secnum">3</span><h2>Cómo funcionaba al principio</h2></div>
+  <p>La primera versión de la Capa 5 elegía el modelo de forma automática con esta regla:</p>
+  <ul>
+    <li>Trabajaba directamente con los conteos de artículos.</li>
+    <li>Probaba 18 modelos: d&nbsp;=&nbsp;0 o 1, y p, q entre 0 y 2.</li>
+    <li>Se quedaba con el de menor <strong>AIC</strong>.</li>
+    <li>Solo pronosticaba si la serie tenía al menos 10 años y 20 artículos.</li>
+  </ul>
+  <div class="box"><span class="tag">Definición</span><p><strong>AIC (criterio de información de Akaike):</strong> una nota que premia que el modelo se ajuste bien a los datos y castiga cada parámetro que usa. Menor es mejor. Sirve para elegir entre modelos sin quedarse siempre con el más complicado.</p></div>
+  <p>En Agrovoltaics elegía ARIMA(1,1,0) y pronosticaba <strong>13,5 · 13,8 · 13,9</strong> artículos para 2025–2027. Ese pronóstico casi plano no cuadraba con un crecimiento del +22&nbsp;% anual. Al revisarlo aparecieron cinco dudas:</p>
+  <ol>
+    <li>Con d&nbsp;=&nbsp;1 y sin deriva, el modelo no tiene forma de seguir una tendencia: el pronóstico converge a un valor fijo.</li>
+    <li>Comparaba por AIC modelos con d distinto, lo cual no es válido (se explica en la sección&nbsp;4).</li>
+    <li>Nunca se había probado contra datos que el modelo no hubiera visto.</li>
+    <li>Trataba conteos pequeños como si fueran una variable continua.</li>
+    <li>No se habían revisado los residuos.</li>
+  </ol>
+  <p>William pidió entonces tres cosas: las pruebas ADF y KPSS para decidir si hacía falta diferenciar, la validación con los últimos tres años fuera de la muestra y las pruebas de ruido blanco sobre los residuos del modelo elegido.</p>
+</section>
+
+<!-- 4 -->
+<section id="estacionariedad">
+  <div class="sechead"><span class="secnum">4</span><h2>Paso 1. ¿Hay que diferenciar? Las pruebas ADF y KPSS</h2></div>
+  <p>ARIMA necesita que la serie que modela sea <strong>estacionaria</strong>. Si la serie original no lo es, se diferencia (se pasa a los cambios anuales) hasta que lo sea. El número de diferencias necesarias es la <em>d</em> del modelo.</p>
+  <div class="defs two">
+    <div class="box"><span class="tag">Definición</span><p><strong>Estacionaria:</strong> una serie cuyo nivel medio y cuya variabilidad no cambian con el tiempo. Sube y baja alrededor de un mismo centro. Una serie que crece año tras año no es estacionaria.</p></div>
+    <div class="box"><span class="tag">Definición</span><p><strong>Raíz unitaria:</strong> la forma técnica de decir que la serie "no vuelve a su centro": cada choque la desplaza para siempre. Es la razón típica por la que hay que diferenciar.</p></div>
+    <div class="box"><span class="tag">Prueba ADF (Dickey-Fuller aumentada)</span><p>Parte de la hipótesis de que <strong>sí hay raíz unitaria</strong> (hay que diferenciar). Un p-valor menor que 0,05 la rechaza: la serie ya es estacionaria.</p></div>
+    <div class="box"><span class="tag">Prueba KPSS</span><p>Hace lo contrario: parte de que la serie <strong>es estacionaria</strong>. Un p-valor menor que 0,05 dice que no lo es. Usar las dos juntas da más confianza cuando coinciden.</p></div>
+  </div>
+  <p>Con 18 datos, la selección automática de rezagos del ADF elegía 7, y con eso la prueba casi no tiene poder. Por eso se fijaron 0 y 1 rezagos. Las pruebas se hicieron sobre los conteos y sobre el logaritmo de (1&nbsp;+&nbsp;conteo), una transformación que se explica en la sección&nbsp;8.</p>
+  <div class="tablewrap"><table>
+    <caption>Resultado de ADF y KPSS (p-valores; en negrita los que rechazan su hipótesis)</caption>
+    <thead><tr><th>Corpus</th><th>Serie</th><th class="n">Nivel</th><th class="n">1.ª diferencia</th><th class="n">2.ª diferencia</th><th>Diferencias necesarias</th></tr></thead>
+    <tbody>
+      <tr><td rowspan="2">Agrovoltaics</td><td>conteos</td><td class="n">ADF 0,998 · KPSS <b>0,013</b></td><td class="n">ADF 0,098 · KPSS 0,054</td><td class="n">ADF <b>0,000</b> · KPSS ≥0,10</td><td>1 o 2: en el límite</td></tr>
+      <tr class="hl"><td>log(1+y)</td><td class="n">ADF 0,943 · KPSS <b>0,011</b></td><td class="n">ADF <b>0,019</b> · KPSS ≥0,10</td><td class="n">—</td><td><strong>1: coinciden</strong></td></tr>
+      <tr><td rowspan="2">ai</td><td>conteos</td><td class="n">ADF 0,998 · KPSS <b>0,010</b></td><td class="n">ADF(1) 0,470 · KPSS <b>0,022</b></td><td class="n">ADF <b>0,000</b> · KPSS ≥0,10</td><td>2</td></tr>
+      <tr class="hl"><td>log(1+y)</td><td class="n">ADF 0,959 · KPSS <b>0,010</b></td><td class="n">ADF <b>0,000</b> · KPSS ≥0,10</td><td class="n">—</td><td><strong>1: coinciden</strong></td></tr>
+      <tr><td rowspan="2">pendulo</td><td>conteos</td><td class="n">ADF 0,247 · KPSS <b>0,025</b></td><td class="n">ADF <b>0,000</b> · KPSS ≥0,10</td><td class="n">—</td><td>1</td></tr>
+      <tr class="hl"><td>log(1+y)</td><td class="n">ADF 0,174 · KPSS <b>0,026</b></td><td class="n">ADF <b>0,000</b> · KPSS ≥0,10</td><td class="n">—</td><td><strong>1: coinciden</strong></td></tr>
+    </tbody>
+  </table></div>
+  <p><strong>Lectura.</strong> En ningún corpus la serie original es estacionaria, así que d&nbsp;=&nbsp;0 queda descartado. En conteos, cada corpus pide algo distinto: las series que aceleran (Agrovoltaics y ai) piden dos diferencias, porque incluso los cambios anuales siguen creciendo. <strong>En logaritmos, las dos pruebas coinciden en una sola diferencia en los tres corpus.</strong></p>
+  <div class="box warn"><span class="tag">Por qué no se puede comparar d por AIC</span><p>Con d&nbsp;=&nbsp;0 el AIC se calcula sobre los conteos; con d&nbsp;=&nbsp;1, sobre los cambios anuales. Son datos distintos, así que sus AIC no son comparables, como no se comparan notas de dos exámenes diferentes. El método original lo hacía, y por eso a veces elegía modelos con d&nbsp;=&nbsp;0 que las pruebas descartan.</p></div>
+</section>
+
+<!-- 5 -->
+<section id="validacion">
+  <div class="sechead"><span class="secnum">5</span><h2>Paso 2. Probar el pronóstico con datos que el modelo no vio</h2></div>
+  <p>Un modelo puede ajustarse muy bien a los datos que ya conoce y aun así pronosticar mal. La única forma de saber si pronostica bien es esconderle los últimos años, pedirle que los pronostique y comparar con lo que pasó.</p>
+  <div class="defs two">
+    <div class="box"><span class="tag">Definición</span><p><strong>Validación fuera de muestra:</strong> se entrena el modelo con los datos hasta cierto año (el <em>corte</em>) y se mide su error en los años siguientes, que no vio.</p></div>
+    <div class="box"><span class="tag">Definición</span><p><strong>Pronóstico ingenuo:</strong> repetir el último valor observado. Es la referencia mínima: un modelo que no lo mejora no aporta nada.</p></div>
+    <div class="box"><span class="tag">Definición</span><p><strong>MAE (error absoluto medio):</strong> el promedio de cuántos artículos se equivocó el pronóstico, sin importar el signo. <strong>MAE relativo:</strong> el MAE dividido por el del ingenuo; menos de 1 es mejor que el ingenuo.</p></div>
+    <div class="box"><span class="tag">Definición</span><p><strong>Sesgo:</strong> el promedio de (real − pronóstico). Si es positivo, el modelo se queda corto de forma sistemática.</p></div>
+    <div class="box"><span class="tag">Definición</span><p><strong>Intervalo de confianza del 95&nbsp;% (IC):</strong> el rango donde el modelo dice que caerá el valor real 95 de cada 100 veces. <strong>Cobertura:</strong> qué tan seguido cae de verdad. Si un IC del 95&nbsp;% solo acierta el 40&nbsp;% de las veces, el modelo es demasiado confiado.</p></div>
+    <div class="box"><span class="tag">Definición</span><p><strong>Origen móvil:</strong> repetir la validación con muchos cortes (cada año desde el décimo) y promediar. Es más fiable que un solo corte.</p></div>
+  </div>
+
+  <h3>Corte fijo: entrenar sin los últimos 3 años</h3>
+  <figure>
+    <div class="fig-title">Pronóstico de los últimos 3 años, con el modelo entrenado sin ellos</div>
+    <div class="legend" id="leg-holdout"></div>
+    <div class="multiples three" id="fig-holdout"></div>
+    <figcaption>La línea vertical marca el corte. La banda azul es el IC del 95&nbsp;% del modelo nuevo (recortada arriba cuando se sale de la gráfica). <strong>El método original queda plano en los tres corpus</strong>; ARIMA(0,2,0) acierta Agrovoltaics pero en ai pronostica una bajada.</figcaption>
+  </figure>
+  <div class="tablewrap"><table>
+    <caption>Error en los 3 años escondidos (MAE, en artículos; real entre paréntesis)</caption>
+    <thead><tr><th>Modelo</th><th class="n">Agrovoltaics 2022–24<br>(9, 12, 13)</th><th class="n">ai 2023–25<br>(39, 52, 54)</th><th class="n">pendulo 2022–24<br>(12, 20, 15)</th></tr></thead>
+    <tbody>
+      <tr><td>Método original</td><td class="n">5,33</td><td class="n">24,33</td><td class="n">4,67</td></tr>
+      <tr><td>ARIMA(0,2,0) en conteos</td><td class="n"><b>1,33</b></td><td class="n">26,33</td><td class="n">3,33</td></tr>
+      <tr class="hl"><td><strong>Modelo nuevo</strong>: log(1+y), ARIMA(0,1,0) con deriva</td><td class="n">4,42</td><td class="n">16,56</td><td class="n"><b>2,49</b></td></tr>
+      <tr><td>Regresión de Poisson</td><td class="n">5,15</td><td class="n"><b>14,71</b></td><td class="n">3,01</td></tr>
+      <tr><td>Ingenuo (repetir el último año)</td><td class="n">5,33</td><td class="n">24,33</td><td class="n">4,67</td></tr>
+    </tbody>
+  </table></div>
+  <p>Un solo corte de 3 años es frágil: depende mucho de lo que haya pasado justo en esos años. Por eso se repitió con el origen móvil.</p>
+
+  <h3>Origen móvil: muchos cortes</h3>
+  <div class="tablewrap"><table>
+    <caption>Origen móvil (pronóstico a 1, 2 y 3 años desde cada corte): MAE relativo al ingenuo y cobertura del IC 95&nbsp;%</caption>
+    <thead><tr><th>Modelo</th><th class="n">Agrovoltaics</th><th class="n">ai</th><th class="n">pendulo</th></tr></thead>
+    <tbody>
+      <tr><td>Método original (reelegido en cada corte)</td><td class="n">×1,00 · 38&nbsp;%</td><td class="n">×1,01 · 30&nbsp;%</td><td class="n">×1,02 · 88&nbsp;%</td></tr>
+      <tr><td>Conteos, d&nbsp;=&nbsp;2, elegido por AICc</td><td class="n">×0,91 · 76&nbsp;%</td><td class="n">×0,66 · 63&nbsp;%</td><td class="n">×1,01 · 83&nbsp;%</td></tr>
+      <tr><td>Conteos, ARIMA(0,2,0)</td><td class="n">×0,69 · 95&nbsp;%</td><td class="n">×0,96 · 85&nbsp;%</td><td class="n"><b>×1,59</b> · 88&nbsp;%</td></tr>
+      <tr><td>log(1+y), d&nbsp;=&nbsp;1, deriva elegida por AICc</td><td class="n">×1,00 · 100&nbsp;%</td><td class="n">×0,92 · 100&nbsp;%</td><td class="n">×1,00 · 92&nbsp;%</td></tr>
+      <tr class="hl"><td><strong>Modelo nuevo</strong> (log, d&nbsp;=&nbsp;1, deriva fija, reelegido en cada corte)</td><td class="n">×0,88 · 100&nbsp;%</td><td class="n">×0,78 · 81&nbsp;%</td><td class="n">×1,08 · 92&nbsp;%</td></tr>
+      <tr><td>log(1+y), ARIMA(0,2,0)</td><td class="n">×1,06</td><td class="n">×2,23</td><td class="n"><b>×12,4</b></td></tr>
+      <tr><td>Regresión de Poisson</td><td class="n">×0,90</td><td class="n">×0,76</td><td class="n">×0,86</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- 6 -->
+<section id="residuos">
+  <div class="sechead"><span class="secnum">6</span><h2>Paso 3. ¿Los residuos son ruido blanco?</h2></div>
+  <p>Si un modelo capturó todo lo que hay de predecible en la serie, lo que le sobra (los residuos) debe ser puro azar. Si los residuos todavía tienen un patrón, el modelo dejó información sin usar.</p>
+  <div class="defs two">
+    <div class="box"><span class="tag">Definición</span><p><strong>Residuo:</strong> la diferencia entre el valor real de un año y lo que el modelo esperaba para ese año.</p></div>
+    <div class="box"><span class="tag">Definición</span><p><strong>Ruido blanco:</strong> una secuencia sin patrón: media cero, variabilidad constante y sin relación entre un año y el siguiente.</p></div>
+    <div class="box"><span class="tag">Ljung-Box</span><p>Revisa si los residuos están <strong>correlacionados</strong> con los de años anteriores. p&nbsp;&gt;&nbsp;0,05: no hay correlación (bien).</p></div>
+    <div class="box"><span class="tag">Jarque-Bera y Shapiro-Wilk</span><p>Revisan si los residuos tienen forma de <strong>campana normal</strong>, que es lo que asume el intervalo de confianza. p&nbsp;&gt;&nbsp;0,05: bien.</p></div>
+    <div class="box"><span class="tag">Heterocedasticidad</span><p>Que la <strong>variabilidad cambie</strong> con el tiempo: por ejemplo, errores pequeños al principio y grandes al final. La prueba compara la varianza del primer y último tercio. p&nbsp;&gt;&nbsp;0,05: varianza constante (bien).</p></div>
+    <div class="box"><span class="tag">Media cero (prueba t)</span><p>Revisa que los residuos no estén corridos hacia un lado. p&nbsp;&gt;&nbsp;0,05: bien.</p></div>
+  </div>
+  <div class="tablewrap"><table>
+    <caption>Residuos con la serie completa</caption>
+    <thead><tr><th>Corpus</th><th>Modelos en conteos</th><th>Modelos en log(1+y) con d&nbsp;=&nbsp;1</th></tr></thead>
+    <tbody>
+      <tr><td>Agrovoltaics</td><td><span class="pill good">Ruido blanco</span> Todos pasan las cuatro pruebas.</td><td><span class="pill good">Ruido blanco</span> Todos pasan.</td></tr>
+      <tr><td>ai</td><td><span class="pill bad">No es ruido blanco</span> Heterocedasticidad en todos (p 0,00–0,04), no normalidad en los de d&nbsp;=&nbsp;1 (Shapiro p&nbsp;≤&nbsp;0,01), autocorrelación en ARIMA(0,2,0) (Ljung-Box p&nbsp;=&nbsp;0,019).</td><td><span class="pill good">Ruido blanco</span> La heterocedasticidad desaparece (p 0,15–0,57) y la normalidad se cumple.</td></tr>
+      <tr><td>pendulo</td><td><span class="pill good">Ruido blanco</span> Todos pasan.</td><td><span class="pill good">Ruido blanco</span> Todos pasan.</td></tr>
+    </tbody>
+  </table></div>
+  <p>Para el modelo elegido, log(1+y) ARIMA(0,1,0) con deriva, en Agrovoltaics: media de los residuos 0,00 (p&nbsp;=&nbsp;1,00), Ljung-Box p entre 0,31 y 0,47, Jarque-Bera p&nbsp;=&nbsp;0,76, Shapiro p&nbsp;=&nbsp;0,61 y heterocedasticidad p&nbsp;=&nbsp;0,27.</p>
+  <div class="box warn"><span class="tag">Cuidado al leerlo</span><p>Con 16 a 19 residuos estas pruebas detectan poco. Que un modelo las pase dice que no hay un problema evidente, no que sea el mejor. En Agrovoltaics y pendulo pasaron todos los candidatos, así que los residuos no sirvieron para elegir. Donde sí sirvieron fue en ai: ahí mostraron que los conteos tienen un problema que el logaritmo resuelve.</p></div>
+</section>
+
+<!-- 7 -->
+<section id="problemas">
+  <div class="sechead"><span class="secnum">7</span><h2>Los problemas que encontramos</h2></div>
+  <ol class="steps">
+    <li><p><strong>El método original equivalía al pronóstico ingenuo.</strong> En el origen móvil su error fue ×1,00, ×1,01 y ×1,02 el del ingenuo. Casi siempre terminaba pronosticando que el año siguiente sería igual al último.</p></li>
+    <li><p><strong>Se quedaba corto en todos los corpus.</strong> Sesgo de +2,8, +9,6 y +2,7 artículos: con d&nbsp;=&nbsp;1 y sin deriva no puede seguir una serie que crece.</p></li>
+    <li><p><strong>Sus intervalos eran demasiado estrechos.</strong> El IC del 95&nbsp;% contenía el valor real solo el 38&nbsp;% de las veces en Agrovoltaics y el 30&nbsp;% en ai.</p></li>
+    <li><p><strong>Comparaba modelos que no se pueden comparar.</strong> Al elegir por AIC entre d&nbsp;=&nbsp;0 y d&nbsp;=&nbsp;1, a veces elegía modelos sin diferenciar, como (2,0,2) o (0,0,2), que las pruebas de estacionariedad descartan. Con la serie completa de pendulo elige (0,0,1).</p></li>
+    <li><p><strong>En conteos, los residuos de ai no eran ruido blanco.</strong> La variabilidad crece con el número de artículos: un error de 5 artículos significa mucho cuando se publican 6 al año y poco cuando se publican 54.</p></li>
+    <li><p><strong>Nuestra primera recomendación estaba sobreajustada a un corpus.</strong> ARIMA(0,2,0) fue el mejor en Agrovoltaics (MAE&nbsp;1,33 en el corte, ×0,69 en el origen móvil). Al probarlo en los otros corpus falló: ×1,59 en pendulo, donde pronostica 10&nbsp;→&nbsp;5&nbsp;→&nbsp;0 artículos, y peor que el ingenuo en el corte de ai. Ese modelo prolonga la pendiente de los dos últimos años, y si esos años bajaron, pronostica una caída hasta cero.</p></li>
+  </ol>
+</section>
+
+<!-- 8 -->
+<section id="decision">
+  <div class="sechead"><span class="secnum">8</span><h2>Cómo decidimos cuál modelo era mejor</h2></div>
+  <p>El recorrido tuvo tres etapas:</p>
+  <ol class="steps">
+    <li><p><strong>Diagnóstico en Agrovoltaics.</strong> Las pruebas de estacionariedad quedaron en el límite entre d&nbsp;=&nbsp;1 y d&nbsp;=&nbsp;2, y la validación favoreció ARIMA(0,2,0).</p></li>
+    <li><p><strong>Repetición en ai y pendulo.</strong> Los errores del método original se repitieron, pero ARIMA(0,2,0) dejó de funcionar. La conclusión fue que un modelo para el agente tiene que servir en cualquier corpus, no en uno.</p></li>
+    <li><p><strong>Transformación logarítmica.</strong> Se repitió todo sobre log(1&nbsp;+&nbsp;artículos). Ahí las pruebas coincidieron, los residuos se arreglaron y apareció un candidato estable en los tres corpus.</p></li>
+  </ol>
+  <h3>Por qué el logaritmo</h3>
+  <p>Las publicaciones crecen en <strong>porcentaje</strong>, no en cantidades fijas. Pasar de 2 a 4 artículos y de 26 a 52 es el mismo crecimiento (se duplica), aunque en conteos uno sea +2 y el otro +26. El logaritmo convierte esos dos saltos en el mismo número (ln&nbsp;2&nbsp;≈&nbsp;0,69). Así, una serie que crece en porcentaje se vuelve una línea recta, que es justo lo que un ARIMA con una diferencia y deriva sabe modelar. Se suma 1 porque hay años con 0 artículos y el logaritmo de 0 no existe.</p>
+
+  <figure>
+    <div class="fig-title">Error de cada modelo frente al pronóstico ingenuo (origen móvil)</div>
+    <div class="legend" id="leg-bars"></div>
+    <div id="fig-bars"></div>
+    <figcaption>La línea vertical en 1 es el pronóstico ingenuo: las barras a su izquierda lo mejoran. <strong>ARIMA(0,2,0) es el mejor en Agrovoltaics y el peor en pendulo.</strong> El modelo nuevo mejora en los dos corpus que crecen y queda cerca del ingenuo en pendulo, que no tiene una tendencia clara.</figcaption>
+  </figure>
+
+  <h3>Los criterios de decisión</h3>
+  <p>El modelo final se eligió porque es el único que cumple los cinco a la vez:</p>
+  <ol>
+    <li><strong>Las pruebas de estacionariedad lo respaldan en los tres corpus</strong>: en logaritmos, ADF y KPSS coinciden en d&nbsp;=&nbsp;1.</li>
+    <li><strong>Sus residuos son ruido blanco en los tres corpus</strong>, incluido ai, donde los conteos fallaban.</li>
+    <li><strong>Mejora al pronóstico ingenuo donde hay crecimiento</strong>: ×0,88 en Agrovoltaics y ×0,78 en ai.</li>
+    <li><strong>Nunca da pronósticos absurdos</strong>: no cae a cero ni explota, a diferencia de ARIMA(0,2,0) en conteos o de d&nbsp;=&nbsp;2 en logaritmos (×12,4 en pendulo).</li>
+    <li><strong>Es simple</strong>: dos parámetros, cada uno con un significado claro.</li>
+  </ol>
+  <div class="box warn"><span class="tag">Lo que cuesta</span><p>En pendulo queda un poco peor que el ingenuo (×1,08): es una serie sin crecimiento claro y la deriva empuja hacia arriba. Y sus intervalos son anchos. Son honestos (cubren el 81–100&nbsp;% de las veces), pero a 2 o 3 años informan poco.</p></div>
+  <div class="box"><span class="tag">Dos pistas de que d&nbsp;=&nbsp;2 en logaritmos sobra</span><p>En ai y pendulo, ARIMA(0,2,1) en log estimó el coeficiente MA en −1,0. Ese valor es la señal clásica de <strong>sobrediferenciación</strong>: haber diferenciado una vez de más. Y log ARIMA(0,2,0) explota al volver a artículos (×12,4 el ingenuo en pendulo).</p></div>
+</section>
+
+<!-- 9 -->
+<section id="cambios">
+  <div class="sechead"><span class="secnum">9</span><h2>Los cinco cambios aplicados al agente</h2></div>
+  <div class="tablewrap"><table>
+    <caption>Antes y después en <code>trends.arima_forecast</code></caption>
+    <thead><tr><th></th><th>Antes</th><th>Ahora</th></tr></thead>
+    <tbody>
+      <tr><td>1. Datos</td><td>conteos de artículos</td><td><strong>log(1 + artículos)</strong></td></tr>
+      <tr><td>2. Diferencias</td><td>el AIC elegía entre d&nbsp;=&nbsp;0 y 1</td><td><strong>d&nbsp;=&nbsp;1 fijo</strong></td></tr>
+      <tr><td>3. Orden</td><td>p, q de 0 a 2 por AIC (18 modelos)</td><td><strong>p, q de 0 a 1 por AICc (4 modelos)</strong></td></tr>
+      <tr><td>4. Deriva</td><td>no tenía con d&nbsp;=&nbsp;1</td><td><strong>siempre incluida</strong></td></tr>
+      <tr><td>5. Salida</td><td>en conteos</td><td><strong>se vuelve a artículos con e<sup>z</sup>&nbsp;−&nbsp;1</strong></td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>Cambio 3 en detalle: elegir p y q con AICc</h3>
+  <p>Con p y q hasta 1 hay cuatro candidatos: sin inercia ni eco (0,1,0), con inercia (1,1,0), con eco (0,1,1) y con ambos (1,1,1). Se limitó a 1 porque con 17 cambios anuales cada parámetro extra se estima con muy poca información. Un modelo con muchos parámetros se acomoda al ruido de esa serie concreta y pronostica peor: eso es <strong>sobreajustar</strong>.</p>
+  <div class="defs two">
+    <div class="box"><span class="tag">AIC</span><p>AIC = 2k − 2·logL. <strong>k</strong> es el número de parámetros; <strong>logL</strong> (log-verosimilitud) mide qué tan bien explica el modelo los datos, y es más alta cuanto mejor ajusta. Cada parámetro cuesta 2 puntos.</p></div>
+    <div class="box"><span class="tag">AICc</span><p>AIC corregido para muestras pequeñas: AICc = AIC + 2k(k+1)/(n−k−1), con <strong>n</strong> el número de datos. Con n grande la corrección desaparece; con n&nbsp;=&nbsp;17 castiga bastante más a los modelos grandes.</p></div>
+  </div>
+  <div class="tablewrap"><table>
+    <caption>Los cuatro candidatos en Agrovoltaics (n = 17 cambios anuales)</caption>
+    <thead><tr><th>Modelo</th><th class="n">k</th><th class="n">logL</th><th class="n">AIC</th><th class="n">Corrección</th><th class="n">AICc</th></tr></thead>
+    <tbody>
+      <tr class="hl"><td><strong>(0,1,0) con deriva</strong></td><td class="n">2</td><td class="n">−7,89</td><td class="n">19,78</td><td class="n">12/14 = 0,86</td><td class="n"><strong>20,64</strong> ← elegido</td></tr>
+      <tr><td>(1,1,0) con deriva</td><td class="n">3</td><td class="n">−7,50</td><td class="n">21,01</td><td class="n">24/13 = 1,85</td><td class="n">22,85</td></tr>
+      <tr><td>(0,1,1) con deriva</td><td class="n">3</td><td class="n">−7,55</td><td class="n">21,10</td><td class="n">1,85</td><td class="n">22,95</td></tr>
+      <tr><td>(1,1,1) con deriva</td><td class="n">4</td><td class="n">−7,76</td><td class="n">23,52</td><td class="n">40/12 = 3,33</td><td class="n">26,85</td></tr>
+    </tbody>
+  </table></div>
+  <p>Añadir la inercia mejora el ajuste solo 0,39 puntos de logL (de −7,89 a −7,50), y ese parámetro cuesta 2 puntos más la corrección. No compensa: la inercia del año anterior no aporta información real, solo ajusta ruido.</p>
+  <div class="tablewrap"><table>
+    <caption>Pendulo: donde AIC y AICc eligen distinto</caption>
+    <thead><tr><th>Modelo</th><th class="n">AIC</th><th class="n">AICc</th></tr></thead>
+    <tbody>
+      <tr class="hl"><td>(0,1,0) con deriva</td><td class="n">40,44</td><td class="n"><strong>41,24</strong> ← AICc elige este</td></tr>
+      <tr><td>(0,1,1) con deriva</td><td class="n">39,80</td><td class="n">41,51</td></tr>
+      <tr><td>(1,1,0) con deriva</td><td class="n">41,46</td><td class="n">43,18</td></tr>
+      <tr><td>(1,1,1) con deriva</td><td class="n"><strong>39,24</strong> ← AIC elegiría este</td><td class="n">42,32</td></tr>
+    </tbody>
+  </table></div>
+  <p>El AIC sin corregir elegiría (1,1,1), que estima el coeficiente MA en −0,998: un valor en el borde que no representa nada real. El AICc lo castiga y se queda con el modelo simple. Diferencias de AICc menores que 2 se consideran un empate, y ante un empate conviene el modelo más simple.</p>
+  <p><strong>Resultado:</strong> en los tres corpus gana (0,1,0) con deriva. El mecanismo de elección sigue activo: en ai, en 4 de los 10 cortes del origen móvil eligió (0,1,1).</p>
+
+  <h3>Cambio 4: por qué la deriva se impone</h3>
+  <p>Con 17 datos ruidosos, la deriva no sale estadísticamente significativa (p&nbsp;≈&nbsp;0,35 en Agrovoltaics), y si se deja elegir al AICc, la quita. Sin deriva el modelo vuelve a ser el pronóstico ingenuo: en el origen móvil esa variante dio ×1,00 en Agrovoltaics y pendulo. Sabemos por fuera del modelo que estos campos crecen (la regresión de Poisson lo confirma con p&nbsp;&lt;&nbsp;0,05), así que la deriva se fija por conocimiento del dominio.</p>
+</section>
+
+<!-- 10 -->
+<section id="modelo">
+  <div class="sechead"><span class="secnum">10</span><h2>El modelo elegido, en álgebra</h2></div>
+  <p>ARIMA(0,1,0) con deriva sobre el logaritmo. Con los números reales de Agrovoltaics:</p>
+  <h3>Las variables</h3>
+  <div class="formula">y<sub>t</sub> = artículos publicados en el año t<br>z<sub>t</sub> = ln(1 + y<sub>t</sub>) <span class="c">   la serie transformada; z₂₀₀₇ = ln 3 = 1,099 · z₂₀₂₄ = ln 14 = 2,639</span></div>
+  <h3>La ecuación</h3>
+  <div class="formula"><b>z<sub>t</sub> = z<sub>t−1</sub> + μ + ε<sub>t</sub></b>,  ε<sub>t</sub> ~ N(0, σ²) independientes<br><span class="c">el valor de este año = el del año pasado + la deriva + una sorpresa</span><br><br>
+  Δz<sub>t</sub> = z<sub>t</sub> − z<sub>t−1</sub> = μ + ε<sub>t</sub><br><span class="c">el crecimiento de cada año (en log) = una constante + ruido</span><br><br>
+  z<sub>t</sub> = z<sub>t₀</sub> + μ·(t − t₀) + (ε<sub>t₀+1</sub> + … + ε<sub>t</sub>)<br><span class="c">una recta en log, más la suma acumulada de todas las sorpresas</span></div>
+  <p>Hay dos parámetros: <strong>μ</strong>, la deriva o crecimiento medio anual en log, y <strong>σ²</strong>, cuánto se aparta cada año de ese crecimiento medio. No hay inercia ni eco (p&nbsp;=&nbsp;q&nbsp;=&nbsp;0).</p>
+  <h3>La estimación</h3>
+  <div class="formula">μ̂ = promedio de los cambios anuales = (z<sub>T</sub> − z<sub>t₀</sub>) / n<br>
+  μ̂ = (2,639 − 1,099) / 17 = <b>0,0906</b>   <span class="c">→ e<sup>0,0906</sup> − 1 = +9,5 % por año</span><br><br>
+  σ̂² = promedio de (Δz<sub>t</sub> − μ̂)² = <b>0,148</b>   <span class="c">→ σ̂ = 0,385</span></div>
+  <p>Al sumar los cambios anuales, los años intermedios se cancelan entre sí (una suma telescópica), así que la deriva solo depende del primer y del último año.</p>
+  <h3>El pronóstico</h3>
+  <div class="formula">ẑ<sub>T+h</sub> = z<sub>T</sub> + h·μ̂   <span class="c">h años adelante: el último valor más h veces la deriva</span><br>
+  IC 95 %: ẑ<sub>T+h</sub> ± 1,96·σ̂·√h   <span class="c">la incertidumbre crece con la raíz del horizonte</span><br><br>
+  ŷ<sub>T+h</sub> = e<sup>ẑ</sup> − 1 = <b>(1 + y<sub>T</sub>) · e<sup>h·μ̂</sup> − 1</b><br><span class="c">(1 + artículos) se multiplica cada año por el mismo factor e<sup>μ̂</sup> = 1,095</span></div>
+  <div class="tablewrap"><table>
+    <caption>Cálculo completo para Agrovoltaics (último dato: 13 artículos en 2024)</caption>
+    <thead><tr><th class="n">h</th><th class="n">Año</th><th class="n">ẑ = 2,639 + h·0,0906</th><th class="n">1,96·σ̂·√h</th><th class="n">Pronóstico</th><th class="n">IC 95 %</th></tr></thead>
+    <tbody>
+      <tr><td class="n">1</td><td class="n">2025</td><td class="n">2,730</td><td class="n">0,754</td><td class="n"><strong>14,3</strong></td><td class="n">6,2 – 31,6</td></tr>
+      <tr><td class="n">2</td><td class="n">2026</td><td class="n">2,820</td><td class="n">1,067</td><td class="n"><strong>15,8</strong></td><td class="n">4,8 – 47,8</td></tr>
+      <tr><td class="n">3</td><td class="n">2027</td><td class="n">2,911</td><td class="n">1,307</td><td class="n"><strong>17,4</strong></td><td class="n">4,0 – 66,9</td></tr>
+    </tbody>
+  </table></div>
+  <div class="box"><span class="tag">Mediana, no media</span><p>Al deshacer el logaritmo, el pronóstico central es la <strong>mediana</strong>: hay 50&nbsp;% de probabilidad de quedar por encima y 50&nbsp;% por debajo. La media sería mayor (15,5 · 18,5 · 21,9) porque el intervalo es asimétrico y tiene una cola larga hacia arriba. El agente reporta la mediana.</p></div>
+  <div class="box warn"><span class="tag">La deriva no es el +22 % de Poisson</span><p>La deriva (+9,5&nbsp;%) depende solo del primer y del último año. La regresión de Poisson (+22&nbsp;%) ajusta toda la curva y pesa más los años recientes, que tienen más artículos. Las dos son correctas, pero miden cosas distintas.</p></div>
+
+  <figure>
+    <div class="fig-title">Pronóstico vigente del agente para los próximos 3 años</div>
+    <div class="legend" id="leg-future"></div>
+    <div class="multiples three" id="fig-future"></div>
+    <figcaption>Serie observada y pronóstico del modelo nuevo con su IC del 95&nbsp;%, recortado arriba en la gráfica (en ai llega a 337 en 2028). Se muestran los años desde 2012.</figcaption>
+  </figure>
+  <div class="tablewrap"><table>
+    <caption>Pronóstico vigente</caption>
+    <thead><tr><th>Corpus</th><th class="n">Año 1</th><th class="n">Año 2</th><th class="n">Año 3</th><th class="n">IC 95 % del año 1</th><th class="n">Crecimiento de la deriva</th></tr></thead>
+    <tbody>
+      <tr><td>Agrovoltaics (2025–27)</td><td class="n">14,3</td><td class="n">15,8</td><td class="n">17,4</td><td class="n">6,2 – 31,6</td><td class="n">+9,5 %/año</td></tr>
+      <tr><td>ai (2026–28)</td><td class="n">63,1</td><td class="n">73,7</td><td class="n">86,1</td><td class="n">28,3 – 139,3</td><td class="n">+16,5 %/año</td></tr>
+      <tr><td>pendulo (2025–27)</td><td class="n">17,0</td><td class="n">19,2</td><td class="n">21,6</td><td class="n">3,9 – 65,2</td><td class="n">+12,2 %/año</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- 11 -->
+<section id="limites">
+  <div class="sechead"><span class="secnum">11</span><h2>Límites y próximos pasos</h2></div>
+  <ul>
+    <li><strong>Tres series de 18 a 20 años.</strong> Las pruebas tienen poca potencia; las conclusiones valen para estos corpus y conviene repetirlas cuando haya más.</li>
+    <li><strong>Los intervalos son anchos.</strong> Lo más útil es reportar el año siguiente con su intervalo y tomar los años 2 y 3 como orientativos.</li>
+    <li><strong>En series sin tendencia (pendulo), la deriva sobreestima un poco.</strong> El modelo nuevo queda en ×1,08 el ingenuo.</li>
+    <li><strong>Los errores del origen móvil se solapan:</strong> cortes consecutivos comparten años, así que no son independientes.</li>
+    <li><strong>En ai, 2025 puede estar incompleto</strong> si el export de Scopus se hizo antes de terminar el año.</li>
+    <li><strong>La regresión de Poisson fue la referencia más regular</strong> (×0,76–0,90 en los tres corpus). Un paso siguiente es mostrar su pronóstico junto al de ARIMA, después de revisar su sobredispersión.</li>
+  </ul>
+</section>
+
+<!-- 12 -->
+<section id="glosario">
+  <div class="sechead"><span class="secnum">12</span><h2>Glosario</h2></div>
+  <dl class="gloss">
+    <dt>ADF</dt><dd>Prueba de Dickey-Fuller aumentada. Supone que hay que diferenciar; un p&nbsp;&lt;&nbsp;0,05 dice que la serie ya es estacionaria.</dd>
+    <dt>AIC / AICc</dt><dd>Notas para elegir modelos que premian el buen ajuste y castigan los parámetros. AICc corrige para pocas observaciones. Menor es mejor.</dd>
+    <dt>ARIMA(p, d, q)</dt><dd>Modelo de series de tiempo con inercia (p), diferencias (d) y eco de las sorpresas (q).</dd>
+    <dt>Cobertura</dt><dd>Porcentaje de veces que el valor real cae dentro del intervalo de confianza.</dd>
+    <dt>Deriva</dt><dd>Crecimiento medio que el modelo suma cada año.</dd>
+    <dt>Diferenciar</dt><dd>Pasar de los valores a los cambios entre un año y el anterior.</dd>
+    <dt>Estacionaria</dt><dd>Serie con nivel y variabilidad estables en el tiempo.</dd>
+    <dt>Heterocedasticidad</dt><dd>Variabilidad que cambia con el tiempo o con el nivel de la serie.</dd>
+    <dt>Intervalo de confianza</dt><dd>Rango donde el modelo espera el valor real con una probabilidad dada (aquí, 95&nbsp;%).</dd>
+    <dt>KPSS</dt><dd>Prueba que supone que la serie es estacionaria; un p&nbsp;&lt;&nbsp;0,05 dice que no lo es.</dd>
+    <dt>Ljung-Box</dt><dd>Prueba de si los residuos están correlacionados entre años.</dd>
+    <dt>MAE</dt><dd>Error absoluto medio: cuántos artículos se equivoca el pronóstico, en promedio.</dd>
+    <dt>Origen móvil</dt><dd>Validación repetida con muchos años de corte.</dd>
+    <dt>Pronóstico ingenuo</dt><dd>Repetir el último valor observado; la referencia mínima.</dd>
+    <dt>Regresión de Poisson</dt><dd>Curva exponencial ajustada a los conteos; da la tasa de crecimiento y su significancia.</dd>
+    <dt>Residuo</dt><dd>Diferencia entre el valor real y el que esperaba el modelo.</dd>
+    <dt>Ruido blanco</dt><dd>Secuencia sin patrón: media cero, varianza constante, sin correlación.</dd>
+    <dt>Sesgo</dt><dd>Promedio de (real − pronóstico); positivo si el modelo se queda corto.</dd>
+    <dt>Sobreajuste</dt><dd>Modelo tan ajustado a los datos conocidos que pronostica mal los nuevos.</dd>
+    <dt>Sobrediferenciación</dt><dd>Diferenciar más veces de las necesarias; su señal típica es un coeficiente MA cercano a −1.</dd>
+  </dl>
+</section>
+
+<footer>
+  <div>Datos: artículos principales (<code>ismainarticle = 1</code>) de las sesiones Agrovoltaics, ai y pendulo. Cálculos con statsmodels 0.15.</div>
+  <div>Archivos del proyecto: <code>benchmark/series_tiempo/diagnostico_arima.py</code> · <code>benchmark/series_tiempo/RESULTADOS.md</code> · <code>src/layer5_network/trends.py</code></div>
+</footer>
+</main>
+</div>
+
+<script>
+const DATA = {"Agrovoltaics":{"years":[2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[2,1,1,0,0,0,1,3,4,2,2,3,2,4,6,9,12,13],"holdout":{"anterior":{"mean":[6.0,6.0,6.0],"low":[3.5,2.5,1.7],"high":[8.5,9.5,10.3]},"nuevo":{"mean":[6.4,6.9,7.4],"low":[2.3,1.5,1.1],"high":[15.8,23.9,33.3]},"a020":{"mean":[8.0,10.0,12.0],"low":[4.9,3.0,0.3],"high":[11.1,17.0,23.7]}},"future":{"nuevo":{"mean":[14.3,15.8,17.4],"low":[6.2,4.8,4.0],"high":[31.6,47.8,66.9]}}},"ai":{"years":[2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025],"y":[2,1,1,1,3,6,3,2,5,5,3,6,6,12,12,25,24,39,52,54],"holdout":{"anterior":{"mean":[24.0,24.0,24.0],"low":[16.2,13.0,10.5],"high":[31.8,35.0,37.5]},"nuevo":{"mean":[27.5,31.6,36.2],"low":[11.4,9.0,7.8],"high":[64.7,105.0,156.7]},"a020":{"mean":[23.0,22.0,21.0],"low":[11.2,0.0,0.0],"high":[34.8,48.4,65.2]}},"future":{"nuevo":{"mean":[63.1,73.7,86.1],"low":[28.3,23.7,21.4],"high":[139.3,225.1,337.0]}}},"pendulo":{"years":[2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[1,1,1,3,7,8,13,9,9,1,9,15,6,4,8,11,12,20,15],"holdout":{"anterior":{"mean":[11.0,11.0,11.0],"low":[1.7,0.0,0.0],"high":[20.3,24.1,27.1]},"nuevo":{"mean":[12.5,14.2,16.2],"low":[2.3,1.1,0.5],"high":[54.0,110.0,194.3]},"a020":{"mean":[14.0,17.0,20.0],"low":[0.0,0.0,0.0],"high":[28.5,49.4,74.2]}},"future":{"nuevo":{"mean":[17.0,19.2,21.6],"low":[3.9,2.2,1.4],"high":[65.2,126.6,215.9]}}}};
+const CORPUS = ["Agrovoltaics", "ai", "pendulo"];
+const SERIES = {
+  obs:      { label: "Observado", color: "var(--s-obs)" },
+  anterior: { label: "Método original", color: "var(--s-anterior)" },
+  nuevo:    { label: "Modelo nuevo (log, deriva)", color: "var(--s-nuevo)" },
+  a020:     { label: "ARIMA(0,2,0) en conteos", color: "var(--s-a020)" },
+  poisson:  { label: "Regresión de Poisson", color: "var(--s-poisson)" },
+};
+const NS = "http://www.w3.org/2000/svg";
+const fmt = v => v == null ? "—" : Number(v).toLocaleString("es-CO", { maximumFractionDigits: 1, minimumFractionDigits: Number.isInteger(v) ? 0 : 1 });
+function el(tag, attrs = {}, parent) {
+  const n = document.createElementNS(NS, tag);
+  for (const [k, v] of Object.entries(attrs)) n.setAttribute(k, v);
+  if (parent) parent.appendChild(n);
+  return n;
+}
+function niceStep(raw) {
+  const mag = Math.pow(10, Math.floor(Math.log10(raw)));
+  for (const s of [1, 2, 5, 10]) if (s * mag >= raw) return s * mag;
+  return 10 * mag;
+}
+function scale(v) {  // tope y marcas redondas: ~4 divisiones con paso 1, 2 o 5 × 10^k
+  const step = niceStep(v / 4), max = Math.ceil(v / step) * step;
+  return { max, ticks: Array.from({ length: Math.round(max / step) + 1 }, (_, i) => i * step) };
+}
+const fmt2 = v => Number(v).toLocaleString("es-CO", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+function legend(id, keys, kind = "line") {
+  const box = document.getElementById(id);
+  box.innerHTML = keys.map(k => {
+    if (k === "band") return `<span><i class="sw band" style="background:var(--s-nuevo)"></i>IC 95 % del modelo nuevo</span>`;
+    const s = SERIES[k];
+    const cls = kind === "bar" ? "sw bar" : (k === "obs" ? "sw dot" : "sw");
+    return `<span><i class="${cls}" style="background:${s.color}"></i>${s.label}</span>`;
+  }).join("");
+}
+function makeTip(panel) {
+  const t = document.createElement("div");
+  t.className = "tip"; t.hidden = true; panel.appendChild(t); return t;
+}
+function placeTip(tip, panel, x, y) {
+  const pw = panel.clientWidth;
+  tip.hidden = false;
+  const w = tip.offsetWidth;
+  let left = x + 14; if (left + w > pw) left = x - w - 14; if (left < 0) left = 0;
+  tip.style.left = left + "px"; tip.style.top = Math.max(0, y - 10) + "px";
+}
+
+/* 1. Columnas por corpus */
+function seriesChart() {
+  const host = document.getElementById("fig-series");
+  CORPUS.forEach(name => {
+    const d = DATA[name];
+    const panel = document.createElement("div"); panel.className = "panel";
+    panel.innerHTML = `<h4>${name}</h4><span class="sub">${d.years[0]}–${d.years.at(-1)} · ${d.y.reduce((a, b) => a + b, 0)} artículos</span>`;
+    host.appendChild(panel);
+    const tip = makeTip(panel);
+    const W = Math.max(240, panel.clientWidth), H = 190, m = { l: 30, r: 8, t: 14, b: 22 };
+    const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, width: W, height: H, class: "chart", role: "img", "aria-label": `Artículos por año en ${name}` }, panel);
+    const sc = scale(Math.max(...d.y) * 1.08), ymax = sc.max;
+    const iw = W - m.l - m.r, ih = H - m.t - m.b, n = d.years.length;
+    const band = iw / n, bw = Math.min(14, band - 2);
+    const Y = v => m.t + ih - (v / ymax) * ih;
+    sc.ticks.forEach(t => {
+      el("line", { x1: m.l, x2: W - m.r, y1: Y(t), y2: Y(t), style: "stroke:var(--grid)", "stroke-width": 1 }, svg);
+      el("text", { x: m.l - 6, y: Y(t) + 3.5, "text-anchor": "end" }, svg).textContent = fmt(t);
+    });
+    d.years.forEach((yr, i) => {
+      const v = d.y[i], x = m.l + i * band + (band - bw) / 2, h = Math.max(0, ih - (Y(v) - m.t));
+      const r = Math.min(3, h / 2);
+      const top = Y(v);
+      const path = h > 0 ? `M${x},${m.t + ih} V${top + r} Q${x},${top} ${x + r},${top} H${x + bw - r} Q${x + bw},${top} ${x + bw},${top + r} V${m.t + ih} Z` : "";
+      if (path) el("path", { d: path, style: "fill:var(--s-nuevo)" }, svg);
+      if (i % 4 === 0) el("text", { x: x + bw / 2, y: H - 6, "text-anchor": "middle" }, svg).textContent = yr;
+      const hit = el("rect", { x: m.l + i * band, y: m.t, width: band, height: ih, fill: "transparent" }, svg);
+      hit.addEventListener("mousemove", e => {
+        tip.innerHTML = `<b>${yr}</b><div class="row"><span>Artículos</span><span>${v}</span></div>`;
+        const rc = panel.getBoundingClientRect(); placeTip(tip, panel, e.clientX - rc.left, e.clientY - rc.top);
+      });
+      hit.addEventListener("mouseleave", () => tip.hidden = true);
+    });
+    const li = n - 1, lx = m.l + li * band + band / 2;
+    el("text", { x: lx, y: Y(d.y[li]) - 5, "text-anchor": "end", class: "lbl" }, svg).textContent = d.y[li];
+    el("line", { x1: m.l, x2: W - m.r, y1: m.t + ih, y2: m.t + ih, style: "stroke:var(--rule)", "stroke-width": 1 }, svg);
+  });
+}
+
+/* 2 y 4. Líneas: observado + pronósticos (con banda opcional) */
+function lineChart(host, name, cfg) {
+  const d = DATA[name];
+  const panel = document.createElement("div"); panel.className = "panel";
+  panel.innerHTML = `<h4>${name}</h4><span class="sub">${cfg.sub(d)}</span>`;
+  host.appendChild(panel);
+  const W = Math.max(240, panel.clientWidth), H = 210, m = { l: 32, r: 10, t: 14, b: 22 };
+  const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, width: W, height: H, class: "chart", role: "img", "aria-label": cfg.aria(name) }, panel);
+  const start = cfg.from, iObs = d.years.map((y, i) => i).filter(i => d.years[i] >= start && d.years[i] <= cfg.obsEnd(d));
+  const lastYear = d.years.at(-1) + (cfg.extra ? 3 : 0);
+  const fYears = cfg.fYears(d);
+  const vals = iObs.map(i => d.y[i]);
+  cfg.keys.forEach(k => vals.push(...cfg.get(d, k).mean));
+  const sc = scale(Math.max(...vals) * 1.35), ymax = sc.max;
+  const iw = W - m.l - m.r, ih = H - m.t - m.b;
+  const X = yr => m.l + (yr - start) / (lastYear - start) * iw;
+  const Y = v => m.t + ih - (Math.min(v, ymax) / ymax) * ih;
+  const clipId = "c" + Math.random().toString(36).slice(2);
+  const cp = el("clipPath", { id: clipId }, el("defs", {}, svg));
+  el("rect", { x: m.l, y: m.t, width: iw, height: ih }, cp);
+  sc.ticks.forEach(t => {
+    el("line", { x1: m.l, x2: W - m.r, y1: Y(t), y2: Y(t), style: "stroke:var(--grid)", "stroke-width": 1 }, svg);
+    el("text", { x: m.l - 6, y: Y(t) + 3.5, "text-anchor": "end" }, svg).textContent = fmt(t);
+  });
+  for (let yr = start; yr <= lastYear; yr++) if ((yr - start) % 4 === 0) el("text", { x: X(yr), y: H - 6, "text-anchor": "middle" }, svg).textContent = yr;
+  const cutYear = fYears[0] - 1;
+  el("line", { x1: X(cutYear), x2: X(cutYear), y1: m.t, y2: m.t + ih, style: "stroke:var(--muted)", "stroke-width": 1, opacity: .6 }, svg);
+  el("text", { x: X(cutYear) - 4, y: m.t + 9, "text-anchor": "end" }, svg).textContent = cfg.cutLabel;
+  const anchorY = d.y[d.years.indexOf(cutYear)];
+  // banda del modelo nuevo
+  if (cfg.band) {
+    const f = cfg.get(d, "nuevo");
+    const pts = [[cutYear, anchorY, anchorY], ...fYears.map((yr, i) => [yr, f.low[i], f.high[i]])];
+    const top = pts.map(p => `${X(p[0])},${m.t + ih - (p[2] / ymax) * ih}`).join(" L");
+    const bot = pts.slice().reverse().map(p => `${X(p[0])},${Y(p[1])}`).join(" L");
+    el("path", { d: `M${top} L${bot} Z`, style: "fill:var(--s-nuevo)", opacity: .12, "clip-path": `url(#${clipId})` }, svg);
+  }
+  // observado
+  const obsPath = iObs.map((i, j) => `${j ? "L" : "M"}${X(d.years[i])},${Y(d.y[i])}`).join(" ");
+  el("path", { d: obsPath, fill: "none", style: "stroke:var(--s-obs)", "stroke-width": 2, "stroke-linejoin": "round", "stroke-linecap": "round" }, svg);
+  iObs.forEach(i => el("circle", { cx: X(d.years[i]), cy: Y(d.y[i]), r: 3, style: "fill:var(--s-obs);stroke:var(--surface)", "stroke-width": 1.5 }, svg));
+  // pronósticos
+  const ends = [];
+  cfg.keys.forEach(k => {
+    const f = cfg.get(d, k);
+    const p = [[cutYear, anchorY], ...fYears.map((yr, i) => [yr, f.mean[i]])];
+    el("path", { d: p.map((q, j) => `${j ? "L" : "M"}${X(q[0])},${Y(q[1])}`).join(" "), fill: "none", style: `stroke:${SERIES[k].color}`,
+      "stroke-width": 2, "stroke-dasharray": "5 3", "stroke-linejoin": "round", "clip-path": `url(#${clipId})` }, svg);
+    fYears.forEach((yr, i) => el("circle", { cx: X(yr), cy: Y(f.mean[i]), r: 4, style: `fill:${SERIES[k].color};stroke:var(--surface)`, "stroke-width": 2 }, svg));
+    ends.push({ k, y: Y(f.mean.at(-1)), v: f.mean.at(-1) });
+  });
+  // valor final (selectivo) del modelo nuevo
+  const en = ends.find(e => e.k === "nuevo");
+  if (en) el("text", { x: X(fYears.at(-1)) - 7, y: en.y - 8, "text-anchor": "end", class: "lbl" }, svg).textContent = fmt(en.v);
+  el("line", { x1: m.l, x2: W - m.r, y1: m.t + ih, y2: m.t + ih, style: "stroke:var(--rule)", "stroke-width": 1 }, svg);
+  // capa de hover
+  const tip = makeTip(panel);
+  const cross = el("line", { y1: m.t, y2: m.t + ih, style: "stroke:var(--muted)", "stroke-width": 1, opacity: 0 }, svg);
+  const ov = el("rect", { x: m.l, y: m.t, width: iw, height: ih, fill: "transparent" }, svg);
+  ov.addEventListener("mousemove", e => {
+    const pt = svg.createSVGPoint(); pt.x = e.clientX; pt.y = e.clientY;
+    const sp = pt.matrixTransform(svg.getScreenCTM().inverse());
+    const yr = Math.round(start + (sp.x - m.l) / iw * (lastYear - start));
+    cross.setAttribute("x1", X(yr)); cross.setAttribute("x2", X(yr)); cross.setAttribute("opacity", .5);
+    let html = `<b>${yr}</b>`;
+    const oi = d.years.indexOf(yr);
+    if (oi >= 0 && yr >= start) html += `<div class="row"><span><i class="sw dot" style="background:var(--s-obs)"></i>Observado</span><span>${d.y[oi]}</span></div>`;
+    const fi = fYears.indexOf(yr);
+    if (fi >= 0) cfg.keys.forEach(k => {
+      const f = cfg.get(d, k);
+      html += `<div class="row"><span><i class="sw" style="background:${SERIES[k].color}"></i>${SERIES[k].label}</span><span>${fmt(f.mean[fi])}</span></div>`;
+      if (k === "nuevo" && cfg.band) html += `<div class="row"><span style="padding-left:24px">IC 95 %</span><span>${fmt(f.low[fi])} – ${fmt(f.high[fi])}</span></div>`;
+    });
+    tip.innerHTML = html;
+    const rc = panel.getBoundingClientRect(); placeTip(tip, panel, e.clientX - rc.left, e.clientY - rc.top);
+  });
+  ov.addEventListener("mouseleave", () => { tip.hidden = true; cross.setAttribute("opacity", 0); });
+}
+
+/* 3. Barras horizontales agrupadas: MAE relativo */
+function barsChart() {
+  const host = document.getElementById("fig-bars");
+  const rows = {
+    Agrovoltaics: { anterior: 1.00, nuevo: 0.88, a020: 0.69, poisson: 0.90 },
+    ai:           { anterior: 1.01, nuevo: 0.78, a020: 0.96, poisson: 0.76 },
+    pendulo:      { anterior: 1.02, nuevo: 1.08, a020: 1.59, poisson: 0.86 },
+  };
+  const keys = ["anterior", "nuevo", "a020", "poisson"];
+  const panel = document.createElement("div"); panel.className = "panel"; host.appendChild(panel);
+  const bh = 13, gap = 2, groupGap = 22, m = { l: 92, r: 44, t: 22, b: 26 };
+  const gh = keys.length * bh + (keys.length - 1) * gap;
+  const W = Math.max(300, panel.clientWidth), H = m.t + CORPUS.length * gh + (CORPUS.length - 1) * groupGap + m.b;
+  const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, width: W, height: H, class: "chart", role: "img", "aria-label": "Error relativo al ingenuo por modelo y corpus" }, panel);
+  const xmax = 1.75, iw = W - m.l - m.r;
+  const X = v => m.l + v / xmax * iw;
+  [0, 0.5, 1, 1.5].forEach(t => {
+    el("line", { x1: X(t), x2: X(t), y1: m.t, y2: H - m.b, style: "stroke:var(--grid)", "stroke-width": 1 }, svg);
+    el("text", { x: X(t), y: H - 8, "text-anchor": "middle" }, svg).textContent = "×" + fmt(t);
+  });
+  const tip = makeTip(panel);
+  CORPUS.forEach((c, gi) => {
+    const gy = m.t + gi * (gh + groupGap);
+    el("text", { x: m.l - 10, y: gy + gh / 2 + 4, "text-anchor": "end", class: "lbl" }, svg).textContent = c;
+    keys.forEach((k, ki) => {
+      const v = rows[c][k], y = gy + ki * (bh + gap), x0 = X(0), x1 = X(v), r = 4;
+      el("path", { d: `M${x0},${y} H${x1 - r} Q${x1},${y} ${x1},${y + r} V${y + bh - r} Q${x1},${y + bh} ${x1 - r},${y + bh} H${x0} Z`, style: `fill:${SERIES[k].color}` }, svg);
+      el("text", { x: x1 + 5, y: y + bh - 2.5, class: "lbl", style: "font-size:10.5px" }, svg).textContent = "×" + fmt2(v);
+      const hit = el("rect", { x: m.l, y: y - 1, width: iw, height: bh + 2, fill: "transparent" }, svg);
+      hit.addEventListener("mousemove", e => {
+        tip.innerHTML = `<b>${c}</b><div class="row"><span><i class="sw bar" style="background:${SERIES[k].color}"></i>${SERIES[k].label}</span><span>×${fmt2(v)}</span></div><div style="color:var(--muted);margin-top:2px">${v < 1 ? "mejor" : v > 1 ? "peor" : "igual"} que el ingenuo</div>`;
+        const rc = panel.getBoundingClientRect(); placeTip(tip, panel, e.clientX - rc.left, e.clientY - rc.top);
+      });
+      hit.addEventListener("mouseleave", () => tip.hidden = true);
+    });
+  });
+  el("line", { x1: X(1), x2: X(1), y1: m.t - 6, y2: H - m.b, style: "stroke:var(--ink-2)", "stroke-width": 1.5 }, svg);
+  el("text", { x: X(1) + 5, y: 12, "text-anchor": "start", class: "lbl" }, svg).textContent = "ingenuo = ×1";
+}
+
+legend("leg-holdout", ["obs", "anterior", "nuevo", "a020", "band"]);
+legend("leg-bars", ["anterior", "nuevo", "a020", "poisson"], "bar");
+legend("leg-future", ["obs", "nuevo", "band"]);
+function renderAll() {
+  ["fig-series", "fig-holdout", "fig-bars", "fig-future"].forEach(id => document.getElementById(id).innerHTML = "");
+  seriesChart();
+  const hh = document.getElementById("fig-holdout");
+  CORPUS.forEach(name => lineChart(hh, name, {
+    from: 2012, keys: ["anterior", "nuevo", "a020"], band: true, cutLabel: "corte",
+    obsEnd: d => d.years.at(-1), fYears: d => d.years.slice(-3), get: (d, k) => d.holdout[k],
+    sub: d => `entrenado hasta ${d.years.at(-4)}`, aria: n => `Pronóstico de los últimos 3 años en ${n}`,
+  }));
+  barsChart();
+  const fh = document.getElementById("fig-future");
+  CORPUS.forEach(name => lineChart(fh, name, {
+    from: 2012, keys: ["nuevo"], band: true, extra: true, cutLabel: "último dato",
+    obsEnd: d => d.years.at(-1), fYears: d => [1, 2, 3].map(h => d.years.at(-1) + h), get: (d, k) => d.future[k],
+    sub: d => `${d.years.at(-1) + 1}–${d.years.at(-1) + 3}`, aria: n => `Pronóstico vigente en ${n}`,
+  }));
+}
+renderAll();
+let lastW = window.innerWidth, rt;
+window.addEventListener("resize", () => {
+  clearTimeout(rt);
+  rt = setTimeout(() => { if (window.innerWidth !== lastW) { lastW = window.innerWidth; renderAll(); } }, 150);
+});
+</script>

@@ -90,7 +90,8 @@ def _tag(t: dict, corpus: dict) -> str:
 def _forecast_lines(fc: dict) -> list[str]:
     if not fc["ok"]:
         return [f"  Pronóstico ARIMA: no se calcula, {fc['reason']}."]
-    lines = [f"  Pronóstico ARIMA{fc['order']} (elegido por AIC={fc['aic']}), intervalo de confianza 95 %:"]
+    lines = [f"  Pronóstico ARIMA{fc['order']} con deriva sobre log(1+artículos) (elegido por AICc={fc['aicc']}; "
+             f"la deriva equivale a {_pct(fc['drift_growth'])}), intervalo de confianza 95 %:"]
     lines += [f"    {f['year']}: {f['mean']} artículos (entre {f['low']} y {f['high']})" for f in fc["forecast"]]
     return lines
 
@@ -258,9 +259,10 @@ def forecast_context(db_path: str, query: str) -> tuple[str, list[dict]]:
     r = analyze(db_path)
     corpus = r["total_trend"]
     method = ("MÉTODO: series de tiempo anuales del número de artículos. Crecimiento = regresión de Poisson del "
-              "número de artículos por año. Pronóstico = ARIMA con orden elegido por AIC e intervalo de confianza "
-              "del 95 %; solo se calcula con al menos 10 años y 20 artículos. Las series son cortas: los "
-              "pronósticos son orientativos.")
+              "número de artículos por año. Pronóstico = ARIMA(p,1,q) con deriva sobre el logaritmo de "
+              "(1 + artículos por año), p y q ≤ 1 elegidos por AICc, con intervalo de confianza del 95 %; solo se "
+              "calcula con al menos 10 años y 20 artículos. Las series son cortas y los intervalos amplios: los "
+              "pronósticos son orientativos, sobre todo a 2 y 3 años.")
     topic, arts = _topic_articles(query, db_path)
     if topic:
         series = annual_series([a["year"] for a in arts], *r["years"])

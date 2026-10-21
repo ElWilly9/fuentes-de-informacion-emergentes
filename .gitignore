@@ -1,3 +1,8 @@
 .env.example
 
 CLAUDE.md
+# Claves y configuración local (nunca al repo)
+.env
+.claude
+# Spider: bases de datos descargadas (205 MB)
+benchmark/externos/spider/data/

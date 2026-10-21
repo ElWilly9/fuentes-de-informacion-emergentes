@@ -1,0 +1,109 @@
+{2006: 2, 2007: 1, 2008: 1, 2009: 1, 2010: 3, 2011: 6, 2012: 3, 2013: 2, 2014: 5, 2015: 5, 2016: 3, 2017: 6, 2018: 6, 2019: 12, 2020: 12, 2021: 25, 2022: 24, 2023: 39, 2024: 52, 2025: 54}
+
+== Estacionariedad (serie completa) ==
+conteos   nivel     constante           n=20 | ADF(0)   1.87 p=0.998 ADF(1)   2.85 p=1.000 | KPSS 0.795 p=0.010
+conteos   nivel     const. + tendencia  n=20 | ADF(0)  -0.21 p=0.991 ADF(1)   1.17 p=1.000 | KPSS 0.244 p=0.010
+conteos   1.ª dif.  constante           n=19 | ADF(0)  -3.77 p=0.003 ADF(1)  -1.62 p=0.470 | KPSS 0.611 p=0.022
+conteos   1.ª dif.  const. + tendencia  n=19 | ADF(0)  -5.60 p=0.000 ADF(1)  -2.97 p=0.140 | KPSS 0.115 p=0.100
+conteos   2.ª dif.  constante           n=18 | ADF(0)  -8.59 p=0.000 ADF(1)  -6.31 p=0.000 | KPSS 0.086 p=0.100
+conteos   2.ª dif.  const. + tendencia  n=18 | ADF(0)  -8.26 p=0.000 ADF(1)  -6.67 p=0.000 | KPSS 0.081 p=0.100
+log(1+y)  nivel     constante           n=20 | ADF(0)   0.00 p=0.959 ADF(1)   0.11 p=0.967 | KPSS 0.970 p=0.010
+log(1+y)  nivel     const. + tendencia  n=20 | ADF(0)  -2.84 p=0.183 ADF(1)  -2.05 p=0.577 | KPSS 0.191 p=0.019
+log(1+y)  1.ª dif.  constante           n=19 | ADF(0)  -5.22 p=0.000 ADF(1)  -4.23 p=0.001 | KPSS 0.176 p=0.100
+log(1+y)  1.ª dif.  const. + tendencia  n=19 | ADF(0)  -5.18 p=0.000 ADF(1)  -4.31 p=0.003 | KPSS 0.046 p=0.100
+log(1+y)  2.ª dif.  constante           n=18 | ADF(0)  -6.70 p=0.000 ADF(1)  -4.95 p=0.000 | KPSS 0.079 p=0.100
+log(1+y)  2.ª dif.  const. + tendencia  n=18 | ADF(0)  -6.52 p=0.000 ADF(1)  -4.81 p=0.000 | KPSS 0.051 p=0.100
+
+== Estacionariedad (solo entrenamiento, hasta 2022) ==
+conteos   nivel     constante           n=17 | ADF(0)   0.34 p=0.979 ADF(1)   2.55 p=0.999 | KPSS 0.670 p=0.016
+conteos   nivel     const. + tendencia  n=17 | ADF(0)  -1.26 p=0.898 ADF(1)   0.99 p=1.000 | KPSS 0.186 p=0.021
+conteos   1.ª dif.  constante           n=16 | ADF(0)  -4.73 p=0.000 ADF(1)  -0.94 p=0.775 | KPSS 0.367 p=0.091
+conteos   1.ª dif.  const. + tendencia  n=16 | ADF(0)  -6.02 p=0.000 ADF(1)  -1.79 p=0.707 | KPSS 0.094 p=0.100
+conteos   2.ª dif.  constante           n=15 | ADF(0)  -9.80 p=0.000 ADF(1)  -3.59 p=0.006 | KPSS 0.108 p=0.100
+conteos   2.ª dif.  const. + tendencia  n=15 | ADF(0)  -9.46 p=0.000 ADF(1)  -3.64 p=0.027 | KPSS 0.091 p=0.100
+log(1+y)  nivel     constante           n=17 | ADF(0)  -0.38 p=0.913 ADF(1)  -0.25 p=0.933 | KPSS 0.788 p=0.010
+log(1+y)  nivel     const. + tendencia  n=17 | ADF(0)  -2.95 p=0.148 ADF(1)  -2.43 p=0.365 | KPSS 0.118 p=0.100
+log(1+y)  1.ª dif.  constante           n=16 | ADF(0)  -4.67 p=0.000 ADF(1)  -3.90 p=0.002 | KPSS 0.141 p=0.100
+log(1+y)  1.ª dif.  const. + tendencia  n=16 | ADF(0)  -4.55 p=0.001 ADF(1)  -3.86 p=0.014 | KPSS 0.051 p=0.100
+log(1+y)  2.ª dif.  constante           n=15 | ADF(0)  -5.68 p=0.000 ADF(1)  -4.35 p=0.000 | KPSS 0.088 p=0.100
+log(1+y)  2.ª dif.  const. + tendencia  n=15 | ADF(0)  -5.46 p=0.000 ADF(1)  -4.18 p=0.005 | KPSS 0.059 p=0.100
+
+== Fuera de muestra: real [2023, 2024, 2025] = [39.0, 52.0, 54.0] ==
+Conteos, d = 1   #1 ARIMA(0, 1, 0)                         AICc   91.8 | pred [24. 24. 24.] IC [[16.2, 31.8], [13.0, 35.0], [10.5, 37.5]] | MAE 24.33 RMSE 25.23 MAPE 49% cobertura 0/3
+Conteos, d = 1   #2 ARIMA(0, 1, 0) con deriva              AICc   92.4 | pred [25.4 26.7 28.1] IC [[18.1, 32.7], [16.4, 37.1], [15.5, 40.8]] | MAE 21.58 RMSE 22.31 MAPE 44% cobertura 0/3
+Conteos, d = 1   #3 ARIMA(2, 1, 0)                         AICc   94.2 | pred [31.8 30.8 35.6] IC [[25.0, 38.7], [21.4, 40.2], [21.4, 49.7]] | MAE 15.59 RMSE 16.72 MAPE 31% cobertura 0/3
+Conteos, d = 2   #1 ARIMA(1, 2, 0)                         AICc   87.5 | pred [35.2 35.8 45.7] IC [[28.2, 42.3], [25.1, 46.4], [27.8, 63.5]] | MAE 9.45 RMSE 10.76 MAPE 19% cobertura 2/3
+Conteos, d = 2   #2 ARIMA(0, 2, 2)                         AICc   88.7 | pred [34.1 41.1 48.2] IC [[27.8, 40.3], [33.3, 49.0], [36.4, 60.0]] | MAE 7.21 RMSE 7.67 MAPE 15% cobertura 2/3
+Conteos, d = 2   #3 ARIMA(1, 2, 1)                         AICc   89.6 | pred [33.6 35.5 43. ] IC [[26.8, 40.4], [26.4, 44.6], [28.9, 57.1]] | MAE 10.97 RMSE 11.86 MAPE 22% cobertura 2/3
+log(1+y), d = 1  #1 log(1+y) ARIMA(0, 1, 0) con deriva     AICc   23.0 | pred [27.5 31.6 36.2] IC [[11.4, 64.7], [9.0, 105.0], [7.8, 156.7]] | MAE 16.56 RMSE 16.98 MAPE 34% cobertura 3/3
+log(1+y), d = 1  #2 log(1+y) ARIMA(0, 1, 1) con deriva     AICc   23.8 | pred [24.1 28.1 32.7] IC [[10.7, 52.9], [12.0, 64.3], [13.4, 77.9]] | MAE 20.01 RMSE 20.36 MAPE 41% cobertura 3/3
+log(1+y), d = 1  #3 log(1+y) ARIMA(0, 1, 1)                AICc   24.4 | pred [23.9 23.9 23.9] IC [[9.4, 58.6], [6.7, 79.8], [5.1, 101.8]] | MAE 24.39 RMSE 25.28 MAPE 49% cobertura 3/3
+log(1+y), d = 2  #1 log(1+y) ARIMA(0, 2, 1)                AICc   25.7 | pred [27.5 31.6 36.2] IC [[10.7, 68.3], [8.0, 117.6], [6.3, 188.1]] | MAE 16.55 RMSE 16.98 MAPE 34% cobertura 3/3
+log(1+y), d = 2  #2 log(1+y) ARIMA(0, 2, 2)                AICc   28.0 | pred [29.  35.2 42.7] IC [[11.9, 68.8], [12.1, 99.1], [12.2, 143.6]] | MAE 12.70 RMSE 13.04 MAPE 26% cobertura 3/3
+log(1+y), d = 2  #3 log(1+y) ARIMA(1, 2, 1)                AICc   28.5 | pred [28.5 32.8 37.8] IC [[11.4, 69.4], [9.5, 108.0], [8.1, 163.8]] | MAE 15.31 RMSE 15.74 MAPE 31% cobertura 3/3
+Ingenuo (último valor)                                  pred [24. 24. 24.] | MAE 24.33 RMSE 25.23 MAPE 49%
+Ingenuo con deriva                                      pred [25.4 26.8 28.1] | MAE 21.58 RMSE 22.31 MAPE 44%
+Regresión de Poisson (tendencia exponencial)            pred [27.1 33.2 40.6] | MAE 14.71 RMSE 15.01 MAPE 31%
+Agente actual: ARIMA(0, 1, 0) (AIC, d∈{0,1})            pred [24. 24. 24.] | MAE 24.33 RMSE 25.23 MAPE 49% cobertura 0/3
+
+== Origen móvil (cortes desde 2015: al menos 10 años de entrenamiento, pronóstico a 1–3 años) ==
+Agente actual (AIC, d ≤ 1, reelegido en cada corte)        MAE 10.64 (×1.01 ingenuo) RMSE 13.91 sesgo +9.63 (n=27) cobertura IC95 30% MAE por horizonte [7.04, 9.63, 16.27] | elegidos ['(0, 0, 2)', '(2, 1, 0)', '(0, 0, 2)', '(0, 0, 2)', '(0, 0, 1)', '(0, 1, 0)', '(0, 1, 0)', '(0, 1, 0)', '(2, 1, 0)', '(1, 1, 2)']
+Conteos, d = 1: mejor AICc en cada corte                   MAE 10.29 (×0.98 ingenuo) RMSE 13.65 sesgo +9.56 (n=27) cobertura IC95 41% MAE por horizonte [6.11, 9.62, 16.28] | elegidos ['ARIMA(0, 1, 0)', 'ARIMA(0, 1, 0)', 'ARIMA(0, 1, 0)', 'ARIMA(0, 1, 1) con deriva', 'ARIMA(0, 1, 0)', 'ARIMA(0, 1, 0)', 'ARIMA(0, 1, 0)', 'ARIMA(0, 1, 0)', 'ARIMA(2, 1, 0)', 'ARIMA(1, 1, 2)']
+Conteos, d = 2: mejor AICc en cada corte                   MAE 6.98 (×0.66 ingenuo) RMSE 9.21 sesgo +5.87 (n=27) cobertura IC95 63% MAE por horizonte [5.23, 5.89, 10.38] | elegidos ['ARIMA(0, 2, 1)', 'ARIMA(0, 2, 1)', 'ARIMA(0, 2, 1)', 'ARIMA(0, 2, 1)', 'ARIMA(0, 2, 1)', 'ARIMA(0, 2, 1)', 'ARIMA(1, 2, 0)', 'ARIMA(1, 2, 0)', 'ARIMA(1, 2, 0)', 'ARIMA(0, 2, 2)']
+log(1+y), d = 1: mejor AICc en cada corte                  MAE 9.65 (×0.92 ingenuo) RMSE 12.40 sesgo +9.43 (n=27) cobertura IC95 100% MAE por horizonte [5.15, 10.05, 14.85] | elegidos ['log(1+y) ARIMA(0, 1, 0)', 'log(1+y) ARIMA(0, 1, 0)', 'log(1+y) ARIMA(0, 1, 0)', 'log(1+y) ARIMA(0, 1, 0)', 'log(1+y) ARIMA(0, 1, 0)', 'log(1+y) ARIMA(0, 1, 0)', 'log(1+y) ARIMA(0, 1, 0)', 'log(1+y) ARIMA(0, 1, 0) con deriva', 'log(1+y) ARIMA(0, 1, 0)', 'log(1+y) ARIMA(0, 1, 0)']
+log(1+y), d = 2: mejor AICc en cada corte                  MAE 7.81 (×0.74 ingenuo) RMSE 9.84 sesgo +6.60 (n=27) cobertura IC95 100% MAE por horizonte [5.56, 6.79, 11.76] | elegidos ['log(1+y) ARIMA(0, 2, 0)', 'log(1+y) ARIMA(0, 2, 0)', 'log(1+y) ARIMA(0, 2, 1)', 'log(1+y) ARIMA(0, 2, 1)', 'log(1+y) ARIMA(0, 2, 1)', 'log(1+y) ARIMA(0, 2, 1)', 'log(1+y) ARIMA(0, 2, 1)', 'log(1+y) ARIMA(0, 2, 1)', 'log(1+y) ARIMA(0, 2, 1)', 'log(1+y) ARIMA(0, 2, 1)']
+ARIMA(1, 1, 0)                                             MAE 10.85 (×1.03 ingenuo) RMSE 14.20 sesgo +10.55 (n=27) cobertura IC95 33% MAE por horizonte [5.77, 11.33, 16.66]
+ARIMA(0, 1, 0) con deriva                                  MAE 9.23 (×0.88 ingenuo) RMSE 12.16 sesgo +8.72 (n=27) cobertura IC95 48% MAE por horizonte [5.21, 9.18, 14.3]
+ARIMA(1, 1, 0) con deriva                                  MAE 9.77 (×0.93 ingenuo) RMSE 12.76 sesgo +9.44 (n=27) cobertura IC95 37% MAE por horizonte [5.59, 9.92, 14.81]
+ARIMA(0, 2, 0)                                             MAE 10.15 (×0.96 ingenuo) RMSE 13.41 sesgo +3.78 (n=27) cobertura IC95 85% MAE por horizonte [7.8, 9.22, 14.13]
+ARIMA(0, 2, 1)                                             MAE 8.23 (×0.78 ingenuo) RMSE 10.81 sesgo +6.95 (n=27) cobertura IC95 63% MAE por horizonte [5.75, 7.19, 12.52]
+ARIMA(1, 2, 0)                                             MAE 6.28 (×0.60 ingenuo) RMSE 8.26 sesgo +4.40 (n=27) cobertura IC95 81% MAE por horizonte [5.93, 4.78, 8.41]
+log(1+y) ARIMA(1, 1, 0)                                    MAE 10.79 (×1.03 ingenuo) RMSE 14.15 sesgo +10.64 (n=27) cobertura IC95 100% MAE por horizonte [5.7, 11.25, 16.63]
+log(1+y) ARIMA(0, 1, 0) con deriva                         MAE 7.51 (×0.71 ingenuo) RMSE 9.67 sesgo +6.22 (n=27) cobertura IC95 100% MAE por horizonte [5.46, 6.41, 11.31]
+log(1+y) ARIMA(1, 1, 0) con deriva                         MAE 7.61 (×0.72 ingenuo) RMSE 9.66 sesgo +6.75 (n=27) cobertura IC95 100% MAE por horizonte [5.01, 6.96, 11.59]
+log(1+y) ARIMA(0, 2, 0)                                    MAE 23.45 (×2.23 ingenuo) RMSE 38.45 sesgo -9.74 (n=27) cobertura IC95 100% MAE por horizonte [11.09, 21.42, 41.17]
+log(1+y) ARIMA(0, 2, 1)                                    MAE 7.51 (×0.71 ingenuo) RMSE 9.67 sesgo +6.22 (n=27) cobertura IC95 100% MAE por horizonte [5.46, 6.41, 11.3]
+log(1+y) ARIMA(1, 2, 0)                                    MAE 10.97 (×1.04 ingenuo) RMSE 15.34 sesgo -2.96 (n=27) cobertura IC95 100% MAE por horizonte [7.65, 8.77, 17.59]
+Ingenuo (último valor)                                     MAE 10.52 (×1.00 ingenuo) RMSE 13.88 sesgo +10.30 (n=27)
+Ingenuo con deriva                                         MAE 9.23 (×0.88 ingenuo) RMSE 12.16 sesgo +8.72 (n=27)
+Regresión de Poisson (tendencia exponencial)               MAE 8.03 (×0.76 ingenuo) RMSE 10.32 sesgo +7.35 (n=27)
+
+== Residuos (serie completa; se descartan los d primeros) ==
+ARIMA(1, 1, 0): AICc 124.3 | params [0.271, 31.455] p [0.201, 0.0]
+    n=19 media +2.02 (t p=0.12) | Ljung-Box p [(3, 0.175), (4, 0.284), (5, 0.428), (6, 0.572)] | Jarque-Bera p=0.08 Shapiro p=0.01 | heteroced. p=0.00 | ACF [-0.28, 0.27, 0.04, 0.11, -0.04, -0.01] (banda ±0.45)
+ARIMA(0, 1, 0) con deriva: AICc 121.1 | params [2.737, 26.72] p [0.212, 0.063]
+    n=19 media +0.00 (t p=1.00) | Ljung-Box p [(3, 0.36), (4, 0.444), (5, 0.589), (6, 0.712)] | Jarque-Bera p=0.06 Shapiro p=0.00 | heteroced. p=0.04 | ACF [0.07, 0.33, 0.16, 0.14, 0.0, -0.02] (banda ±0.45)
+ARIMA(1, 1, 0) con deriva: AICc 123.8 | params [2.719, 0.071, 26.575] p [0.243, 0.715, 0.058]
+    n=19 media +0.01 (t p=0.99) | Ljung-Box p [(3, 0.264), (4, 0.375), (5, 0.539), (6, 0.681)] | Jarque-Bera p=0.06 Shapiro p=0.00 | heteroced. p=0.04 | ACF [-0.02, 0.31, 0.12, 0.13, -0.01, -0.02] (banda ±0.45)
+ARIMA(0, 2, 0): AICc 124.3 | params [51.504] p [0.002]
+    n=18 media +0.17 (t p=0.92) | Ljung-Box p [(3, 0.019), (4, 0.039), (5, 0.066), (6, 0.11)] | Jarque-Bera p=0.90 Shapiro p=0.79 | heteroced. p=0.00 | ACF [-0.64, 0.23, -0.09, 0.08, -0.1, 0.02] (banda ±0.46)
+ARIMA(0, 2, 1): AICc 115.8 | params [-0.729, 26.775] p [0.0, 0.002]
+    n=18 media +1.44 (t p=0.25) | Ljung-Box p [(3, 0.121), (4, 0.237), (5, 0.365), (6, 0.496)] | Jarque-Bera p=0.57 Shapiro p=0.38 | heteroced. p=0.01 | ACF [-0.42, 0.12, 0.07, 0.01, -0.05, -0.05] (banda ±0.46)
+ARIMA(1, 2, 0): AICc 116.4 | params [-0.685, 27.809] p [0.0, 0.004]
+    n=18 media +0.70 (t p=0.59) | Ljung-Box p [(3, 0.07), (4, 0.131), (5, 0.228), (6, 0.333)] | Jarque-Bera p=0.66 Shapiro p=0.73 | heteroced. p=0.02 | ACF [-0.39, -0.17, 0.25, -0.11, -0.01, -0.06] (banda ±0.46)
+log(1+y) ARIMA(1, 1, 0): AICc 26.4 | params [-0.027, 0.183] p [0.928, 0.037]
+    n=19 media +0.16 (t p=0.11) | Ljung-Box p [(3, 0.398), (4, 0.389), (5, 0.533), (6, 0.675)] | Jarque-Bera p=0.55 Shapiro p=0.06 | heteroced. p=0.57 | ACF [-0.18, -0.21, -0.04, 0.21, -0.07, -0.02] (banda ±0.45)
+log(1+y) ARIMA(0, 1, 0) con deriva: AICc 23.8 | params [0.153, 0.16] p [0.096, 0.055]
+    n=19 media +0.00 (t p=1.00) | Ljung-Box p [(3, 0.587), (4, 0.536), (5, 0.656), (6, 0.771)] | Jarque-Bera p=0.55 Shapiro p=0.06 | heteroced. p=0.24 | ACF [-0.2, -0.2, -0.04, 0.21, -0.07, -0.02] (banda ±0.45)
+log(1+y) ARIMA(1, 1, 0) con deriva: AICc 25.8 | params [0.16, -0.218, 0.152] p [0.045, 0.353, 0.059]
+    n=19 media -0.01 (t p=0.94) | Ljung-Box p [(3, 0.391), (4, 0.392), (5, 0.553), (6, 0.688)] | Jarque-Bera p=0.52 Shapiro p=0.06 | heteroced. p=0.15 | ACF [-0.04, -0.28, -0.04, 0.21, -0.03, -0.04] (banda ±0.45)
+log(1+y) ARIMA(0, 2, 0): AICc 36.3 | params [0.388] p [0.058]
+    n=18 media +0.02 (t p=0.87) | Ljung-Box p [(3, 0.16), (4, 0.158), (5, 0.136), (6, 0.204)] | Jarque-Bera p=0.58 Shapiro p=0.44 | heteroced. p=0.88 | ACF [-0.49, -0.07, 0.01, 0.24, -0.25, 0.06] (banda ±0.46)
+log(1+y) ARIMA(0, 2, 1): AICc 26.8 | params [-1.0, 0.168] p [0.989, 0.989]
+    n=18 media +0.15 (t p=0.17) | Ljung-Box p [(3, 0.36), (4, 0.423), (5, 0.343), (6, 0.459)] | Jarque-Bera p=0.67 Shapiro p=0.66 | heteroced. p=0.25 | ACF [-0.21, -0.22, 0.04, 0.17, -0.25, -0.07] (banda ±0.46)
+log(1+y) ARIMA(1, 2, 0): AICc 34.0 | params [-0.477, 0.293] p [0.153, 0.006]
+    n=18 media +0.04 (t p=0.75) | Ljung-Box p [(3, 0.074), (4, 0.091), (5, 0.101), (6, 0.169)] | Jarque-Bera p=0.94 Shapiro p=0.99 | heteroced. p=0.13 | ACF [-0.22, -0.41, 0.12, 0.22, -0.22, -0.03] (banda ±0.46)
+
+== Serie completa: mejor modelo por familia ==
+Conteos, d = 1   ARIMA(1, 1, 2)                         AICc  119.8 params [0.935, -1.358, 1.0, 12.968] | 2026-2028: [69.2, 79.2, 88.6] IC [[61.8, 76.6], [70.4, 88.0], [76.0, 101.1]]
+Conteos, d = 1   ARIMA(0, 1, 0) con deriva              AICc  121.1 params [2.737, 26.72] | 2026-2028: [56.7, 59.5, 62.2] IC [[46.6, 66.9], [45.1, 73.8], [44.7, 79.8]]
+Conteos, d = 1   ARIMA(1, 1, 2) con deriva              AICc  122.4 params [4.084, 0.878, -1.345, 1.0, 12.655] | 2026-2028: [69.0, 78.9, 88.1] IC [[61.7, 76.3], [70.4, 87.4], [76.1, 100.0]]
+Conteos, d = 2   ARIMA(0, 2, 2)                         AICc  110.5 params [-1.383, 1.0, 13.173] | 2026-2028: [70.2, 81.1, 91.9] IC [[62.8, 77.7], [72.0, 90.1], [78.8, 105.0]]
+Conteos, d = 2   ARIMA(1, 2, 2)                         AICc  113.5 params [-0.174, -1.335, 1.0, 12.647] | 2026-2028: [71.5, 81.7, 93.1] IC [[64.2, 78.8], [73.3, 90.1], [80.6, 105.6]]
+Conteos, d = 2   ARIMA(2, 2, 0)                         AICc  113.7 params [-1.14, -0.574, 19.363] | 2026-2028: [69.7, 76.1, 85.2] IC [[61.1, 78.3], [64.7, 87.5], [68.3, 102.1]]
+log(1+y), d = 1  log(1+y) ARIMA(0, 1, 0) con deriva     AICc   23.8 params [0.153, 0.16] | 2026-2028: [63.1, 73.7, 86.1] IC [[28.3, 139.3], [23.7, 225.1], [21.4, 337.0]]
+log(1+y), d = 1  log(1+y) ARIMA(0, 1, 0)                AICc   23.9 params [0.183] | 2026-2028: [54.0, 54.0, 54.0] IC [[22.8, 126.2], [15.8, 179.1], [11.9, 234.1]]
+log(1+y), d = 1  log(1+y) ARIMA(0, 1, 1) con deriva     AICc   24.7 params [0.168, -0.442, 0.143] | 2026-2028: [64.7, 76.7, 90.9] IC [[30.3, 136.7], [32.3, 180.4], [34.8, 235.1]]
+log(1+y), d = 2  log(1+y) ARIMA(0, 2, 1)                AICc   26.8 params [-1.0, 0.168] | 2026-2028: [63.1, 73.7, 86.1] IC [[27.1, 145.3], [21.6, 245.9], [18.4, 388.7]]
+log(1+y), d = 2  log(1+y) ARIMA(0, 2, 2)                AICc   28.5 params [-1.32, 0.425, 0.163] | 2026-2028: [73.9, 94.2, 120.2] IC [[32.9, 164.2], [35.6, 247.1], [37.7, 378.4]]
+log(1+y), d = 2  log(1+y) ARIMA(1, 2, 1)                AICc   29.2 params [-0.173, -0.973, 0.165] | 2026-2028: [65.0, 76.3, 90.0] IC [[28.4, 147.2], [25.3, 226.2], [23.2, 341.3]]
