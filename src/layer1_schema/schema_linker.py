@@ -103,6 +103,64 @@ def build_value_hints(db_path: str | None, tables: list[str]) -> list[str]:
     return hints
 
 
+_AUTHOR_NAMES: dict[tuple[str, float], list[tuple[str, frozenset]]] = {}
+
+
+def _name_tokens(text: str) -> list[str]:
+    import unicodedata
+    text = unicodedata.normalize("NFKD", text).encode("ascii", "ignore").decode().upper()
+    return [t for t in re.split(r"[^A-Z0-9]+", text) if len(t) >= 2]
+
+
+def author_hints(db_path: str | None, query: str) -> list[str]:
+    """
+    Si la pregunta nombra a un autor, da sus formas exactas en la BD. Un mismo autor suele tener
+    varias filas en author con formatos distintos ('AGERT, CARSTEN' y 'CARSTEN AGERT', 'MURAT PAŞA
+    UYSAL'), y el LLM busca LIKE '%CARSTEN AGERT%', que solo encuentra una de ellas.
+    Cuenta como mención que todas las palabras del nombre (2+, sin iniciales, sin tildes y en
+    cualquier orden) estén en la pregunta.
+    """
+    if not db_path or not os.path.exists(db_path):
+        return []
+    import sqlite3
+
+    key = (db_path, os.path.getmtime(db_path))
+    if key not in _AUTHOR_NAMES:
+        try:
+            conn = sqlite3.connect(db_path)
+            names = [r[0] for r in conn.execute(
+                "SELECT DISTINCT AuthorFullName FROM Author WHERE AuthorFullName IS NOT NULL")]
+            conn.close()
+        except Exception:
+            return []
+        _AUTHOR_NAMES[key] = [(n, frozenset(toks)) for n in names
+                              if len(toks := _name_tokens(n)) >= 2 and any(len(t) >= 3 for t in toks)]
+    words = set(_name_tokens(query))
+    forms = sorted(n for n, toks in _AUTHOR_NAMES[key] if toks <= words)
+    if not forms:
+        return []
+    values = ", ".join("'" + f.replace("'", "''") + "'" for f in forms)
+    return [f"La pregunta nombra a un autor que en la BD está escrito como {values}. Fíltralo con "
+            f"author.authorfullname IN ({values}), no con LIKE sobre el nombre completo."]
+
+
+def column_types(db_path: str | None, tables: list[str]) -> dict[str, dict[str, str]]:
+    """Tipo declarado de cada columna (PRAGMA table_info), para mostrarlo en el esquema del prompt."""
+    if not db_path:
+        return {}
+    import sqlite3
+
+    out = {}
+    try:
+        conn = sqlite3.connect(db_path)
+        for t in tables:
+            out[t] = {r[1].lower(): (r[2] or "").upper() for r in conn.execute(f'PRAGMA table_info("{t}")')}
+        conn.close()
+    except Exception:
+        return {}
+    return out
+
+
 # ─────────────────────────────────────────────────────────────────────────────
 # Clasificador de canal (sql / rag / hybrid)
 # ─────────────────────────────────────────────────────────────────────────────

@@ -1,0 +1,844 @@
+[
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-S01",
+    "plantilla": "S01",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos principales hay en el corpus?",
+    "gold": {
+      "numeros": [
+        66
+      ]
+    }
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-S02",
+    "plantilla": "S02",
+    "tipo": "SQL",
+    "pregunta": "¿En qué año se publicaron más artículos y cuántos?",
+    "gold": {
+      "numeros": [
+        13
+      ],
+      "alguno_de": [
+        [
+          "2024"
+        ]
+      ]
+    }
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-S03",
+    "plantilla": "S03",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos se publicaron entre 2020 y 2024?",
+    "gold": {
+      "numeros": [
+        45
+      ]
+    }
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-S04",
+    "plantilla": "S04",
+    "tipo": "SQL",
+    "pregunta": "¿Qué país aparece en más artículos y en cuántos?",
+    "gold": {
+      "numeros": [
+        17
+      ],
+      "alguno_de": [
+        [
+          "CHINA",
+          "China"
+        ]
+      ]
+    }
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-S05",
+    "plantilla": "S05",
+    "tipo": "SQL",
+    "pregunta": "¿En cuántos artículos participa al menos una institución de Alemania?",
+    "gold": {
+      "numeros": [
+        7
+      ]
+    },
+    "valor": "GERMANY"
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-S06",
+    "plantilla": "S06",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántas citas tiene el artículo más citado del corpus?",
+    "gold": {
+      "numeros": [
+        165
+      ]
+    }
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-S07",
+    "plantilla": "S07",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántas citas suman los artículos publicados en 2024?",
+    "gold": {
+      "numeros": [
+        61
+      ]
+    }
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-S08",
+    "plantilla": "S08",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos tiene Carsten Agert en el corpus y cuántas citas suman?",
+    "gold": {
+      "numeros": [
+        3,
+        38
+      ]
+    },
+    "valor": "AGERT, CARSTEN"
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-S09",
+    "plantilla": "S09",
+    "tipo": "SQL",
+    "pregunta": "¿Cuál es el promedio de citas por artículo en el corpus?",
+    "gold": {
+      "numeros": [
+        11.8
+      ]
+    }
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-H01",
+    "plantilla": "H01",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuál es el artículo más citado del corpus y de qué trata?",
+    "gold": {
+      "titulos": [
+        "POWERING AGRICULTURE: PRESENT STATUS, FUTURE POTENTIAL, AND CHALLENGES OF RENEWABLE ENERGY APPLICATIONS"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-H02",
+    "plantilla": "H02",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuál es el artículo más citado publicado en 2023 y qué estudia?",
+    "gold": {
+      "titulos": [
+        "ACIDIFICATION AND SOLAR DRYING OF MANURE-BASED DIGESTATE TO PRODUCE IMPROVED FERTILIZING PRODUCTS"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-H03",
+    "plantilla": "H03",
+    "tipo": "Híbrida",
+    "pregunta": "¿Qué artículos ha publicado Carsten Agert en el corpus y de qué tratan?",
+    "gold": {
+      "titulos": [
+        "SPECTRAL ENGINEERING OF ULTRATHIN GERMANIUM SOLAR CELLS FOR COMBINED PHOTOVOLTAIC AND PHOTOSYNTHESIS",
+        "INFLUENCE OF SPECTRALLY SELECTIVE SOLAR CELLS ON MICROALGAE GROWTH IN PHOTO-BIOREACTORS",
+        "PERFORMANCE ANALYSIS OF A SPECTRALLY SELECTIVE SOLAR CELL USING PV-GIS DATA"
+      ],
+      "minimo": 3
+    },
+    "valor": "AGERT, CARSTEN"
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-H04",
+    "plantilla": "H04",
+    "tipo": "Híbrida",
+    "pregunta": "¿Qué artículos tienen autores de España y de qué tratan?",
+    "gold": {
+      "titulos": [
+        "ACIDIFICATION AND SOLAR DRYING OF MANURE-BASED DIGESTATE TO PRODUCE IMPROVED FERTILIZING PRODUCTS",
+        "SOLAR DRYING OF GREENHOUSE CROP RESIDUES FOR ENERGY VALORIZATION: MODELING AND DETERMINATION OF OPTIMAL CONDITIONS",
+        "HYBRIDIZATION OF ANAEROBIC DIGESTION WITH SOLAR ENERGY: A SOLUTION FOR ISOLATED LIVESTOCK FARMS",
+        "PRE- AND POSTHARVEST STRATEGIES TO ENHANCE BIOACTIVE CONSTITUENTS OF FRUITS AND VEGETABLES"
+      ],
+      "minimo": 4
+    },
+    "valor": "SPAIN"
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-H05",
+    "plantilla": "H05",
+    "tipo": "Híbrida",
+    "pregunta": "De los artículos publicados desde 2023, ¿cuál es el más citado y qué propone?",
+    "gold": {
+      "titulos": [
+        "SIMULATION-BASED DECISION SUPPORT FOR AGRIVOLTAIC SYSTEMS",
+        "APPLICATION OF FAT REPLACERS IN DAIRY PRODUCTS: A REVIEW",
+        "ACIDIFICATION AND SOLAR DRYING OF MANURE-BASED DIGESTATE TO PRODUCE IMPROVED FERTILIZING PRODUCTS"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-R01",
+    "plantilla": "R01",
+    "tipo": "RAG",
+    "pregunta": "¿Qué artículo del corpus trata sobre asean, dry fish y food industry, y qué propone?",
+    "gold": {
+      "titulos": [
+        "MARINE WATER AQUACULTURE AND AN IOT-BASED SMART FISH DRYER OF THE FUTURE: A SUSTAINABLE ENVIRONMENTAL APPROACH"
+      ],
+      "minimo": 1
+    },
+    "sr": "RANA M, 2023, DESALIN WATER TREAT"
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-R02",
+    "plantilla": "R02",
+    "tipo": "RAG",
+    "pregunta": "¿Qué artículo del corpus trata sobre allium cepa l, characteristic curve y food engineering, y qué propone?",
+    "gold": {
+      "titulos": [
+        "MODELLING THE DEHYDRATION KINETICS OF FOUR ONION VARIETIES IN AN OVEN AND A SOLAR GREENHOUSE"
+      ],
+      "minimo": 1
+    },
+    "sr": "BEYE NF, 2019, HELIYON"
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-R03",
+    "plantilla": "R03",
+    "tipo": "RAG",
+    "pregunta": "¿Qué artículo del corpus trata sobre ghe solar dryer, hybrid nocturnal cooling y renewable energy sources, y qué propone?",
+    "gold": {
+      "titulos": [
+        "ACCELERATION OF RURAL INDUSTRIALIZATION USING RENEWABLE ENERGY TECHNOLGOY"
+      ],
+      "minimo": 1
+    },
+    "sr": "ABDULLAH K, 2007, AIP CONF PROC"
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-R04",
+    "plantilla": "R04",
+    "tipo": "RAG",
+    "pregunta": "¿Qué artículo del corpus trata sobre high technology greenhouse, postharvest quality y soilless culture, y qué propone?",
+    "gold": {
+      "titulos": [
+        "RESPONSE OF CUCUMBER PLANTS TO OXYGEN-ENRICHED NUTRIENT SOLUTION UNDER DIFFERENT GREENHOUSE ENVIRONMENTS"
+      ],
+      "minimo": 1
+    },
+    "sr": "SINGH P, 2021, ACTA HORTIC"
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-R05",
+    "plantilla": "R05",
+    "tipo": "RAG",
+    "pregunta": "¿Qué artículo del corpus trata sobre abiotic stress, antioxidant y applied biosystems 7500, y qué propone?",
+    "gold": {
+      "titulos": [
+        "PHYSIOLOGICAL, PHOTOSYNTHETIC, AND TRANSCRIPTOMICS INSIGHTS INTO THE INFLUENCE OF SHADING ON LEAFY SWEET POTATO"
+      ],
+      "minimo": 1
+    },
+    "sr": "JING X, 2023, GENES"
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-R06",
+    "plantilla": "R06",
+    "tipo": "RAG",
+    "pregunta": "¿Qué artículo del corpus trata sobre capillary length, deformation y distillation, y qué propone?",
+    "gold": {
+      "titulos": [
+        "TRANSMITTANCE OF TRANSPARENT HORIZONTAL AND TILTED WINDOWS SUPPORTING LARGE NON-ABSORBING PENDANT DROPLETS"
+      ],
+      "minimo": 1
+    },
+    "sr": "HOENIGES J, 2021, J QUANT SPECTROSC RADIAT TRANSF"
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-S01",
+    "plantilla": "S01",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos principales hay en el corpus?",
+    "gold": {
+      "numeros": [
+        264
+      ]
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-S02",
+    "plantilla": "S02",
+    "tipo": "SQL",
+    "pregunta": "¿En qué año se publicaron más artículos y cuántos?",
+    "gold": {
+      "numeros": [
+        54
+      ],
+      "alguno_de": [
+        [
+          "2025"
+        ]
+      ]
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-S03",
+    "plantilla": "S03",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos se publicaron entre 2021 y 2025?",
+    "gold": {
+      "numeros": [
+        196
+      ]
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-S04",
+    "plantilla": "S04",
+    "tipo": "SQL",
+    "pregunta": "¿Qué país aparece en más artículos y en cuántos?",
+    "gold": {
+      "numeros": [
+        31
+      ],
+      "alguno_de": [
+        [
+          "CHINA",
+          "China"
+        ],
+        [
+          "INDIA",
+          "India"
+        ]
+      ]
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-S05",
+    "plantilla": "S05",
+    "tipo": "SQL",
+    "pregunta": "¿En cuántos artículos participa al menos una institución de Jordania?",
+    "gold": {
+      "numeros": [
+        13
+      ]
+    },
+    "valor": "JORDAN"
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-S06",
+    "plantilla": "S06",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántas citas tiene el artículo más citado del corpus?",
+    "gold": {
+      "numeros": [
+        116
+      ]
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-S07",
+    "plantilla": "S07",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántas citas suman los artículos publicados en 2025?",
+    "gold": {
+      "numeros": [
+        34
+      ]
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-S08",
+    "plantilla": "S08",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos tiene Murat Pasa Uysal en el corpus y cuántas citas suman?",
+    "gold": {
+      "numeros": [
+        3,
+        3
+      ]
+    },
+    "valor": "UYSAL, MURAT PASA"
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-S09",
+    "plantilla": "S09",
+    "tipo": "SQL",
+    "pregunta": "¿Cuál es el promedio de citas por artículo en el corpus?",
+    "gold": {
+      "numeros": [
+        6.8
+      ]
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-H01",
+    "plantilla": "H01",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuál es el artículo más citado del corpus y de qué trata?",
+    "gold": {
+      "titulos": [
+        "MULTI-CRITERIA PERFORMANCE ANALYSIS FOR DECISION MAKING IN PROJECT MANAGEMENT"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-H02",
+    "plantilla": "H02",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuál es el artículo más citado publicado en 2024 y qué estudia?",
+    "gold": {
+      "titulos": [
+        "EMPIRICAL EXPLORATION OF PREDICTIVE MAINTENANCE IN CONCRETE MANUFACTURING: HARNESSING MACHINE LEARNING FOR ENHANCED EQUIPMENT RELIABILITY IN CONSTRUCTION PROJECT MANAGEMENT"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-H03",
+    "plantilla": "H03",
+    "tipo": "Híbrida",
+    "pregunta": "¿Qué artículos ha publicado Murat Pasa Uysal en el corpus y de qué tratan?",
+    "gold": {
+      "titulos": [
+        "TOWARD A METHOD ENGINEERING FRAMEWORK FOR PROJECT MANAGEMENT AND MACHINE LEARNING",
+        "A FORMAL AND INTEGRATED APPROACH TO ENGINEERING MACHINE LEARNING PROCESSES: A METHOD BASE FOR PROJECT MANAGEMENT",
+        "A SYSTEMIC APPROACH TO MACHINE LEARNING PROJECT MANAGEMENT"
+      ],
+      "minimo": 3
+    },
+    "valor": "UYSAL, MURAT PASA"
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-H04",
+    "plantilla": "H04",
+    "tipo": "Híbrida",
+    "pregunta": "¿Qué artículos tienen autores de Croacia y de qué tratan?",
+    "gold": {
+      "titulos": [
+        "STATISTICALLY SIGNIFICANT DIFFERENCES IN AI SUPPORT LEVELS FOR PROJECT MANAGEMENT BETWEEN SMES AND LARGE ENTERPRISES",
+        "ARTIFICIAL INTELLIGENCE IN PROJECT MANAGEMENT: INSIGHTS FROM CROATIA",
+        "A SYSTEMATIC LITERATURE REVIEW OF INDUSTRY 4.0 AND PROJECT MANAGEMENT",
+        "ARTIFICIAL INTELLIGENCE AND ONA: TRANSFORMING PROJECT MANAGEMENT PRACTICES"
+      ],
+      "minimo": 4
+    },
+    "valor": "CROATIA"
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-H05",
+    "plantilla": "H05",
+    "tipo": "Híbrida",
+    "pregunta": "De los artículos publicados desde 2024, ¿cuál es el más citado y qué propone?",
+    "gold": {
+      "titulos": [
+        "EMPIRICAL EXPLORATION OF PREDICTIVE MAINTENANCE IN CONCRETE MANUFACTURING: HARNESSING MACHINE LEARNING FOR ENHANCED EQUIPMENT RELIABILITY IN CONSTRUCTION PROJECT MANAGEMENT"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-R01",
+    "plantilla": "R01",
+    "tipo": "RAG",
+    "pregunta": "¿Qué artículo del corpus trata sobre innovative projects, man machine systems y procedure managements, y qué propone?",
+    "gold": {
+      "titulos": [
+        "AN EVENT PROCEDURE MANAGEMENT TO SUPPORT DECISION-MAKERS IN PROSPECTIVE AND REAL-TIME PROJECT MANAGEMENT"
+      ],
+      "minimo": 1
+    },
+    "sr": "ROBIN V, 2013, "
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-R02",
+    "plantilla": "R02",
+    "tipo": "RAG",
+    "pregunta": "¿Qué artículo del corpus trata sobre k nearest neighbor (knn), microsoft office y ms-project, y qué propone?",
+    "gold": {
+      "titulos": [
+        "CLASSIFICATION OF PROJECT MANAGEMENT TOOL REVIEWS USING MACHINE LEARNING-BASED SENTIMENT ANALYSIS"
+      ],
+      "minimo": 1
+    },
+    "sr": "BARO RA, 2019, IOP CONF SER: MATER SCI ENG"
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-R03",
+    "plantilla": "R03",
+    "tipo": "RAG",
+    "pregunta": "¿Qué artículo del corpus trata sobre scoping review, construction management y artificial intelligence (ai), y qué propone?",
+    "gold": {
+      "titulos": [
+        "CONTRIBUTION OF ARTIFICIAL INTELLIGENCE (AI) TO CONSTRUCTION PROJECT MANAGEMENT PROCESSES: STATE OF THE ART WITH SCOPING REVIEW METHOD"
+      ],
+      "minimo": 1
+    },
+    "sr": "ALADAǦ H, 2024, "
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-R04",
+    "plantilla": "R04",
+    "tipo": "RAG",
+    "pregunta": "¿Qué artículo del corpus trata sobre bibliographic reviews, critical path analysis y forecast, y qué propone?",
+    "gold": {
+      "titulos": [
+        "BIBLIOGRAPHIC REVIEW OF AI APPLIED TO PROJECT MANAGEMENT AND ITS ANALYSIS IN THE CONTEXT OF THE METALWORKING INDUSTRY"
+      ],
+      "minimo": 1
+    },
+    "sr": "SILVA JESM, 2024, "
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-R05",
+    "plantilla": "R05",
+    "tipo": "RAG",
+    "pregunta": "¿Qué artículo del corpus trata sobre gantt chart, new approaches y scheduling problem, y qué propone?",
+    "gold": {
+      "titulos": [
+        "AN ANT COLONY OPTIMIZATION ALGORITHM FOR SOFTWARE PROJECT MANAGEMENT"
+      ],
+      "minimo": 1
+    },
+    "sr": "HAN W, 2014, J FINANC"
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-R06",
+    "plantilla": "R06",
+    "tipo": "RAG",
+    "pregunta": "¿Qué artículo del corpus trata sobre barriers, drivers y prospects, y qué propone?",
+    "gold": {
+      "titulos": [
+        "PROSPECTS, DRIVERS OF AND BARRIERS TO ARTIFICIAL INTELLIGENCE ADOPTION IN PROJECT MANAGEMENT"
+      ],
+      "minimo": 1
+    },
+    "sr": "GAO S, 2023, "
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-S01",
+    "plantilla": "S01",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos principales hay en el corpus?",
+    "gold": {
+      "numeros": [
+        157
+      ]
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-S02",
+    "plantilla": "S02",
+    "tipo": "SQL",
+    "pregunta": "¿En qué año se publicaron más artículos y cuántos?",
+    "gold": {
+      "numeros": [
+        20
+      ],
+      "alguno_de": [
+        [
+          "2023"
+        ]
+      ]
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-S03",
+    "plantilla": "S03",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos se publicaron entre 2020 y 2024?",
+    "gold": {
+      "numeros": [
+        66
+      ]
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-S04",
+    "plantilla": "S04",
+    "tipo": "SQL",
+    "pregunta": "¿Qué país aparece en más artículos y en cuántos?",
+    "gold": {
+      "numeros": [
+        37
+      ],
+      "alguno_de": [
+        [
+          "CHINA",
+          "China"
+        ]
+      ]
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-S05",
+    "plantilla": "S05",
+    "tipo": "SQL",
+    "pregunta": "¿En cuántos artículos participa al menos una institución de Turquía?",
+    "gold": {
+      "numeros": [
+        12
+      ]
+    },
+    "valor": "TURKEY"
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-S06",
+    "plantilla": "S06",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántas citas tiene el artículo más citado del corpus?",
+    "gold": {
+      "numeros": [
+        221
+      ]
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-S07",
+    "plantilla": "S07",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántas citas suman los artículos publicados en 2023?",
+    "gold": {
+      "numeros": [
+        89
+      ]
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-S08",
+    "plantilla": "S08",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos tiene Ashish Singla en el corpus y cuántas citas suman?",
+    "gold": {
+      "numeros": [
+        5,
+        66
+      ]
+    },
+    "valor": "SINGLA, ASHISH"
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-S09",
+    "plantilla": "S09",
+    "tipo": "SQL",
+    "pregunta": "¿Cuál es el promedio de citas por artículo en el corpus?",
+    "gold": {
+      "numeros": [
+        12.7
+      ]
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-H01",
+    "plantilla": "H01",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuál es el artículo más citado del corpus y de qué trata?",
+    "gold": {
+      "titulos": [
+        "OPTIMAL CONTROL OF NONLINEAR INVERTED PENDULUM SYSTEM USING PID CONTROLLER AND LQR: PERFORMANCE ANALYSIS WITHOUT AND WITH DISTURBANCE INPUT"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-H02",
+    "plantilla": "H02",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuál es el artículo más citado publicado en 2024 y qué estudia?",
+    "gold": {
+      "titulos": [
+        "LQR-BASED PID CONTROLLER WITH VARIABLE LOAD TUNED WITH DATA-DRIVEN METHODS FOR DOUBLE INVERTED PENDULUM"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-H03",
+    "plantilla": "H03",
+    "tipo": "Híbrida",
+    "pregunta": "¿Qué artículos ha publicado Ashish Singla en el corpus y de qué tratan?",
+    "gold": {
+      "titulos": [
+        "REAL-TIME STABILIZATION CONTROL OF A ROTARY INVERTED PENDULUM USING LQR-BASED SLIDING MODE CONTROLLER",
+        "REAL-TIME CONTROL OF A ROTARY INVERTED PENDULUM USING ROBUST LQR-BASED ANFIS CONTROLLER",
+        "ROBUST LQR BASED ANFIS CONTROL OF X-Z INVERTED PENDULUM",
+        "BOND GRAPH MODELING AND LQR BASED NEURO-FUZZY CONTROL OF SPATIAL INVERTED PENDULUM",
+        "COMPARISON OF PPC AND LQR CONTROLLER FOR STABILIZATION OF CART PENDULUM SYSTEM: SIMULATION AND REAL-TIME STUDY"
+      ],
+      "minimo": 5
+    },
+    "valor": "SINGLA, ASHISH"
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-H04",
+    "plantilla": "H04",
+    "tipo": "Híbrida",
+    "pregunta": "¿Qué artículos tienen autores de Alemania y de qué tratan?",
+    "gold": {
+      "titulos": [
+        "A SELF-TUNING LQR APPROACH DEMONSTRATED ON AN INVERTED PENDULUM",
+        "SWING-UP OF THE MOVING DOUBLE PENDULUM ON A CART WITH SIMULATION BASED LQR-TREES",
+        "ANALYTIC ESTIMATION OF REGION OF ATTRACTION OF AN LQR CONTROLLER FOR TORQUE LIMITED SIMPLE PENDULUM",
+        "INTEGRAL LINEAR QUADRATIC REGULATOR FOR INVERTED PENDULUM SYSTEM ACTUATED BY A STEP MOTOR"
+      ],
+      "minimo": 4
+    },
+    "valor": "GERMANY"
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-H05",
+    "plantilla": "H05",
+    "tipo": "Híbrida",
+    "pregunta": "De los artículos publicados desde 2023, ¿cuál es el más citado y qué propone?",
+    "gold": {
+      "titulos": [
+        "ON LQR CONTROLLER DESIGN FOR AN INVERTED PENDULUM STABILIZATION"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-R01",
+    "plantilla": "R01",
+    "tipo": "RAG",
+    "pregunta": "¿Qué artículo del corpus trata sobre computer programming, labview (laboratory virtual instrumentation engineering workbench) y lqr (linear quadratic regulator), y qué propone?",
+    "gold": {
+      "titulos": [
+        "DESIGN OF LINEAR QUADRATIC REGULATOR FOR ROTARY INVERTED PENDULUM USING LABVIEW"
+      ],
+      "minimo": 1
+    },
+    "sr": "CHHABRA K, 2016, J FINANC"
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-R02",
+    "plantilla": "R02",
+    "tipo": "RAG",
+    "pregunta": "¿Qué artículo del corpus trata sobre bridge cranes, conventional control y double-pendulum-type overhead cranes, y qué propone?",
+    "gold": {
+      "titulos": [
+        "ANTI-SWING CONTROL OF A DOUBLE-PENDULUM-TYPE OVERHEAD CRANE USING PARALLEL DISTRIBUTED FUZZY LQR CONTROLLER"
+      ],
+      "minimo": 1
+    },
+    "sr": "ADELI M, 2011, J FINANC"
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-R03",
+    "plantilla": "R03",
+    "tipo": "RAG",
+    "pregunta": "¿Qué artículo del corpus trata sobre automatic control theory, matrix q y balancing, y qué propone?",
+    "gold": {
+      "titulos": [
+        "DESIGN OF LINEAR QUADRATIC REGULATOR (LQR) BASED ON GENETIC ALGORITHM FOR INVERTED PENDULUM"
+      ],
+      "minimo": 1
+    },
+    "sr": "MARADA T, 2017, "
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-R04",
+    "plantilla": "R04",
+    "tipo": "RAG",
+    "pregunta": "¿Qué artículo del corpus trata sobre belt drives, real-world y in-control, y qué propone?",
+    "gold": {
+      "titulos": [
+        "A COMPARATIVE STUDY OF POLE PLACEMENT AND LQR IN CART INVERTED PENDULUM CONTROLLER DESIGN"
+      ],
+      "minimo": 1
+    },
+    "sr": "LI C, 2024, "
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-R05",
+    "plantilla": "R05",
+    "tipo": "RAG",
+    "pregunta": "¿Qué artículo del corpus trata sobre communication, continuous algebraic riccati equation y control angles, y qué propone?",
+    "gold": {
+      "titulos": [
+        "OPTIMAL CONTROLLER DESIGN FOR INVERTED PENDULUM SYSTEM BASED ON LQR METHOD"
+      ],
+      "minimo": 1
+    },
+    "sr": "KUMAR C, 2012, J FINANC"
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-R06",
+    "plantilla": "R06",
+    "tipo": "RAG",
+    "pregunta": "¿Qué artículo del corpus trata sobre double pendulum cart, euler-lagrange method y linearisation, y qué propone?",
+    "gold": {
+      "titulos": [
+        "TUNING LQR PARAMETERS USING NEURO EVOLUTION OF AUGMENTING TOPOLOGIES (NEAT) ON A DOUBLE PENDULUM CART"
+      ],
+      "minimo": 1
+    },
+    "sr": "FAHMIZAL F, 2022, J FINANC"
+  }
+]

@@ -13,13 +13,14 @@ from dotenv import load_dotenv
 from langchain_ollama import ChatOllama
 
 from src.layer1_schema.models import SchemaContext
-from src.layer2_agent.sql_generator import generate_sql, _build_schema_text
+from src.layer2_agent.sql_generator import generate_sql, _build_schema_text, is_bibliometric
 from src.layer2_agent.sql_validator import execute_sql, SQLResult
 
 load_dotenv()
 
 OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
 OLLAMA_MODEL    = os.getenv("OLLAMA_MODEL", "glm4:9b")
+OLLAMA_NUM_PREDICT = int(os.getenv("OLLAMA_NUM_PREDICT", "2048"))  # tope de tokens de salida: corta los bucles de texto basura de glm4
 SQL_MAX_RETRIES = int(os.getenv("SQL_MAX_RETRIES", "3"))
 
 # ── Prompt para corrección ────────────────────────────────────────────────────
@@ -32,8 +33,10 @@ REGLAS:
 2. Usa SOLO las tablas y columnas del esquema proporcionado.
 3. Presta atención al error — probablemente usaste una columna que no existe
    o un JOIN incorrecto.
-4. cited_by y year son TEXT — usa CAST() para operaciones numéricas.
-5. Responde ÚNICAMENTE con el SQL corregido."""
+4. Responde ÚNICAMENTE con el SQL corregido.{domain_rules}"""
+
+# Solo con el esquema bibliométrico (ver sql_generator.BIBLIO_RULES)
+REFINE_BIBLIO_RULES = "\n5. cited_by y year son TEXT — usa CAST() para operaciones numéricas."
 
 REFINE_USER_TEMPLATE = """Tu SQL anterior falló. Corrígelo.
 
@@ -75,6 +78,7 @@ def refine_sql(ctx: SchemaContext, failed_sql: str, error: str) -> str:
         base_url=OLLAMA_BASE_URL,
         model=OLLAMA_MODEL,
         temperature=0.0,
+        num_predict=OLLAMA_NUM_PREDICT,
     )
 
     schema_text = _build_schema_text(ctx)
@@ -87,7 +91,8 @@ def refine_sql(ctx: SchemaContext, failed_sql: str, error: str) -> str:
     )
 
     response = llm.invoke([
-        {"role": "system", "content": REFINE_SYSTEM_PROMPT},
+        {"role": "system", "content": REFINE_SYSTEM_PROMPT.format(
+            domain_rules=REFINE_BIBLIO_RULES if is_bibliometric(ctx) else "")},
         {"role": "user",   "content": user_msg},
     ])
 

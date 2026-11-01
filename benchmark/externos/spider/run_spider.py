@@ -46,6 +46,13 @@ EVAL_DIR = HERE / "eval_oficial"
 RESULTS = HERE / "results"
 OLLAMA_URL = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
 
+# NO_THINK=1: modelos que razonan (qwen3) sin razonamiento, como glm4. Cambia el valor por defecto de
+# ChatOllama, así vale también para las llamadas del agente (src/), que no pasan `reasoning`.
+if os.getenv("NO_THINK") == "1":
+    from langchain_ollama import ChatOllama as _ChatOllama
+    _ChatOllama.model_fields["reasoning"].default = False
+    _ChatOllama.model_rebuild(force=True)
+
 SOLO_SYSTEM = "You are an expert in SQLite. Write a single SQLite query that answers the question. " \
               "Reply with the SQL only, without explanation or markdown."
 SOLO_USER = "{schema}\n\n-- Question: {question}\n-- SQL:"
@@ -80,8 +87,10 @@ def schema_context(question: str, table: dict):
             cols[tables[t_idx]].append(c)
     fks = [f"{tables[names[a][0]]}.{names[a][1]} -> {tables[names[b][0]]}.{names[b][1]}"
            for a, b in table["foreign_keys"]]
+    from src.layer1_schema.schema_linker import column_types
     return SchemaContext(query=question, query_type="sql", relevant_tables=list(tables), relevant_columns=cols,
-                         foreign_keys=fks, entities={}, confidence=1.0)
+                         foreign_keys=fks, entities={}, confidence=1.0,
+                         column_types=column_types(db_path(table["db_id"]), list(tables)))
 
 
 def one_line(sql: str) -> str:
@@ -154,7 +163,10 @@ def run(mode: str, n: int, seed: int, model: str) -> None:
         if q["idx"] in done:
             continue
         t0 = time.time()
-        out = predict_solo(q, llm) if mode == "solo" else predict_agente(q, tables[q["db_id"]])
+        try:
+            out = predict_solo(q, llm) if mode == "solo" else predict_agente(q, tables[q["db_id"]])
+        except Exception as e:  # p. ej. Ollama rechaza un prompt > num_ctx: cuenta como fallo, no detiene la corrida
+            out = {"pred": "SELECT", "error": f"{type(e).__name__}: {str(e)[:300]}", "llm_calls": None}
         ex = ex_mod.eval_exec_match(db=db_path(q["db_id"]), p_str=out["pred"], g_str=q["query"], plug_value=False,
                                     keep_distinct=False, progress_bar_for_each_datapoint=False)
         rec = {"idx": q["idx"], "db_id": q["db_id"], "question": q["question"], "gold": q["query"], "ex": ex,
@@ -199,7 +211,7 @@ def official_eval(mode: str, n: int, seed: int, model: str) -> str:
 
 def report(n: int, seed: int, model: str) -> None:
     out = [f"# Spider dev — glm4 solo vs. dentro del agente ({datetime.now():%Y-%m-%d %H:%M})", ""]
-    for mode in ("solo", "agente"):
+    for mode in ("solo", "agente", "agente2"):
         if (RESULTS / f"predicciones_{_tag(mode, n, seed, model)}.jsonl").exists():
             out += [official_eval(mode, n, seed, model), ""]
     text = "\n".join(out)
@@ -209,7 +221,7 @@ def report(n: int, seed: int, model: str) -> None:
 
 if __name__ == "__main__":
     p = argparse.ArgumentParser()
-    p.add_argument("--mode", choices=("solo", "agente"))
+    p.add_argument("--mode", choices=("solo", "agente", "agente2"))  # agente2: reglas de dominio solo con el esquema bibliométrico + tipos de columna
     p.add_argument("--n", type=int, default=300)
     p.add_argument("--seed", type=int, default=42)
     p.add_argument("--model", default=os.getenv("OLLAMA_MODEL", "glm4:9b"))

@@ -251,19 +251,20 @@ def get_chroma_collection(chroma_dir: str = CHROMA_DIR) -> chromadb.Collection:
     Usa OllamaEmbeddingFunction para que todos los embeddings pasen
     por el mismo modelo (nomic-embed-text).
     """
+    from src.layer3_rag.embedder import collection_metadata, has_prefixed_index, make_embedding_function
+
     client = chromadb.PersistentClient(path=chroma_dir)
-
-
-    embed_fn = OllamaEmbeddingFunction(
-        url=f"{OLLAMA_BASE_URL}/api/embeddings",
-        model_name=OLLAMA_EMBED_MODEL,
-    )
-
+    embed_fn = make_embedding_function(OLLAMA_BASE_URL, OLLAMA_EMBED_MODEL)  # con los prefijos de nomic
     collection = client.get_or_create_collection(
         name=SCHEMA_COLLECTION,
         embedding_function=embed_fn,
-        metadata={"hnsw:space": "cosine"},   # similitud coseno
+        metadata=collection_metadata(),   # similitud coseno
     )
+    if not has_prefixed_index(collection):
+        # Índice creado sin prefijos: el esquema es fijo y se reindexa en segundos (lo hace link_schema)
+        client.delete_collection(SCHEMA_COLLECTION)
+        collection = client.get_or_create_collection(
+            name=SCHEMA_COLLECTION, embedding_function=embed_fn, metadata=collection_metadata())
     return collection
 
 

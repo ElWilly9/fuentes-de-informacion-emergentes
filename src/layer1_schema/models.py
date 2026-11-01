@@ -61,6 +61,8 @@ class SchemaContext:
     confidence: float
     # Cómo están escritos los valores de texto en la BD (ej. países en MAYÚSCULAS); lo llena el grafo
     value_hints: list[str] = field(default_factory=list)
+    # Tipo declarado de cada columna {tabla: {columna: tipo}}; lo llena el grafo desde la BD
+    column_types: dict[str, dict[str, str]] = field(default_factory=dict)
 
     def to_prompt_string(self) -> str:
         """

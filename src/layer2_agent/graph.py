@@ -21,7 +21,7 @@ from dotenv import load_dotenv
 from langgraph.graph import StateGraph, END
 
 from src.layer1_schema.models import SchemaContext
-from src.layer1_schema.schema_linker import link_schema, build_value_hints
+from src.layer1_schema.schema_linker import link_schema, build_value_hints, author_hints, column_types
 from src.layer2_agent.query_rewriter import rewrite_query
 from src.layer2_agent.intent_classifier import classify_intent
 from src.layer2_agent.sql_generator import generate_sql
@@ -172,7 +172,8 @@ def node_schema_linking(state: dict) -> dict:
     """Nodo 1: ejecuta la Capa 1 completa."""
     query = state["rewritten_query"] or state["user_query"]
     ctx = link_schema(query, chroma_dir=state.get("chroma_dir"))
-    ctx.value_hints = build_value_hints(state.get("db_path"), ctx.relevant_tables)
+    ctx.value_hints = build_value_hints(state.get("db_path"), ctx.relevant_tables) + author_hints(state.get("db_path"), query)
+    ctx.column_types = column_types(state.get("db_path"), ctx.relevant_tables)
     state["schema_context"] = ctx
     state["intent"] = ctx.query_type
     return state
@@ -310,6 +311,7 @@ def node_rag_search(state: dict) -> dict:
         base_url=os.getenv("OLLAMA_BASE_URL", "http://localhost:11434"),
         model=os.getenv("OLLAMA_MODEL", "glm4:9b"),
         temperature=0.3,
+        num_predict=int(os.getenv("OLLAMA_NUM_PREDICT", "2048")),
     )
     history_text = _format_history(ctx.query, state.get("history"))
 

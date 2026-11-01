@@ -57,7 +57,8 @@ def to_search_query(query: str) -> str:
     if query not in _translation_cache:
         from langchain_ollama import ChatOllama
         llm = ChatOllama(base_url=os.getenv("OLLAMA_BASE_URL", "http://localhost:11434"),
-                         model=os.getenv("OLLAMA_MODEL", "glm4:9b"), temperature=0.0)
+                         model=os.getenv("OLLAMA_MODEL", "glm4:9b"), temperature=0.0,
+                         num_predict=int(os.getenv("OLLAMA_NUM_PREDICT", "2048")))
         try:
             text = llm.invoke([{"role": "system", "content": TRANSLATE_PROMPT},
                                {"role": "user", "content": query}]).content
@@ -252,17 +253,19 @@ def search_articles(query: str, chroma_dir: Path, db_path: Path, top_k: int = RA
         )
 
 
-def format_rag_context(rag_result: RAGResult) -> str:
+def format_rag_context(rag_result: RAGResult, budget: int | None = None) -> str:
     """
     Formatea los resultados RAG como contexto para el LLM.
     Este texto se incluye en el prompt del answer_synthesizer
-    cuando el canal es rag o hybrid.
+    cuando el canal es rag o hybrid. `budget` (caracteres de abstracts) reemplaza a
+    RAG_CONTEXT_BUDGET cuando el contexto comparte el prompt con otras fuentes (híbrido).
     """
     if not rag_result.success or not rag_result.articles:
         return "(sin resultados de búsqueda semántica)"
 
+    budget = budget or RAG_CONTEXT_BUDGET
     total = sum(len(a.get("abstract") or "") for a in rag_result.articles)
-    per_article = None if total <= RAG_CONTEXT_BUDGET else max(300, RAG_CONTEXT_BUDGET // len(rag_result.articles))
+    per_article = None if total <= budget else max(300, budget // len(rag_result.articles))
 
     lines = []
     for art in rag_result.articles:

@@ -26,8 +26,15 @@ load_dotenv()
 
 OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
 OLLAMA_MODEL    = os.getenv("OLLAMA_MODEL", "glm4:9b")
+OLLAMA_NUM_PREDICT = int(os.getenv("OLLAMA_NUM_PREDICT", "2048"))  # tope de tokens de salida: corta los bucles de texto basura de glm4
 
 ERROR_LOG = Path(__file__).resolve().parents[2] / "logs" / "agent_errors.log"
+
+# Tope de caracteres de datos (filas SQL + artículos) por prompt de síntesis. Ollama carga el modelo con
+# num_ctx 8192 y desde la 0.31 rechaza (error 400) un prompt más largo en vez de recortarlo; ~20.000
+# caracteres son ~6.000 tokens y dejan sitio a las instrucciones, el historial y la respuesta.
+PROMPT_DATA_BUDGET = int(os.getenv("PROMPT_DATA_BUDGET", "20000"))
+RAG_ARTICLE_OVERHEAD = 400   # título, año, revista, autores… de cada artículo, aparte del abstract
 
 
 def log_error(where: str, exc: Exception) -> None:
@@ -79,7 +86,7 @@ def articles_answer_question(query: str, rag_result) -> bool:
         return False
     listing = "\n".join(
         f"- {a.get('title', '')}: {(a.get('abstract') or '')[:300]}" for a in rag_result.articles)
-    llm = ChatOllama(base_url=OLLAMA_BASE_URL, model=OLLAMA_MODEL, temperature=0.0)
+    llm = ChatOllama(base_url=OLLAMA_BASE_URL, model=OLLAMA_MODEL, temperature=0.0, num_predict=OLLAMA_NUM_PREDICT)
     try:
         verdict = llm.invoke([
             {"role": "system", "content": JUDGE_SYSTEM_PROMPT},
@@ -271,8 +278,21 @@ def _format_history(query: str, history: list[dict] | None, max_turns: int = 3) 
 
 
 
-def _format_results(result: SQLResult, max_rows: int = 15) -> str:
-    """Formatea los resultados SQL como texto tabular para el prompt."""
+def _format_results(result: SQLResult, max_rows: int = 15, budget: int | None = None) -> str:
+    """Formatea los resultados SQL como texto tabular para el prompt.
+
+    Con `budget`, si la tabla no cabe, recorta por igual las celdas largas (p. ej. abstracts)."""
+    text = _format_rows(result, max_rows)
+    if budget is None or len(text) <= budget or not result.rows:
+        return text
+    max_cell = max(len(str(v)) for row in result.rows[:max_rows] for v in row.values())
+    while max_cell > 80 and len(text) > budget:
+        max_cell = int(max_cell * 0.8)
+        text = _format_rows(result, max_rows, max_cell)
+    return text
+
+
+def _format_rows(result: SQLResult, max_rows: int, max_cell: int | None = None) -> str:
     if not result.rows:
         return "(sin resultados)"
 
@@ -284,6 +304,8 @@ def _format_results(result: SQLResult, max_rows: int = 15) -> str:
     # Filas
     for row in result.rows[:max_rows]:
         values = [str(row.get(col, "")) for col in result.columns]
+        if max_cell:
+            values = [v if len(v) <= max_cell else v[:max_cell] + "..." for v in values]
         lines.append(" | ".join(values))
 
     if result.row_count > max_rows:
@@ -330,9 +352,10 @@ def synthesize_answer(
         base_url=OLLAMA_BASE_URL,
         model=OLLAMA_MODEL,
         temperature=0.3,  # Un poco de variabilidad para respuestas naturales
+        num_predict=OLLAMA_NUM_PREDICT,
     )
 
-    results_text = _format_results(result)
+    results_text = _format_results(result, budget=PROMPT_DATA_BUDGET)
 
     user_msg = _format_history(ctx.query, history) + note + SYNTH_USER_TEMPLATE.format(
         query=ctx.query,
@@ -398,13 +421,19 @@ def synthesize_hybrid(
         return ("No encontré información para responder esa pregunta, ni por consulta "
                 "estructurada ni por búsqueda semántica en el corpus.")
 
-    sql_text = _format_results(sql_result) if has_sql else "(sin resultados estructurados)"
-    rag_text = format_rag_context(rag_result) if has_rag else "(sin artículos relevantes)"
+    # Las dos fuentes comparten PROMPT_DATA_BUDGET: el SQL toma hasta la mitad (o todo, si no hay RAG)
+    # y los abstracts recuperados se ajustan a lo que quede.
+    sql_text = (_format_results(sql_result, budget=PROMPT_DATA_BUDGET // 2 if has_rag else PROMPT_DATA_BUDGET)
+                if has_sql else "(sin resultados estructurados)")
+    rag_budget = max(1500, PROMPT_DATA_BUDGET - len(sql_text)
+                     - RAG_ARTICLE_OVERHEAD * len(rag_result.articles)) if has_rag else None
+    rag_text = format_rag_context(rag_result, budget=rag_budget) if has_rag else "(sin artículos relevantes)"
 
     llm = ChatOllama(
         base_url=OLLAMA_BASE_URL,
         model=OLLAMA_MODEL,
         temperature=0.3,
+        num_predict=OLLAMA_NUM_PREDICT,
     )
 
     user_msg = _format_history(ctx.query, history) + note + HYBRID_USER_TEMPLATE.format(
@@ -464,13 +493,14 @@ def synthesize_followup(ctx: SchemaContext, previous: list[dict], suggestions, d
     extra = _authors_and_countries([a["SR"] for a in previous], db_path)
     for a in previous:
         a["authors"], a["countries"] = extra.get(a["SR"], ("", ""))
-    previous_text = format_rag_context(RAGResult(query=ctx.query, articles=previous, success=True))
+    previous_text = format_rag_context(RAGResult(query=ctx.query, articles=previous, success=True),
+                                       budget=PROMPT_DATA_BUDGET // 2)
     has_sugg = bool(suggestions and getattr(suggestions, "success", False) and suggestions.articles)
-    sugg_text = format_rag_context(suggestions) if has_sugg else "(sin sugerencias)"
+    sugg_text = format_rag_context(suggestions, budget=PROMPT_DATA_BUDGET // 4) if has_sugg else "(sin sugerencias)"
     # "Sugerencia N" y no "Artículo N": evita que el modelo las confunda con los artículos anteriores
     sugg_text = re.sub(r"--- Artículo \d+", "--- Sugerencia", sugg_text)
 
-    llm = ChatOllama(base_url=OLLAMA_BASE_URL, model=OLLAMA_MODEL, temperature=0.3)
+    llm = ChatOllama(base_url=OLLAMA_BASE_URL, model=OLLAMA_MODEL, temperature=0.3, num_predict=OLLAMA_NUM_PREDICT)
     user_msg = _format_history(ctx.query, history) + FOLLOWUP_USER_TEMPLATE.format(
         query=ctx.query, previous=previous_text, suggestions=sugg_text)
     try:
@@ -504,6 +534,7 @@ def reflect_on_answer(
         base_url=OLLAMA_BASE_URL,
         model=OLLAMA_MODEL,
         temperature=0.0,
+        num_predict=OLLAMA_NUM_PREDICT,
     )
 
     results_text = _format_results(result) if result else "(sin resultados)"
@@ -564,7 +595,7 @@ RESPUESTA EN ESPAÑOL:"""
 
 def synthesize_network(query: str, kind: str, context: str, history: list[dict] | None = None) -> str:
     """Redacta la respuesta de una pregunta de redes, comunidades o tendencias a partir del análisis ya calculado."""
-    llm = ChatOllama(base_url=OLLAMA_BASE_URL, model=OLLAMA_MODEL, temperature=0.2)
+    llm = ChatOllama(base_url=OLLAMA_BASE_URL, model=OLLAMA_MODEL, temperature=0.2, num_predict=OLLAMA_NUM_PREDICT)
     kind_label = {"graph": "redes de coautoría y acoplamiento", "community": "frentes de investigación y temas",
                   "forecast": "series de tiempo y tendencias"}.get(kind, kind)
     user_msg = _format_history(query, history) + NETWORK_USER_TEMPLATE.format(

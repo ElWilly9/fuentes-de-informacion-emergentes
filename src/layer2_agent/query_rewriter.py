@@ -15,6 +15,7 @@ load_dotenv()
 
 OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
 OLLAMA_MODEL    = os.getenv("OLLAMA_MODEL", "glm4:9b")
+OLLAMA_NUM_PREDICT = int(os.getenv("OLLAMA_NUM_PREDICT", "2048"))  # tope de tokens de salida: corta los bucles de texto basura de glm4
 
 REWRITE_SYSTEM_PROMPT = """Eres un experto en procesamiento de lenguaje natural.
 Tu tarea es reescribir la pregunta actual del usuario para que sea una consulta independiente y completa,
@@ -58,6 +59,7 @@ def rewrite_query(query: str, history: list[dict] | None = None) -> str:
         base_url=OLLAMA_BASE_URL,
         model=OLLAMA_MODEL,
         temperature=0.0, # Determinista para reescritura
+        num_predict=OLLAMA_NUM_PREDICT,
     )
 
     user_msg = f"HISTORIAL DE CONVERSACIÓN:\n{history_text}\n\nPREGUNTA ACTUAL: {query}\n\nQUERY REESCRITA:"

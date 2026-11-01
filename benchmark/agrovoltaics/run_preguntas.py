@@ -26,6 +26,12 @@ from dotenv import load_dotenv  # noqa: E402
 
 load_dotenv(ROOT / ".env")
 
+# NO_THINK=1: modelos que razonan (qwen3) sin razonamiento, como glm4 (igual que en benchmark/externos)
+if os.getenv("NO_THINK") == "1":
+    from langchain_ollama import ChatOllama as _ChatOllama
+    _ChatOllama.model_fields["reasoning"].default = False
+    _ChatOllama.model_rebuild(force=True)
+
 from src.layer2_agent.graph import run_agent  # noqa: E402
 
 SESSION = ROOT / "data" / "sessions" / "Agrovoltaics"

@@ -6,3 +6,14 @@ CLAUDE.md
 .claude
 # Spider: bases de datos descargadas (205 MB)
 benchmark/externos/spider/data/
+benchmark/externos/bird/data/
+
+# Reportes y resultados de los benchmarks: solo locales (scripts y datasets de preguntas sí van al repo)
+benchmark/**/results/
+benchmark/**/reporte/
+benchmark/**/RESULTADOS.md
+benchmark/**/RESUMEN_*.md
+benchmark/**/NOTAS_*.md
+benchmark/**/*.html
+benchmark/series_tiempo/salida_*.txt
+benchmark/**/*.log

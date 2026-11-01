@@ -86,6 +86,70 @@ procesados con el algoritmo de Robledo / Tree of Science) decidiendo entre SQL, 
   El agente empeora por reglas de dominio del prompt: `LIMIT 10` por defecto (111/300 consultas; sin él, EX 0,637
   contrafactual), `CAST` de year/cited_by (50), `LIKE`; refine rescata 3 de 30. Propuesta sin aplicar: reglas de dominio
   solo para el esquema bibliométrico y tipos de columna en el esquema.
+- (2026-10-28) **Plan del profesor, pasos 1–4** (resultados locales en `*/results/`, ignorados por git):
+  - Spider `--mode agente2` (reglas de dominio solo si hay tabla `article` + tipos de columna en el esquema):
+    **EX 0,667 · EM 0,247** (solo 0,690/0,203; agente original 0,593/0,107).
+  - Prefijos `search_document:`/`search_query:` de nomic (`embedder.PrefixedOllamaEmbeddingFunction`, metadata
+    `embed_prefix`; sesiones Agrovoltaics/ai/pendulo reindexadas; el chroma de WikiEval no).
+  - HotpotQA n = 300, EM/F1: top-5 sin prefijos 0,457/0,563 · top-5 con prefijos 0,453/0,572 (apoyo en top-5 82 %) ·
+    los 10 párrafos 0,427/0,522 · solo los 2 de oro **0,507/0,621** (techo de glm4) · `--contexto iterativo` (estilo
+    CoRAG con prompt: hasta 2 búsquedas extra de 2 párrafos que decide el LLM) **0,473/0,590**, apoyo 85,7 %, 26 s/pregunta.
+    Solo 22/300 piden búsqueda extra (EM 0,18→0,41 en esas); 12 ganadas y 6 perdidas frente al top-5 (parte es ruido de temp 0,3).
+  - Benchmark de agrovoltaicos sin repetir tras los prefijos.
+  - **Paso 6, otros modelos** (mismo flujo, mismas 300 preguntas; logs en `benchmark/externos/modelos_log/`; qwen3 con
+    `NO_THINK=1` = sin razonamiento; gpt-oss:120b-cloud por Ollama cloud). HotpotQA top-5 EM/F1: glm4 0,457/0,563 ·
+    qwen3:8b 0,487/0,599 · gpt-oss 0,617/0,738 (AQO Flash 0,602/0,733). Oro: 0,507 · 0,577 · 0,693. Spider EX/EM oficial,
+    solo → agente (agente2): glm4 0,690/0,203 → 0,667/0,247 · qwen3:8b 0,730/0,373 → 0,650/0,323 · gpt-oss 0,780/0,290 →
+    0,767/0,270 (Vu et al. Pro 0,778 → 0,800). Hallazgo: el flujo SQL del agente no mejora a ningún modelo (−1 a −8 puntos
+    de EX); la brecha de HotpotQA es del tamaño del modelo. Una corrida de gpt-oss se colgó 6 h en una llamada a la nube.
+- (2026-10-29) **BIRD dev** (`benchmark/externos/bird/run_bird.py`, 300 preguntas, semilla 42, con evidence; EX por conjunto de filas,
+  timeout 30 s; datos en `bird/data/`, ignorado por git). EX solo → agente (agente2): glm4:9b 0,313 → **0,403** · qwen3:8b 0,397 → 0,420.
+  A diferencia de Spider, el flujo SQL sí suma (sobre todo en moderadas y difíciles), pero la latencia pasa de ~6 s a ~46 s por
+  pregunta (~4 h por corrida). Una corrida; la mejora de qwen3 está dentro del ruido. Regla vigente: registrar tiempos en toda prueba.
+- (2026-10-28) **Ollama 0.31.2**: un prompt de más de num_ctx (8192) ya **no se recorta en silencio**; ahora falla
+  con un error 400 (`exceed_context_size_error`). Además, glm4 a veces entra en un bucle y genera texto basura
+  (82.000 "@", horas). En los benchmarks: HotpotQA usa `num_predict=100` y `run_spider.py` registra la excepción
+  como fallo sin detener la corrida. El agente real no tiene ninguno de los dos resguardos (pendiente).
+- (2026-10-29) **Agrovoltaicos con glm4 + prefijos** (`respuestas_preguntas_scopus_32_20261029_215630`, nota en
+  `results/evaluacion_scopus_32_20261029_glm4_prefijos.md`, 38 min, 70 s/pregunta): SQL 4,42 · híbridas 2,70 · RAG 4,30 · total 3,84
+  (= qwen3:8b; corrida 5 3,94). Los prefijos no mueven el total. Q16 y Q20 fallaron por prompt híbrido > 8.192 tokens.
+- [x] (2026-10-30, aprobado por William) **Resguardo de contexto en las síntesis**: `answer_synthesizer.PROMPT_DATA_BUDGET`
+  (20.000 caracteres, env) para los datos de cada prompt. `_format_results(..., budget)` recorta por igual las celdas largas
+  (abstracts) hasta que la tabla quepa; en `synthesize_hybrid` el SQL toma hasta la mitad y `format_rag_context(..., budget)`
+  ajusta los abstracts a lo que queda (400 caracteres de metadatos por artículo); el seguimiento usa 1/2 y 1/4. Probado
+  Q16–Q18 y Q20: 0 errores de contexto (antes 2). Q16 sigue mal por generación: el SQL trae a Azam 2020 y glm4 responde con
+  Rahman 2022, que viene del RAG.
+- [x] (2026-10-30, aprobado por William) **Tope de salida**: las 12 llamadas a `ChatOllama` del agente (capas 2 y 3) pasan
+  `num_predict=OLLAMA_NUM_PREDICT` (env, 2048 tokens) para cortar los bucles de "@" de glm4. La respuesta más larga en
+  266 respuestas del benchmark tiene ~5.000 caracteres (~1.700 tokens). Verificado: con 5 genera 5 tokens; Q01, Q15, Q25
+  sin cambios (5 min). Ojo con modelos que razonan sin `NO_THINK=1`: el razonamiento cuenta dentro del tope.
+- (2026-10-30) **Benchmark por plantillas** (`benchmark/plantillas/`): 20 plantillas iguales en Agrovoltaics (desarrollo), `ai` y
+  `pendulo` (prueba); gold con SQL sobre cada BD (`build_plantillas.py`); puntaje automático 0–1 por cifras o títulos
+  (`run_plantillas.py`, retoma; `--report`). glm4:9b, 93 min, 93 s/pregunta: total **0,79 · 0,75 · 0,82** (SQL 0,78 en los 3;
+  híbridas 0,77 · 0,62 · 0,87; RAG 0,83 en los 3). **No hay sobreajuste a Agrovoltaics**: los fallos son de plantilla y se
+  repiten en los 3 corpus. S06 ("citas del más citado") falla en los 3 con el mismo SQL (`COUNT(*)` en vez de `cited_by`);
+  S08/H03 (autor por nombre: `LIKE '%CARSTEN AGERT%'` contra `AGERT, CARSTEN`, `'%UY SAL%'`, `authorname 'SINGLA A'`)
+  fallan o quedan parciales en los 3; H04 (país) une `affiliation` por `authorid` en vez de `sr` y el `LIMIT 10` sobre filas
+  duplicadas corta títulos; ai-H01 une `scimagodb` sin necesidad (0 filas). RAG: 9/18 se enrutan a `hybrid` y el SQL
+  `LIKE` sobre el título no sirve; fallan R05 (Agro), R01 (ai), R03 (pendulo). Ojo: `source_title='J FINANC'` aparece en
+  respuestas de ai/pendulo (bug de datos sin decidir).
+- [x] (2026-10-30, aprobado por William) **Autores por nombre y JOIN de afiliaciones**:
+  - Causa de S08/H03/Q09/Q10: cada autor tiene 2 filas en `author` con formatos distintos (`AGERT, CARSTEN` 3 art. /
+    `CARSTEN AGERT` 1; `SINGLA, ASHISH` 5 / `ASHISH SINGLA` 2; `MURAT PAŞA UYSAL`). `schema_linker.author_hints(db_path, query)`
+    busca nombres de `author.authorfullname` cuyas palabras (2+, sin tildes, cualquier orden) estén todas en la pregunta y da
+    sus formas exactas como pista de valor (`authorfullname IN (…)`); se suma a `value_hints` en `node_schema_linking`.
+    Sin falsos positivos en las 60 plantillas + 32 preguntas (solo S08/H03, Q09, Q10, Q19, Q20).
+  - `sql_validator.link_affiliation_to_article` (dentro de `clean_sql`): un `JOIN affiliation … ON` sin `sr` recibe
+    `AND af.sr = <artículo>.sr` (o `articleauthor`). Antes H04 traía 61/12/90 artículos distintos en vez de 4.
+    `dedupe_fanout` además pone `DISTINCT` en listados con solo columnas del artículo (el `LIMIT 10` se gastaba en repetidos).
+  - Prueba con glm4 (13 preguntas, 20 min, 94 s/pregunta): S08 1/1/1 (antes 0/0/0), H03 1/1/1 (antes 0,33/0,33/0,6),
+    H04 1/0,75/1 (antes 0,5/0,75/0,75); Q09 3/38 y Q10 2/26 correctas, Q19 correcta; Q20 parcial (el SQL añade un filtro
+    `author_keywords LIKE '%AGROVOLTAIC%'` y da 0 filas, aunque la respuesta dice que no tiene relación).
+  - **Plantillas re-corridas** (60 preguntas, 54 min, 54 s/pregunta; antes en `results/plantillas_glm4-9b_20261030_antes.*`):
+    total **0,90 · 0,84 · 0,90** (antes 0,79 · 0,75 · 0,82); SQL 0,89 en los 3, híbridas 1,00 · 0,75 · 1,00, RAG 0,83 igual.
+    Solo cambian las 8 preguntas tocadas (S08×3, H03×3, H04 Agro/pendulo); ninguna empeora. La latencia bajó ~40 % en
+    todas las categorías, también en las no tocadas: es del equipo/Ollama, no de los arreglos. Quedan S06×3, ai-H01,
+    ai-H04 (0,75) y los 3 RAG por recuperación.
 - Observaciones sobre la metodología de Vu et al. para el paper (juez de RAGAS no especificado, sin benchmark híbrido,
   Tabla 5 con otro corpus, EM > EX…): `benchmark/externos/NOTAS_PAPER_vu2026.md`.
 - Datasets útiles: ScienceBenchmark/CORDIS (VLDB 2024), DBLP-QuAD (plantillas de preguntas), HeteQA

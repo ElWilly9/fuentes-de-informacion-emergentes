@@ -135,6 +135,34 @@ def scope_to_corpus(sql: str) -> str:
     return re.sub(r"(FROM|JOIN)\s+article(?!\w)(\s+(?:AS\s+)?(\w+))?", swap, sql, flags=re.IGNORECASE)
 
 
+_JOIN_END = r"(?=\b(?:JOIN|INNER|LEFT|WHERE|GROUP|ORDER|LIMIT|HAVING|UNION)\b|\)|;|$)"
+
+
+def link_affiliation_to_article(sql: str) -> str:
+    """
+    `affiliation` tiene una fila por (artículo, autor). Unida solo por authorid trae las afiliaciones
+    del autor en TODOS sus artículos: "artículos con autores de España" devolvía 61 artículos en vez de 4.
+    Si el JOIN de affiliation no usa sr, se añade `AND af.sr = <artículo>.sr` (o articleauthor si no hay
+    tabla de artículos).
+    """
+    tables = {t.lower(): (a if a and a.lower() not in _SQL_KEYWORDS else t)
+              for t, a in re.findall(r"\b(?:FROM|JOIN)\s+(\w+)(?:\s+(?:AS\s+)?(\w+))?", sql, re.IGNORECASE)}
+    target = next((tables[t] for t in ("corpus_articles", "reference_articles", "article", "articleauthor")
+                   if t in tables), None)
+    if not target:
+        return sql
+
+    def fix(m: re.Match) -> str:
+        alias = m.group(2) if m.group(2) and m.group(2).lower() not in _SQL_KEYWORDS else m.group(1)
+        on = m.group(3)
+        if re.search(r"\bsr\b", on, re.IGNORECASE):
+            return m.group(0)
+        return f"{m.group(0).rstrip()} AND {alias}.sr = {target}.sr "
+
+    return re.sub(rf"\bJOIN\s+(affiliation)(?:\s+(?:AS\s+)?(\w+))?\s+ON\s+(.*?){_JOIN_END}",
+                  fix, sql, flags=re.IGNORECASE)
+
+
 _CLAUSES = re.compile(r"\b(SELECT|FROM|WHERE|GROUP\s+BY|HAVING|ORDER\s+BY|LIMIT|UNION)\b", re.IGNORECASE)
 _AGG = r"\b(?:SUM|AVG|COUNT|MAX|MIN)\s*\((?:[^()]|\([^()]*\))*\)(?:\s+AS\s+\w+)?"
 
@@ -165,6 +193,7 @@ def dedupe_fanout(sql: str) -> str:
     - Con GROUP BY: COUNT(*) / COUNT(1) / COUNT(alias.sr) pasa a COUNT(DISTINCT alias.sr).
     - Sin GROUP BY y con solo agregados sobre columnas del artículo (SUM de citas, AVG…): se calculan
       sobre los artículos que cumplen las condiciones (semi-join `sr IN (…)`), cada uno una sola vez.
+    - Sin GROUP BY y con solo columnas del artículo (un listado): SELECT DISTINCT.
     Lo que ya usa COUNT(DISTINCT …) o agrega columnas de otras tablas no se toca.
     """
     if not re.search(r"\bJOIN\b", sql, re.IGNORECASE):
@@ -179,6 +208,14 @@ def dedupe_fanout(sql: str) -> str:
     name = m.group(1)
     alias = m.group(2) if m.group(2) and m.group(2).lower() not in _SQL_KEYWORDS else name
     sel = c["SELECT"]
+
+    # Listado de artículos (solo columnas del artículo, sin agregados): DISTINCT, para que el LIMIT
+    # no se gaste en el mismo artículo repetido por cada autor o afiliación
+    cols = [s.strip() for s in sel.split(",")]
+    if "GROUP BY" not in c and not re.match(r"DISTINCT\b", sel, re.IGNORECASE) \
+            and all(re.fullmatch(rf"{alias}\.\w+(?:\s+AS\s+\w+)?", col, re.IGNORECASE) for col in cols):
+        c["SELECT"] = "DISTINCT " + sel
+        return " ".join(f"{kw} {body}" for kw, body in c.items())
 
     if "GROUP BY" in c:
         new_sel = re.sub(rf"\bCOUNT\s*\(\s*(?:\*|1|(?:{alias}\.)?sr)\s*\)", f"COUNT(DISTINCT {alias}.sr)",
@@ -220,6 +257,7 @@ def clean_sql(sql: str) -> str:
     sql = re.sub(r"\s+", " ", sql)  # Colapsar espacios múltiples
     sql = repair_column_refs(sql)
     sql = scope_to_corpus(sql)
+    sql = link_affiliation_to_article(sql)
     sql = dedupe_fanout(sql)
 
     return sql.rstrip(";").strip() + ";"

@@ -20,6 +20,40 @@ load_dotenv()
 OLLAMA_BASE_URL    = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
 OLLAMA_EMBED_MODEL = os.getenv("OLLAMA_EMBED_MODEL", "nomic-embed-text")
 
+# nomic-embed-text se entrenó con prefijos de tarea: sin ellos la búsqueda pierde calidad.
+# Las colecciones indexadas con prefijo llevan EMBED_PREFIX_TAG en su metadata.
+EMBED_PREFIX_TAG = "nomic-search-v1"
+
+
+class PrefixedOllamaEmbeddingFunction(OllamaEmbeddingFunction):
+    """OllamaEmbeddingFunction que añade 'search_document: ' a lo indexado y 'search_query: ' a las búsquedas."""
+
+    def _prefixes(self) -> tuple[str, str]:
+        if "nomic" in self.model_name:
+            return "search_document: ", "search_query: "
+        return "", ""
+
+    def __call__(self, input):
+        doc, _ = self._prefixes()
+        return super().__call__([doc + t for t in input])
+
+    def embed_query(self, input):
+        _, query = self._prefixes()
+        return super().__call__([query + t for t in input])
+
+
+def make_embedding_function(base_url: str = OLLAMA_BASE_URL, model: str = OLLAMA_EMBED_MODEL):
+    return PrefixedOllamaEmbeddingFunction(url=f"{base_url}/api/embeddings", model_name=model, timeout=120)
+
+
+def collection_metadata() -> dict:
+    return {"hnsw:space": "cosine", "embed_prefix": EMBED_PREFIX_TAG}
+
+
+def has_prefixed_index(collection) -> bool:
+    """False si la colección se indexó antes de los prefijos (hay que reindexarla)."""
+    return collection.count() == 0 or (collection.metadata or {}).get("embed_prefix") == EMBED_PREFIX_TAG
+
 def _build_document(title: str, abstract: str, keywords: str) -> str:
     """Construye un documento de texto combinando titulo, abstract y keywords."""
     parts = []
@@ -34,31 +68,31 @@ def _build_document(title: str, abstract: str, keywords: str) -> str:
 def get_abstracts_collection(chroma_dir: Path) -> chromadb.Collection:
     """Crea o recupera la colección ChromaDB en la ruta especificada."""
     client = chromadb.PersistentClient(path=str(chroma_dir))
-
-    embed_fn = OllamaEmbeddingFunction(
-        url=f"{OLLAMA_BASE_URL}/api/embeddings",
-        model_name=OLLAMA_EMBED_MODEL,
-    )
-
-    import httpx
-    embed_fn._session = httpx.Client(timeout=120.0)
-
     collection = client.get_or_create_collection(
         name="bibliometric_abstracts",
-        embedding_function=embed_fn,
-        metadata={"hnsw:space": "cosine"},
+        embedding_function=make_embedding_function(),
+        metadata=collection_metadata(),
     )
+    if not has_prefixed_index(collection):
+        print(f"[embedder] AVISO: el índice de {chroma_dir} se creó sin los prefijos de nomic; "
+              f"reindexa con index_abstracts(..., rebuild=True).")
     return collection
 
 
 def index_abstracts(
     db_path: Path,
     chroma_dir: Path,
-    progress_callback: Optional[Callable[[str, float], None]] = None
+    progress_callback: Optional[Callable[[str, float], None]] = None,
+    rebuild: bool = False,
 ) -> chromadb.Collection:
     """
     Toma los artículos de la BD SQLite y los indexa en ChromaDB.
+    Con rebuild=True borra antes la colección (p. ej. un índice creado sin los prefijos de nomic).
     """
+    if rebuild:
+        client = chromadb.PersistentClient(path=str(chroma_dir))
+        if "bibliometric_abstracts" in [c.name for c in client.list_collections()]:
+            client.delete_collection("bibliometric_abstracts")
     collection = get_abstracts_collection(chroma_dir)
 
     # Cargar artículos desde la BD proporcionada

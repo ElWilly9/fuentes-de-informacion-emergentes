@@ -20,25 +20,41 @@ load_dotenv()
 
 OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
 OLLAMA_MODEL    = os.getenv("OLLAMA_MODEL", "glm4:9b")
+OLLAMA_NUM_PREDICT = int(os.getenv("OLLAMA_NUM_PREDICT", "2048"))  # tope de tokens de salida: corta los bucles de texto basura de glm4
 LLM_TEMPERATURE = float(os.getenv("LLM_TEMPERATURE", "0.0"))
 
 # ── Prompt template ───────────────────────────────────────────────────────────
 
 SQL_SYSTEM_PROMPT = """Eres un experto en SQL que genera consultas para SQLite.
-Tu trabajo es convertir preguntas en español sobre un corpus bibliométrico
+Tu trabajo es convertir preguntas en lenguaje natural sobre una base de datos
 en consultas SQL correctas y eficientes.
 
 REGLAS ESTRICTAS:
 1. Genera SOLO la consulta SQL, sin explicaciones, sin markdown, sin texto extra.
 2. Usa SOLO las tablas y columnas que se te proporcionan — NO inventes columnas.
 3. Usa JOINs basándote SOLO en las foreign keys proporcionadas.
-4. Para texto, usa LIKE con % para búsquedas parciales.
-5. Siempre incluye LIMIT si la pregunta pide "top", "más", "mejores" (default LIMIT 10).
-6. cited_by puede ser TEXT — usa CAST(cited_by AS INTEGER) para ordenar numéricamente.
-7. year puede ser TEXT — usa CAST(year AS INTEGER) para filtros numéricos.
-8. Para conteos usa COUNT(1) o COUNT(*). Para contar artículos distintos usa COUNT(DISTINCT columna).
-9. Si la pregunta pide un ranking, usa ORDER BY ... DESC.
-10. Responde ÚNICAMENTE con el SQL, nada más."""
+4. Para conteos usa COUNT(1) o COUNT(*). Para contar elementos distintos usa COUNT(DISTINCT columna).
+5. Si la pregunta pide un ranking, usa ORDER BY ... DESC.
+6. Responde ÚNICAMENTE con el SQL, nada más.{domain_rules}"""
+
+# Reglas del corpus bibliométrico. Solo se añaden si el esquema es el nuestro (tabla article):
+# en otras BD (Spider) el LIMIT 10 por defecto, los CAST y el LIKE causaron 36 de 53 pérdidas.
+BIBLIO_RULES = """
+
+REGLAS DEL CORPUS BIBLIOMÉTRICO:
+7. La base de datos es un corpus bibliométrico; las preguntas llegan en español.
+8. Para texto, usa LIKE con % para búsquedas parciales.
+9. Siempre incluye LIMIT si la pregunta pide "top", "más", "mejores" (default LIMIT 10).
+10. cited_by puede ser TEXT — usa CAST(cited_by AS INTEGER) para ordenar numéricamente.
+11. year puede ser TEXT — usa CAST(year AS INTEGER) para filtros numéricos."""
+
+
+def is_bibliometric(ctx: SchemaContext) -> bool:
+    return any(t.lower() == "article" for t in ctx.relevant_tables)
+
+
+def system_prompt(ctx: SchemaContext) -> str:
+    return SQL_SYSTEM_PROMPT.format(domain_rules=BIBLIO_RULES if is_bibliometric(ctx) else "")
 
 SQL_USER_TEMPLATE = """Genera la consulta SQL para responder esta pregunta:
 
@@ -55,7 +71,10 @@ def _build_schema_text(ctx: SchemaContext) -> str:
     lines = []
     for table in ctx.relevant_tables:
         cols = ctx.relevant_columns.get(table, [])
-        # "tabla: col, col" y no "tabla(col, col)": con paréntesis el LLM escribía alias(columna)
+        types = ctx.column_types.get(table, {})
+        # "tabla: col, col" y no "tabla(col, col)": con paréntesis el LLM escribía alias(columna).
+        # El tipo va como "col INTEGER", sin paréntesis, por la misma razón.
+        cols = [f"{c} {types[c.lower()]}" if types.get(c.lower()) else c for c in cols]
         lines.append(f"  {table}: {', '.join(cols)}")
 
     if "ismainarticle" in ctx.relevant_columns.get("article", []):
@@ -142,6 +161,7 @@ def generate_sql(ctx: SchemaContext, history: list[dict] | None = None, feedback
         base_url=OLLAMA_BASE_URL,
         model=OLLAMA_MODEL,
         temperature=LLM_TEMPERATURE,
+        num_predict=OLLAMA_NUM_PREDICT,
     )
 
     schema_text = _build_schema_text(ctx)
@@ -161,7 +181,7 @@ def generate_sql(ctx: SchemaContext, history: list[dict] | None = None, feedback
     )
 
     response = llm.invoke([
-        {"role": "system", "content": SQL_SYSTEM_PROMPT},
+        {"role": "system", "content": system_prompt(ctx)},
         {"role": "user",   "content": user_msg},
     ])
 
