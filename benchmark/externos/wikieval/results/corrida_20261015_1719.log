@@ -1,115 +1,0 @@
-[1/50] rank=1 41.4s  When is the scheduled launch date and time for the PSLV-C56 mission, a
-[2/50] rank=1 15.6s  What is the objective of the Uzbekistan-Afghanistan-Pakistan Railway P
-[3/50] rank=1 9.9s  When was PharmaCann founded and what is its headquarters location?
-[4/50] rank=1 11.2s  Who directed the film Oppenheimer and who stars as J. Robert Oppenheim
-[5/50] rank=1 12.0s  What is theranostics and how does it combine diagnostic and therapeuti
-[6/50] rank=1 13.2s  What is the human climate niche and how is it estimated?
-[7/50] rank=1 13.9s  What is the taxonomy of Dasypoda radchenkoi, and what is its relations
-[8/50] rank=1 23.0s  What is the main product of Fremantle Octopus and where is it based?
-[9/50] rank=1 21.8s  Who is the Managing Director of FoodFutureCo and what are some of her 
-[10/50] rank=1 14.7s  What was the purpose of designing and building the Fiat Ecobasic conce
-[11/50] rank=1 15.2s  What is the purpose of the Rainbow Plaque programme in the UK, and how
-[12/50] rank=1 13.0s  What is the Zubaydah Trail and when was it constructed?
-[13/50] rank=1 12.7s  When was the Chimnabai Clock Tower completed, and who was it named aft
-[14/50] rank=1 16.0s  When did Trolleybus Route 20 in Shanghai start its operations, and wha
-[15/50] rank=1 12.4s  When did the Inter Expo Center in Sofia, Bulgaria open, and how has it
-[16/50] rank=1 12.3s  When did Pope Benedict XVI become the head of the Catholic Church and 
-[17/50] rank=1 15.1s  What caused the crash of Yeti Airlines Flight 691 in Pokhara, Nepal?
-[18/50] rank=1 16.7s  How does the height and thrust of the Starship rocket compare to other
-[19/50] rank=1 17.9s  What is the Kyzylkum Desert known for in terms of its natural resource
-[20/50] rank=1 12.7s  When will the 80th annual Venice International Film Festival take plac
-[21/50] rank=1 12.2s  Where is Myosotis angustata endemic to, and what is its conservation s
-[22/50] rank=1 12.3s  Where is Mount Brown located and what is its elevation?
-[23/50] rank=1 16.6s  Where is the type locality of the Laoshan tree frog and what is its si
-[24/50] rank=1 18.7s  When was the Roanoke and Tar River Railroad fully merged into the Seab
-[25/50] rank=1 14.9s  What organizations has Moud Goba been involved with and what is her cu
-[26/50] rank=1 15.4s  What is the purpose of the Modernizing Opioid Treatment Access Act, an
-[27/50] rank=1 14.0s  When and where did Gaucho Americano have its world premiere, and when 
-[28/50] rank=1 16.0s  Where is the type locality of the Blakistonia plata spider and what is
-[29/50] rank=1 12.1s  How many teams participate in the Turkish Women's Football Super Leagu
-[30/50] rank=1 18.0s  Who is buried in the Tomb of Alexander Stewart, and what is the condit
-[31/50] rank=1 18.6s  When was the 5th Separate Guards Tatsin Red Banner Order of Suvorov Ta
-[32/50] rank=1 15.7s  How long did the Siege of Mariupol last, and what was the outcome?
-[33/50] rank=1 16.5s  Which countries and international organizations have imposed sanctions
-[34/50] rank=1 14.1s  What factors contributed to the Sri Lankan economic crisis?
-[35/50] rank=1 13.2s  How many people were killed and injured in the 2022 Hormozgan earthqua
-[36/50] rank=1 14.8s  How many people were killed and injured in the mass shooting during th
-[37/50] rank=1 15.9s  What are some of the controversies surrounding Uber?
-[38/50] rank=1 12.8s  What was the estimated timeline for fully restoring power in Moore Cou
-[39/50] rank=1 13.9s  What caused the ethnic violence in Manipur in 2023, and what were the 
-[40/50] rank=1 11.7s  What was the size and payload of the Chinese balloon that was spotted 
-[41/50] rank=1 14.8s  What were the temperatures and snowfall amounts during the cold snap i
-[42/50] rank=1 12.6s  When was GPT-4 released and what are some of its capabilities?
-[43/50] rank=1 13.0s  What is the current status of the Myanmar civil war, and how many peop
-[44/50] rank=1 14.3s  When and where will the Miss Grand Dominican Republic 2023 pageant be 
-[45/50] rank=1 13.8s  What was the cause of the rebellion staged by the Wagner Group in 2023
-[46/50] rank=1 12.2s  What caused the gas supply outage in Sheffield, England in December 20
-[47/50] rank=1 13.9s  What sparked the civil unrest and protests in Iran in September 2022, 
-[48/50] rank=1 18.1s  What types of volcanoes are found on Venus, and how do they differ fro
-[49/50] rank=1 11.2s  What are some measures for pandemic prevention?
-[50/50] rank=1 12.9s  What are the main science objectives of the JUICE orbiter and what moo
-Página correcta en top-5: 50/50 · en 1.er lugar: 50/50 → C:\Users\Willy\Documents\UNAL\RAG_Text2SQL\demo_limpio\benchmark\externos\wikieval\results\respuestas_tal_cual_glm4-9b.json
-Evaluating:   0%|          | 0/200 [00:00<?, ?it/s]Evaluating:   0%|          | 1/200 [00:41<2:17:07, 41.35s/it]Evaluating:   1%|          | 2/200 [01:31<2:34:04, 46.69s/it]Evaluating:   2%|▏         | 3/200 [02:02<2:10:00, 39.60s/it]Evaluating:   2%|▏         | 4/200 [02:44<2:11:32, 40.27s/it]Evaluating:   2%|▎         | 5/200 [02:49<1:30:19, 27.79s/it]Evaluating:   3%|▎         | 6/200 [03:04<1:15:39, 23.40s/it]Evaluating:   4%|▎         | 7/200 [03:56<1:44:46, 32.57s/it]Evaluating:   4%|▍         | 8/200 [04:30<1:46:21, 33.23s/it]Evaluating:   4%|▍         | 9/200 [04:38<1:20:22, 25.25s/it]Evaluating:   5%|▌         | 10/200 [04:55<1:12:08, 22.78s/it]Evaluating:   6%|▌         | 11/200 [05:12<1:05:56, 20.94s/it]Evaluating:   6%|▌         | 12/200 [05:41<1:12:47, 23.23s/it]Evaluating:   6%|▋         | 13/200 [06:00<1:09:14, 22.22s/it]Evaluating:   7%|▋         | 14/200 [06:03<50:26, 16.27s/it]  Evaluating:   8%|▊         | 15/200 [06:19<50:15, 16.30s/it]Evaluating:   8%|▊         | 16/200 [07:09<1:20:25, 26.22s/it]Evaluating:   8%|▊         | 17/200 [07:30<1:15:18, 24.69s/it]Evaluating:   9%|▉         | 18/200 [07:48<1:09:04, 22.77s/it]Evaluating:  10%|▉         | 19/200 [08:33<1:29:04, 29.53s/it]Evaluating:  10%|█         | 20/200 [09:25<1:48:46, 36.26s/it]Evaluating:  10%|█         | 21/200 [09:31<1:21:10, 27.21s/it]Evaluating:  11%|█         | 22/200 [09:48<1:10:53, 23.89s/it]Evaluating:  12%|█▏        | 23/200 [10:38<1:34:14, 31.95s/it]Evaluating:  12%|█▏        | 24/200 [11:27<1:48:12, 36.89s/it]Evaluating:  12%|█▎        | 25/200 [11:34<1:22:07, 28.16s/it]Evaluating:  13%|█▎        | 26/200 [11:49<1:10:13, 24.21s/it]Evaluating:  14%|█▎        | 27/200 [12:20<1:15:27, 26.17s/it]Evaluating:  14%|█▍        | 28/200 [12:55<1:22:44, 28.86s/it]Evaluating:  14%|█▍        | 29/200 [13:17<1:15:49, 26.60s/it]Evaluating:  15%|█▌        | 30/200 [13:19<54:29, 19.23s/it]  Evaluating:  16%|█▌        | 31/200 [13:34<51:10, 18.17s/it]Evaluating:  16%|█▌        | 32/200 [14:58<1:46:11, 37.93s/it]Evaluating:  16%|█▋        | 33/200 [15:19<1:31:03, 32.72s/it]Evaluating:  17%|█▋        | 34/200 [15:30<1:12:21, 26.15s/it]Evaluating:  18%|█▊        | 35/200 [16:02<1:16:55, 27.97s/it]Evaluating:  18%|█▊        | 36/200 [16:50<1:33:12, 34.10s/it]Evaluating:  18%|█▊        | 37/200 [17:14<1:23:49, 30.86s/it]Evaluating:  19%|█▉        | 38/200 [17:17<1:00:35, 22.44s/it]Evaluating:  20%|█▉        | 39/200 [17:38<59:33, 22.19s/it]  Evaluating:  20%|██        | 40/200 [18:39<1:29:52, 33.70s/it]Evaluating:  20%|██        | 41/200 [19:06<1:24:32, 31.90s/it]Evaluating:  21%|██        | 42/200 [19:22<1:11:01, 26.97s/it]Evaluating:  22%|██▏       | 43/200 [20:08<1:25:51, 32.81s/it]Evaluating:  22%|██▏       | 44/200 [20:54<1:35:34, 36.76s/it]Evaluating:  22%|██▎       | 45/200 [21:18<1:25:11, 32.97s/it]Evaluating:  23%|██▎       | 46/200 [21:21<1:01:28, 23.95s/it]Evaluating:  24%|██▎       | 47/200 [22:04<1:15:43, 29.70s/it]Evaluating:  24%|██▍       | 48/200 [23:10<1:42:37, 40.51s/it]Evaluating:  24%|██▍       | 49/200 [23:40<1:33:43, 37.24s/it]Evaluating:  25%|██▌       | 50/200 [23:55<1:16:42, 30.68s/it]Evaluating:  26%|██▌       | 51/200 [24:17<1:09:41, 28.06s/it]Evaluating:  26%|██▌       | 52/200 [25:12<1:29:19, 36.21s/it]Evaluating:  26%|██▋       | 53/200 [25:37<1:20:13, 32.74s/it]Evaluating:  27%|██▋       | 54/200 [25:40<58:07, 23.88s/it]  Evaluating:  28%|██▊       | 55/200 [26:21<1:09:59, 28.96s/it]Evaluating:  28%|██▊       | 56/200 [27:08<1:22:43, 34.47s/it]Evaluating:  28%|██▊       | 57/200 [27:37<1:17:46, 32.63s/it]Evaluating:  29%|██▉       | 58/200 [27:40<56:32, 23.89s/it]  Evaluating:  30%|██▉       | 59/200 [28:19<1:06:37, 28.35s/it]Evaluating:  30%|███       | 60/200 [29:12<1:23:23, 35.74s/it]Evaluating:  30%|███       | 61/200 [29:37<1:15:27, 32.57s/it]Evaluating:  31%|███       | 62/200 [29:41<54:55, 23.88s/it]  Evaluating:  32%|███▏      | 63/200 [30:02<53:00, 23.21s/it]Evaluating:  32%|███▏      | 64/200 [30:58<1:14:53, 33.04s/it]Evaluating:  32%|███▎      | 65/200 [31:26<1:10:41, 31.42s/it]Evaluating:  33%|███▎      | 66/200 [31:41<59:13, 26.52s/it]  Evaluating:  34%|███▎      | 67/200 [32:32<1:15:05, 33.88s/it]Evaluating:  34%|███▍      | 68/200 [33:49<1:42:51, 46.75s/it]Evaluating:  34%|███▍      | 69/200 [34:16<1:29:30, 40.99s/it]Evaluating:  35%|███▌      | 70/200 [34:19<1:04:05, 29.58s/it]Evaluating:  36%|███▌      | 71/200 [35:22<1:25:02, 39.55s/it]Evaluating:  36%|███▌      | 72/200 [36:32<1:43:53, 48.70s/it]Evaluating:  36%|███▋      | 73/200 [37:00<1:29:45, 42.41s/it]Evaluating:  37%|███▋      | 74/200 [37:24<1:17:23, 36.85s/it]Evaluating:  38%|███▊      | 75/200 [38:00<1:16:30, 36.72s/it]Evaluating:  38%|███▊      | 76/200 [38:51<1:24:50, 41.05s/it]Evaluating:  38%|███▊      | 77/200 [39:00<1:04:04, 31.25s/it]Evaluating:  39%|███▉      | 78/200 [39:17<55:12, 27.15s/it]  Evaluating:  40%|███▉      | 79/200 [39:46<55:42, 27.63s/it]Evaluating:  40%|████      | 80/200 [40:20<59:15, 29.63s/it]Evaluating:  40%|████      | 81/200 [40:28<45:42, 23.04s/it]Evaluating:  41%|████      | 82/200 [40:45<41:31, 21.12s/it]Evaluating:  42%|████▏     | 83/200 [41:17<47:45, 24.49s/it]Evaluating:  42%|████▏     | 84/200 [41:56<55:50, 28.88s/it]Evaluating:  42%|████▎     | 85/200 [42:21<52:55, 27.61s/it]Evaluating:  43%|████▎     | 86/200 [42:24<38:27, 20.24s/it]Evaluating:  44%|████▎     | 87/200 [42:42<36:41, 19.49s/it]Evaluating:  44%|████▍     | 88/200 [43:28<51:39, 27.67s/it]Evaluating:  44%|████▍     | 89/200 [43:55<50:22, 27.23s/it]Evaluating:  45%|████▌     | 90/200 [44:13<45:08, 24.63s/it]Evaluating:  46%|████▌     | 91/200 [44:35<42:58, 23.66s/it]Evaluating:  46%|████▌     | 92/200 [45:18<53:03, 29.48s/it]Evaluating:  46%|████▋     | 93/200 [45:24<40:14, 22.57s/it]Evaluating:  47%|████▋     | 94/200 [45:45<39:02, 22.10s/it]Evaluating:  48%|████▊     | 95/200 [46:37<54:04, 30.90s/it]Evaluating:  48%|████▊     | 96/200 [47:25<1:02:46, 36.22s/it]Evaluating:  48%|████▊     | 97/200 [47:49<55:51, 32.54s/it]  Evaluating:  49%|████▉     | 98/200 [47:52<40:18, 23.71s/it]Evaluating:  50%|████▉     | 99/200 [48:17<40:19, 23.95s/it]Evaluating:  50%|█████     | 100/200 [48:59<48:51, 29.31s/it]Evaluating:  50%|█████     | 101/200 [49:21<45:05, 27.33s/it]Evaluating:  51%|█████     | 102/200 [49:27<33:54, 20.76s/it]Evaluating:  52%|█████▏    | 103/200 [50:14<46:26, 28.73s/it]Evaluating:  52%|█████▏    | 104/200 [50:50<49:20, 30.84s/it]Evaluating:  52%|█████▎    | 105/200 [51:17<47:06, 29.75s/it]Evaluating:  53%|█████▎    | 106/200 [51:20<34:15, 21.87s/it]Evaluating:  54%|█████▎    | 107/200 [51:49<36:50, 23.77s/it]Evaluating:  54%|█████▍    | 108/200 [52:42<49:57, 32.59s/it]Evaluating:  55%|█████▍    | 109/200 [53:08<46:31, 30.68s/it]Evaluating:  55%|█████▌    | 110/200 [53:12<34:01, 22.68s/it]Evaluating:  56%|█████▌    | 111/200 [53:47<38:51, 26.20s/it]Evaluating:  56%|█████▌    | 112/200 [54:25<43:48, 29.87s/it]Evaluating:  56%|█████▋    | 113/200 [54:50<41:14, 28.45s/it]Evaluating:  57%|█████▋    | 114/200 [54:55<30:27, 21.25s/it]Evaluating:  57%|█████▊    | 115/200 [56:02<49:50, 35.19s/it]Evaluating:  58%|█████▊    | 116/200 [57:14<1:04:41, 46.21s/it]Evaluating:  58%|█████▊    | 117/200 [57:44<57:08, 41.30s/it]  Evaluating:  59%|█████▉    | 118/200 [57:49<41:32, 30.40s/it]Evaluating:  60%|█████▉    | 119/200 [58:38<48:39, 36.04s/it]Evaluating:  60%|██████    | 120/200 [59:40<58:17, 43.71s/it]Evaluating:  60%|██████    | 121/200 [1:00:10<52:02, 39.52s/it]Evaluating:  61%|██████    | 122/200 [1:00:14<37:35, 28.92s/it]Evaluating:  62%|██████▏   | 123/200 [1:00:35<34:05, 26.56s/it]Evaluating:  62%|██████▏   | 124/200 [1:01:18<40:02, 31.61s/it]Evaluating:  62%|██████▎   | 125/200 [1:01:44<37:20, 29.88s/it]Evaluating:  63%|██████▎   | 126/200 [1:02:08<34:44, 28.17s/it]Evaluating:  64%|██████▎   | 127/200 [1:02:59<42:32, 34.96s/it]Evaluating:  64%|██████▍   | 128/200 [1:03:54<49:16, 41.06s/it]Evaluating:  64%|██████▍   | 129/200 [1:04:04<37:29, 31.68s/it]Evaluating:  65%|██████▌   | 130/200 [1:04:28<34:05, 29.22s/it]Evaluating:  66%|██████▌   | 131/200 [1:05:19<41:06, 35.74s/it]Evaluating:  66%|██████▌   | 132/200 [1:06:13<46:45, 41.25s/it]Evaluating:  66%|██████▋   | 133/200 [1:06:40<41:33, 37.21s/it]Evaluating:  67%|██████▋   | 134/200 [1:06:44<29:49, 27.11s/it]Evaluating:  68%|██████▊   | 135/200 [1:07:26<34:20, 31.70s/it]Evaluating:  68%|██████▊   | 136/200 [1:08:12<38:07, 35.75s/it]Evaluating:  68%|██████▊   | 137/200 [1:08:42<35:46, 34.07s/it]Evaluating:  69%|██████▉   | 138/200 [1:09:06<32:13, 31.19s/it]Evaluating:  70%|██████▉   | 139/200 [1:09:38<31:47, 31.27s/it]Evaluating:  70%|███████   | 140/200 [1:10:19<34:12, 34.21s/it]Evaluating:  70%|███████   | 141/200 [1:10:26<25:38, 26.08s/it]Evaluating:  71%|███████   | 142/200 [1:10:47<23:44, 24.56s/it]Evaluating:  72%|███████▏  | 143/200 [1:11:13<23:48, 25.06s/it]Evaluating:  72%|███████▏  | 144/200 [1:11:57<28:45, 30.81s/it]Evaluating:  72%|███████▎  | 145/200 [1:12:04<21:43, 23.70s/it]Evaluating:  73%|███████▎  | 146/200 [1:12:24<20:11, 22.44s/it]Evaluating:  74%|███████▎  | 147/200 [1:13:05<24:48, 28.08s/it]Evaluating:  74%|███████▍  | 148/200 [1:13:47<28:02, 32.36s/it]Evaluating:  74%|███████▍  | 149/200 [1:13:54<20:51, 24.54s/it]Evaluating:  75%|███████▌  | 150/200 [1:14:15<19:32, 23.46s/it]Evaluating:  76%|███████▌  | 151/200 [1:14:41<19:57, 24.45s/it]Evaluating:  76%|███████▌  | 152/200 [1:15:25<24:13, 30.28s/it]Evaluating:  76%|███████▋  | 153/200 [1:15:31<18:01, 23.01s/it]Evaluating:  77%|███████▋  | 154/200 [1:15:51<16:45, 21.86s/it]Evaluating:  78%|███████▊  | 155/200 [1:16:46<24:03, 32.07s/it]Evaluating:  78%|███████▊  | 156/200 [1:17:26<25:16, 34.46s/it]Evaluating:  78%|███████▊  | 157/200 [1:17:53<23:03, 32.18s/it]Evaluating:  79%|███████▉  | 158/200 [1:17:58<16:43, 23.88s/it]Evaluating:  80%|███████▉  | 159/200 [1:18:35<19:02, 27.86s/it]Evaluating:  80%|████████  | 160/200 [1:19:27<23:19, 34.98s/it]Evaluating:  80%|████████  | 161/200 [1:19:53<21:05, 32.44s/it]Evaluating:  81%|████████  | 162/200 [1:19:57<15:03, 23.76s/it]Evaluating:  82%|████████▏ | 163/200 [1:20:49<19:51, 32.20s/it]Evaluating:  82%|████████▏ | 164/200 [1:21:45<23:37, 39.37s/it]Evaluating:  82%|████████▎ | 165/200 [1:22:09<20:24, 34.98s/it]Evaluating:  83%|████████▎ | 166/200 [1:22:31<17:28, 30.84s/it]Evaluating:  84%|████████▎ | 167/200 [1:23:09<18:11, 33.07s/it]Evaluating:  84%|████████▍ | 168/200 [1:23:52<19:12, 36.02s/it]Evaluating:  84%|████████▍ | 169/200 [1:23:57<13:52, 26.86s/it]Evaluating:  85%|████████▌ | 170/200 [1:24:16<12:17, 24.58s/it]Evaluating:  86%|████████▌ | 171/200 [1:25:05<15:19, 31.71s/it]Evaluating:  86%|████████▌ | 172/200 [1:25:53<17:07, 36.69s/it]Evaluating:  86%|████████▋ | 173/200 [1:26:01<12:35, 27.97s/it]Evaluating:  87%|████████▋ | 174/200 [1:26:18<10:43, 24.73s/it]Evaluating:  88%|████████▊ | 175/200 [1:26:49<11:04, 26.58s/it]Evaluating:  88%|████████▊ | 176/200 [1:27:34<12:51, 32.14s/it]Evaluating:  88%|████████▊ | 177/200 [1:27:39<09:15, 24.17s/it]Evaluating:  89%|████████▉ | 178/200 [1:27:55<07:53, 21.50s/it]Evaluating:  90%|████████▉ | 179/200 [1:28:49<10:56, 31.25s/it]Evaluating:  90%|█████████ | 180/200 [1:29:29<11:18, 33.94s/it]Evaluating:  90%|█████████ | 181/200 [1:29:55<09:57, 31.44s/it]Evaluating:  91%|█████████ | 182/200 [1:29:57<06:50, 22.81s/it]Evaluating:  92%|█████████▏| 183/200 [1:30:21<06:32, 23.06s/it]Evaluating:  92%|█████████▏| 184/200 [1:31:11<08:17, 31.08s/it]Evaluating:  92%|█████████▎| 185/200 [1:31:36<07:18, 29.25s/it]Evaluating:  93%|█████████▎| 186/200 [1:31:57<06:16, 26.90s/it]Evaluating:  94%|█████████▎| 187/200 [1:32:38<06:45, 31.16s/it]Evaluating:  94%|█████████▍| 188/200 [1:33:57<09:06, 45.53s/it]Evaluating:  94%|█████████▍| 189/200 [1:34:05<06:14, 34.07s/it]Evaluating:  95%|█████████▌| 190/200 [1:34:21<04:47, 28.80s/it]Evaluating:  96%|█████████▌| 191/200 [1:35:16<05:29, 36.59s/it]Evaluating:  96%|█████████▌| 192/200 [1:35:54<04:56, 37.10s/it]Evaluating:  96%|█████████▋| 193/200 [1:36:17<03:49, 32.73s/it]Evaluating:  97%|█████████▋| 194/200 [1:36:19<02:21, 23.60s/it]Evaluating:  98%|█████████▊| 195/200 [1:36:46<02:03, 24.75s/it]Evaluating:  98%|█████████▊| 196/200 [1:37:47<02:22, 35.57s/it]Evaluating:  98%|█████████▊| 197/200 [1:38:06<01:31, 30.49s/it]Evaluating:  99%|█████████▉| 198/200 [1:38:08<00:43, 21.96s/it]Evaluating: 100%|█████████▉| 199/200 [1:38:49<00:27, 27.82s/it]Evaluating: 100%|██████████| 200/200 [1:39:27<00:00, 30.68s/it]Evaluating: 100%|██████████| 200/200 [1:39:27<00:00, 29.84s/it]
-# WikiEval + RAGAS — config `tal_cual`
-
-- Generador: `glm4:9b` · juez RAGAS: `glm4:9b` · embeddings: nomic-embed-text · top-k 5
-- Preguntas: 50 · tiempo del juez: 99.5 min
-- Página correcta en top-5: 50/50 · en 1.er lugar: 50/50
-
-| Métrica | Media | Sin puntuar (NaN) |
-|---|---|---|
-| faithfulness | 0.8336 | 0 |
-| answer_relevancy | 0.7537 | 0 |
-| context_precision | 0.94 | 0 |
-| context_recall | 0.4323 | 0 |
-[1/50] rank=1 96.0s  When is the scheduled launch date and time for the PSLV-C56 mission, a
-[2/50] rank=1 40.5s  What is the objective of the Uzbekistan-Afghanistan-Pakistan Railway P
-[3/50] rank=1 35.5s  When was PharmaCann founded and what is its headquarters location?
-[4/50] rank=1 66.6s  Who directed the film Oppenheimer and who stars as J. Robert Oppenheim
-[5/50] rank=1 78.5s  What is theranostics and how does it combine diagnostic and therapeuti
-[6/50] rank=1 74.0s  What is the human climate niche and how is it estimated?
-[7/50] rank=1 32.6s  What is the taxonomy of Dasypoda radchenkoi, and what is its relations
-[8/50] rank=1 41.4s  What is the main product of Fremantle Octopus and where is it based?
-[9/50] rank=1 31.8s  Who is the Managing Director of FoodFutureCo and what are some of her 
-[10/50] rank=1 56.9s  What was the purpose of designing and building the Fiat Ecobasic conce
-[11/50] rank=1 96.2s  What is the purpose of the Rainbow Plaque programme in the UK, and how
-[12/50] rank=1 44.9s  What is the Zubaydah Trail and when was it constructed?
-[13/50] rank=1 55.8s  When was the Chimnabai Clock Tower completed, and who was it named aft
-[14/50] rank=1 55.4s  When did Trolleybus Route 20 in Shanghai start its operations, and wha
-[15/50] rank=1 39.0s  When did the Inter Expo Center in Sofia, Bulgaria open, and how has it
-[16/50] rank=1 52.7s  When did Pope Benedict XVI become the head of the Catholic Church and 
-[17/50] rank=1 105.4s  What caused the crash of Yeti Airlines Flight 691 in Pokhara, Nepal?
-[18/50] rank=1 113.8s  How does the height and thrust of the Starship rocket compare to other
-[19/50] rank=1 71.3s  What is the Kyzylkum Desert known for in terms of its natural resource
-[20/50] rank=1 32.5s  When will the 80th annual Venice International Film Festival take plac
-[21/50] rank=1 47.2s  Where is Myosotis angustata endemic to, and what is its conservation s
-[22/50] rank=1 47.2s  Where is Mount Brown located and what is its elevation?
-[23/50] rank=1 38.6s  Where is the type locality of the Laoshan tree frog and what is its si
-[24/50] rank=1 78.0s  When was the Roanoke and Tar River Railroad fully merged into the Seab
-[25/50] rank=1 81.4s  What organizations has Moud Goba been involved with and what is her cu
-[26/50] rank=1 81.8s  What is the purpose of the Modernizing Opioid Treatment Access Act, an
-[27/50] rank=1 66.3s  When and where did Gaucho Americano have its world premiere, and when 
-[28/50] rank=1 30.8s  Where is the type locality of the Blakistonia plata spider and what is
-[29/50] rank=1 52.3s  How many teams participate in the Turkish Women's Football Super Leagu
-[30/50] rank=1 86.0s  Who is buried in the Tomb of Alexander Stewart, and what is the condit
-[31/50] rank=1 104.5s  When was the 5th Separate Guards Tatsin Red Banner Order of Suvorov Ta
-[32/50] rank=1 111.3s  How long did the Siege of Mariupol last, and what was the outcome?
-[33/50] rank=1 131.7s  Which countries and international organizations have imposed sanctions
-[34/50] rank=1 104.0s  What factors contributed to the Sri Lankan economic crisis?
-[35/50] rank=1 88.1s  How many people were killed and injured in the 2022 Hormozgan earthqua
-[36/50] rank=1 130.6s  How many people were killed and injured in the mass shooting during th
-[37/50] rank=1 130.6s  What are some of the controversies surrounding Uber?
-[38/50] rank=1 105.0s  What was the estimated timeline for fully restoring power in Moore Cou
-[39/50] rank=1 125.8s  What caused the ethnic violence in Manipur in 2023, and what were the 
-[40/50] rank=1 96.0s  What was the size and payload of the Chinese balloon that was spotted 
-[41/50] rank=1 57.1s  What were the temperatures and snowfall amounts during the cold snap i
-[42/50] rank=1 88.8s  When was GPT-4 released and what are some of its capabilities?
-[43/50] rank=1 141.2s  What is the current status of the Myanmar civil war, and how many peop
-[44/50] rank=1 37.6s  When and where will the Miss Grand Dominican Republic 2023 pageant be 
-[45/50] rank=1 145.2s  What was the cause of the rebellion staged by the Wagner Group in 2023
-[46/50] rank=1 90.8s  What caused the gas supply outage in Sheffield, England in December 20
-[47/50] rank=1 99.3s  What sparked the civil unrest and protests in Iran in September 2022, 
-[48/50] rank=1 81.1s  What types of volcanoes are found on Venus, and how do they differ fro
-[49/50] rank=1 72.7s  What are some measures for pandemic prevention?
-[50/50] rank=1 88.1s  What are the main science objectives of the JUICE orbiter and what moo
-Página correcta en top-5: 50/50 · en 1.er lugar: 50/50 → C:\Users\Willy\Documents\UNAL\RAG_Text2SQL\demo_limpio\benchmark\externos\wikieval\results\respuestas_completo_glm4-9b.json

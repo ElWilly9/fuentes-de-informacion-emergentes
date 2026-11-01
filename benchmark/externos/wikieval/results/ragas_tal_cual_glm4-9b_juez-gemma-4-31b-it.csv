@@ -1,3 +1,0 @@
-id,gold_rank,faithfulness,answer_relevancy,context_precision,context_recall
-1,1,1.0,0.9586557462368326,0.9999999999,0.0
-2,1,1.0,0.9208404947708292,0.9999999999,0.16666666666666666
