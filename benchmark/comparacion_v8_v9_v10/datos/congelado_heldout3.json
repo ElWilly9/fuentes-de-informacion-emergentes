@@ -1,0 +1,7 @@
+{
+ "fecha": "2026-11-09T11:03:22",
+ "dataset_sha256": "11c3f1eae190c7fbfe9636b331b056d5b8c78cf6c6e07086fe4d4b5ddfb86535",
+ "n": 60,
+ "estado_base": "commit 3875669 (sin ajuste de revistas)",
+ "nota": "Congelado ANTES de cualquier cambio al agente de esta ronda. El dataset no se toca tras ver resultados."
+}

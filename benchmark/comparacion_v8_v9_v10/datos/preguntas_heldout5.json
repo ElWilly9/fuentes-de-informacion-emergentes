@@ -1,0 +1,746 @@
+[
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-L-S01",
+    "plantilla": "L-S01",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos autores tienen más de un artículo en el corpus?",
+    "gold": {
+      "numeros": [
+        15
+      ]
+    }
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-L-S02",
+    "plantilla": "L-S02",
+    "tipo": "SQL",
+    "pregunta": "¿Cuál es el promedio de autores por artículo en el corpus?",
+    "gold": {
+      "numeros": [
+        5.0
+      ]
+    }
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-L-S03",
+    "plantilla": "L-S03",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos se publicaron en los últimos tres años del corpus (2022 a 2024)?",
+    "gold": {
+      "numeros": [
+        34
+      ]
+    }
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-L-S04",
+    "plantilla": "L-S04",
+    "tipo": "SQL",
+    "pregunta": "¿En qué año se publicó el artículo más citado del corpus?",
+    "gold": {
+      "numeros": [
+        2022
+      ]
+    }
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-L-S05",
+    "plantilla": "L-S05",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos tienen un título de más de 100 caracteres?",
+    "gold": {
+      "numeros": [
+        32
+      ]
+    }
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-L-S06",
+    "plantilla": "L-S06",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos tipos de documento distintos hay en el corpus?",
+    "gold": {
+      "numeros": [
+        2
+      ]
+    }
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-L-S07",
+    "plantilla": "L-S07",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántas citas reciben en promedio los artículos de acceso abierto?",
+    "gold": {
+      "numeros": [
+        7.6
+      ]
+    }
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-L-S08",
+    "plantilla": "L-S08",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos con autores de India no han recibido ninguna cita?",
+    "gold": {
+      "numeros": [
+        1
+      ]
+    },
+    "valor": "INDIA"
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-L-S09",
+    "plantilla": "L-S09",
+    "tipo": "SQL",
+    "pregunta": "¿En cuántos años se publicaron menos de 5 artículos del corpus?",
+    "gold": {
+      "numeros": [
+        11
+      ]
+    }
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-L-S10",
+    "plantilla": "L-S10",
+    "tipo": "SQL",
+    "pregunta": "¿Qué tipo de documento acumula más citas en el corpus y cuántas suma?",
+    "gold": {
+      "numeros": [
+        753
+      ],
+      "alguno_de": [
+        [
+          "ARTICLE"
+        ]
+      ]
+    }
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-L-H01",
+    "plantilla": "L-H01",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuál es el artículo más antiguo que tiene al menos 20 citas y de qué trata?",
+    "gold": {
+      "titulos": [
+        "UTILIZATION OF SOLAR ENERGY IN SEWAGE SLUDGE COMPOSTING: FERTILIZER EFFECT AND APPLICATION"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-L-H02",
+    "plantilla": "L-H02",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuál es el artículo más citado del último año del corpus y qué propone?",
+    "gold": {
+      "titulos": [
+        "SIMULATION-BASED DECISION SUPPORT FOR AGRIVOLTAIC SYSTEMS",
+        "APPLICATION OF FAT REPLACERS IN DAIRY PRODUCTS: A REVIEW"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-L-H03",
+    "plantilla": "L-H03",
+    "tipo": "Híbrida",
+    "pregunta": "¿Qué artículo tiene el título más largo y de qué trata?",
+    "gold": {
+      "titulos": [
+        "INVESTIGATION OF DRYING KINETICS AND DRYING CONDITIONS ON BIOCHEMICAL, SENSORY, AND MICROSTRUCTURAL PARAMETERS OF \"SEFRI\" POMEGRANATE ARILS (PUNICA GRANATUM L. A MOROCCAN VARIETY); INVESTIGACION DE LA CINETICA DE SECADO Y LAS CONDICIONES DE SECADO SOBRE PARAMETROS BIOQUUNICOS, SENSORIALES Y MICROESTRUCTURALES DE ARILOS DE GRANADA \"SEFRI\" (PUNICA GRANATUM L. UNA VARIEDAD MARROQUÍ)"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-L-H05",
+    "plantilla": "L-H05",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuáles son los dos artículos de acceso abierto más citados y de qué tratan?",
+    "gold": {
+      "titulos": [
+        "SPECTRAL ENGINEERING OF ULTRATHIN GERMANIUM SOLAR CELLS FOR COMBINED PHOTOVOLTAIC AND PHOTOSYNTHESIS",
+        "THE OBLIGATE INTRACELLULAR BACTERIAL PATHOGEN ANAPLASMA PHAGOCYTOPHILUM EXPLOITS HOST CELL MULTIVESICULAR BODY BIOGENESIS FOR PROLIFERATION AND DISSEMINATION"
+      ],
+      "minimo": 2
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-L-S01",
+    "plantilla": "L-S01",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos autores tienen más de un artículo en el corpus?",
+    "gold": {
+      "numeros": [
+        32
+      ]
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-L-S02",
+    "plantilla": "L-S02",
+    "tipo": "SQL",
+    "pregunta": "¿Cuál es el promedio de autores por artículo en el corpus?",
+    "gold": {
+      "numeros": [
+        3.3
+      ]
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-L-S03",
+    "plantilla": "L-S03",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos se publicaron en los últimos tres años del corpus (2023 a 2025)?",
+    "gold": {
+      "numeros": [
+        145
+      ]
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-L-S04",
+    "plantilla": "L-S04",
+    "tipo": "SQL",
+    "pregunta": "¿En qué año se publicó el artículo más citado del corpus?",
+    "gold": {
+      "numeros": [
+        2011
+      ]
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-L-S05",
+    "plantilla": "L-S05",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos tienen un título de más de 100 caracteres?",
+    "gold": {
+      "numeros": [
+        89
+      ]
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-L-S06",
+    "plantilla": "L-S06",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos tipos de documento distintos hay en el corpus?",
+    "gold": {
+      "numeros": [
+        2
+      ]
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-L-S07",
+    "plantilla": "L-S07",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántas citas reciben en promedio los artículos de acceso abierto?",
+    "gold": {
+      "numeros": [
+        10.4
+      ]
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-L-S08",
+    "plantilla": "L-S08",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos con autores de India no han recibido ninguna cita?",
+    "gold": {
+      "numeros": [
+        9
+      ]
+    },
+    "valor": "INDIA"
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-L-S09",
+    "plantilla": "L-S09",
+    "tipo": "SQL",
+    "pregunta": "¿En cuántos años se publicaron menos de 5 artículos del corpus?",
+    "gold": {
+      "numeros": [
+        8
+      ]
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-L-S10",
+    "plantilla": "L-S10",
+    "tipo": "SQL",
+    "pregunta": "¿Qué tipo de documento acumula más citas en el corpus y cuántas suma?",
+    "gold": {
+      "numeros": [
+        1208
+      ],
+      "alguno_de": [
+        [
+          "ARTICLE"
+        ]
+      ]
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-L-H01",
+    "plantilla": "L-H01",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuál es el artículo más antiguo que tiene al menos 20 citas y de qué trata?",
+    "gold": {
+      "titulos": [
+        "MULTI-CRITERIA PERFORMANCE ANALYSIS FOR DECISION MAKING IN PROJECT MANAGEMENT"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-L-H02",
+    "plantilla": "L-H02",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuál es el artículo más citado del último año del corpus y qué propone?",
+    "gold": {
+      "titulos": [
+        "HOW ARTIFICIAL INTELLIGENCE WILL TRANSFORM PROJECT MANAGEMENT IN THE AGE OF DIGITIZATION: A SYSTEMATIC LITERATURE REVIEW"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-L-H03",
+    "plantilla": "L-H03",
+    "tipo": "Híbrida",
+    "pregunta": "¿Qué artículo tiene el título más largo y de qué trata?",
+    "gold": {
+      "titulos": [
+        "THE MAIN FACTORS OF SUCCESSFUL PROJECT MANAGEMENT IN THE ASPECT OF ENERGY ENTERPRISES- EFFICIENCY IN THE DIGITAL ECONOMY ENVIRONMENT; GŁÓWNE CZYNNIKI SKUTECZNEGO ZARZĄDZANIA PROJEKTAMI W ASPEKCIE EFEKTYWNOŚCI PRZEDSIĘBIORSTW ENERGETYCZNYCH W ŚRODOWISKU GOSPODARKI CYFROWEJ"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-L-H04",
+    "plantilla": "L-H04",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuál es el artículo más citado del autor que más artículos tiene en el corpus y de qué trata?",
+    "gold": {
+      "titulos": [
+        "TOWARD A METHOD ENGINEERING FRAMEWORK FOR PROJECT MANAGEMENT AND MACHINE LEARNING"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-L-H05",
+    "plantilla": "L-H05",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuáles son los dos artículos de acceso abierto más citados y de qué tratan?",
+    "gold": {
+      "titulos": [
+        "MULTI-CRITERIA PERFORMANCE ANALYSIS FOR DECISION MAKING IN PROJECT MANAGEMENT",
+        "ARTIFICIAL INTELLIGENCE ENABLED PROJECT MANAGEMENT: A SYSTEMATIC LITERATURE REVIEW"
+      ],
+      "minimo": 2
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-L-S01",
+    "plantilla": "L-S01",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos autores tienen más de un artículo en el corpus?",
+    "gold": {
+      "numeros": [
+        35
+      ]
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-L-S02",
+    "plantilla": "L-S02",
+    "tipo": "SQL",
+    "pregunta": "¿Cuál es el promedio de autores por artículo en el corpus?",
+    "gold": {
+      "numeros": [
+        3.2
+      ]
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-L-S03",
+    "plantilla": "L-S03",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos se publicaron en los últimos tres años del corpus (2022 a 2024)?",
+    "gold": {
+      "numeros": [
+        47
+      ]
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-L-S04",
+    "plantilla": "L-S04",
+    "tipo": "SQL",
+    "pregunta": "¿En qué año se publicó el artículo más citado del corpus?",
+    "gold": {
+      "numeros": [
+        2014
+      ]
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-L-S05",
+    "plantilla": "L-S05",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos tienen un título de más de 100 caracteres?",
+    "gold": {
+      "numeros": [
+        45
+      ]
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-L-S06",
+    "plantilla": "L-S06",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos tipos de documento distintos hay en el corpus?",
+    "gold": {
+      "numeros": [
+        2
+      ]
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-L-S07",
+    "plantilla": "L-S07",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántas citas reciben en promedio los artículos de acceso abierto?",
+    "gold": {
+      "numeros": [
+        18.2
+      ]
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-L-S08",
+    "plantilla": "L-S08",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos con autores de India no han recibido ninguna cita?",
+    "gold": {
+      "numeros": [
+        2
+      ]
+    },
+    "valor": "INDIA"
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-L-S09",
+    "plantilla": "L-S09",
+    "tipo": "SQL",
+    "pregunta": "¿En cuántos años se publicaron menos de 5 artículos del corpus?",
+    "gold": {
+      "numeros": [
+        6
+      ]
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-L-S10",
+    "plantilla": "L-S10",
+    "tipo": "SQL",
+    "pregunta": "¿Qué tipo de documento acumula más citas en el corpus y cuántas suma?",
+    "gold": {
+      "numeros": [
+        1251
+      ],
+      "alguno_de": [
+        [
+          "CONFERENCE PAPER"
+        ]
+      ]
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-L-H01",
+    "plantilla": "L-H01",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuál es el artículo más antiguo que tiene al menos 20 citas y de qué trata?",
+    "gold": {
+      "titulos": [
+        "EFFICIENT FUZZY CONTROL OF A ROTARY INVERTED PENDULUM BASED ON LQR MAPPING"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-L-H02",
+    "plantilla": "L-H02",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuál es el artículo más citado del último año del corpus y qué propone?",
+    "gold": {
+      "titulos": [
+        "LQR-BASED PID CONTROLLER WITH VARIABLE LOAD TUNED WITH DATA-DRIVEN METHODS FOR DOUBLE INVERTED PENDULUM"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-L-H03",
+    "plantilla": "L-H03",
+    "tipo": "Híbrida",
+    "pregunta": "¿Qué artículo tiene el título más largo y de qué trata?",
+    "gold": {
+      "titulos": [
+        "ANTI-SWING CONTROL FOR A DOUBLE-PENDULUM-TYPE OVERHEAD CRANE VIA PARALLEL DISTRIBUTED FUZZY LQR CONTROLLER COMBINED WITH GENETIC FUZZY RULE SET SELECTION"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-L-H04",
+    "plantilla": "L-H04",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuál es el artículo más citado del autor que más artículos tiene en el corpus y de qué trata?",
+    "gold": {
+      "titulos": [
+        "REAL-TIME STABILIZATION CONTROL OF A ROTARY INVERTED PENDULUM USING LQR-BASED SLIDING MODE CONTROLLER"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-L-H05",
+    "plantilla": "L-H05",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuáles son los dos artículos de acceso abierto más citados y de qué tratan?",
+    "gold": {
+      "titulos": [
+        "OPTIMAL CONTROL OF NONLINEAR INVERTED PENDULUM SYSTEM USING PID CONTROLLER AND LQR: PERFORMANCE ANALYSIS WITHOUT AND WITH DISTURBANCE INPUT",
+        "ROBUST LQR CONTROLLER DESIGN FOR STABILIZING AND TRAJECTORY TRACKING OF INVERTED PENDULUM"
+      ],
+      "minimo": 2
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-L-S01",
+    "plantilla": "L-S01",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos autores tienen más de un artículo en el corpus?",
+    "gold": {
+      "numeros": [
+        345
+      ]
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-L-S02",
+    "plantilla": "L-S02",
+    "tipo": "SQL",
+    "pregunta": "¿Cuál es el promedio de autores por artículo en el corpus?",
+    "gold": {
+      "numeros": [
+        4.1
+      ]
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-L-S03",
+    "plantilla": "L-S03",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos se publicaron en los últimos tres años del corpus (2023 a 2025)?",
+    "gold": {
+      "numeros": [
+        534
+      ]
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-L-S04",
+    "plantilla": "L-S04",
+    "tipo": "SQL",
+    "pregunta": "¿En qué año se publicó el artículo más citado del corpus?",
+    "gold": {
+      "numeros": [
+        2013
+      ]
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-L-S05",
+    "plantilla": "L-S05",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos tienen un título de más de 100 caracteres?",
+    "gold": {
+      "numeros": [
+        349
+      ]
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-L-S06",
+    "plantilla": "L-S06",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos tipos de documento distintos hay en el corpus?",
+    "gold": {
+      "numeros": [
+        10
+      ]
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-L-S07",
+    "plantilla": "L-S07",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántas citas reciben en promedio los artículos de acceso abierto?",
+    "gold": {
+      "numeros": [
+        39.1
+      ]
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-L-S08",
+    "plantilla": "L-S08",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos con autores de China no han recibido ninguna cita?",
+    "gold": {
+      "numeros": [
+        22
+      ]
+    },
+    "valor": "CHINA"
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-L-S09",
+    "plantilla": "L-S09",
+    "tipo": "SQL",
+    "pregunta": "¿En cuántos años se publicaron menos de 5 artículos del corpus?",
+    "gold": {
+      "numeros": [
+        11
+      ]
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-L-S10",
+    "plantilla": "L-S10",
+    "tipo": "SQL",
+    "pregunta": "¿Qué tipo de documento acumula más citas en el corpus y cuántas suma?",
+    "gold": {
+      "numeros": [
+        12982.0
+      ],
+      "alguno_de": [
+        [
+          "ARTICLE"
+        ]
+      ]
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-L-H01",
+    "plantilla": "L-H01",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuál es el artículo más antiguo que tiene al menos 20 citas y de qué trata?",
+    "gold": {
+      "titulos": [
+        "PRECISION AGRICULTURE AND THE ROLE OF REMOTE SENSING: A REVIEW"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-L-H02",
+    "plantilla": "L-H02",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuál es el artículo más citado del último año del corpus y qué propone?",
+    "gold": {
+      "titulos": [
+        "FIRE DETECTION AND ANTI-FIRE SYSTEM TO ENHANCE FOOD SECURITY: A CONCEPT OF SMART AGRICULTURE SYSTEMS-BASED IOT AND EMBEDDED SYSTEMS WITH MACHINE-TO-MACHINE PROTOCOL",
+        "IOT-ENABLED SMART AGRICULTURE FOR IMPROVING WATER MANAGEMENT: A SMART IRRIGATION CONTROL USING EMBEDDED SYSTEMS AND SERVER-SENT EVENTS"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-L-H03",
+    "plantilla": "L-H03",
+    "tipo": "Híbrida",
+    "pregunta": "¿Qué artículo tiene el título más largo y de qué trata?",
+    "gold": {
+      "titulos": [
+        "COMPUTER SECURITY STRATEGIES TO MITIGATE VULNERABILITIES IN THE NETWORK OF AN AGRICULTURAL IOT SYSTEM IN THE PROVINCE OF SUMAPAZ IN COLOMBIA; [ESTRATEGIAS DE SEGURIDAD INFORMÁTICA PARA MITIGAR VULNERABILIDADES EN LA RED DE EN UN SISTEMA IOT AGRÍCOLA EN LA PROVINCIA DEL SUMAPAZ EN COLOMBIA]"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-L-H05",
+    "plantilla": "L-H05",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuáles son los dos artículos de acceso abierto más citados y de qué tratan?",
+    "gold": {
+      "titulos": [
+        "APPLICATIONS OF REMOTE SENSING IN PRECISION AGRICULTURE: A REVIEW",
+        "ENERGY-EFFICIENT WIRELESS SENSOR NETWORKS FOR PRECISION AGRICULTURE: A REVIEW"
+      ],
+      "minimo": 2
+    }
+  }
+]

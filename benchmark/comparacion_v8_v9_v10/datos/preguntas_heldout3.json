@@ -1,0 +1,818 @@
+[
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-H-S01",
+    "plantilla": "H-S01",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos años abarca el periodo de publicación del corpus, entre el primer y el último artículo?",
+    "gold": {
+      "numeros": [
+        17
+      ]
+    }
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-H-S02",
+    "plantilla": "H-S02",
+    "tipo": "SQL",
+    "pregunta": "¿Qué año tiene el mayor promedio de citas por artículo y cuál es ese promedio?",
+    "gold": {
+      "numeros": [
+        26.0
+      ],
+      "alguno_de": [
+        [
+          "2014"
+        ]
+      ]
+    }
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-H-S03",
+    "plantilla": "H-S03",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos publicados entre 2019 y 2024 tienen más de 10 citas?",
+    "gold": {
+      "numeros": [
+        11
+      ]
+    }
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-H-S04",
+    "plantilla": "H-S04",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos del corpus tienen DOI registrado?",
+    "gold": {
+      "numeros": [
+        65
+      ]
+    }
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-H-S05",
+    "plantilla": "H-S05",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos tienen la palabra «drying» en el título?",
+    "gold": {
+      "numeros": [
+        17
+      ]
+    },
+    "valor": "DRYING"
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-H-S06",
+    "plantilla": "H-S06",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántas citas de diferencia hay entre el artículo más citado y el segundo más citado?",
+    "gold": {
+      "numeros": [
+        96
+      ]
+    }
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-H-S07",
+    "plantilla": "H-S07",
+    "tipo": "SQL",
+    "pregunta": "¿Cuál es el máximo de citas que alcanza un artículo publicado antes de 2022?",
+    "gold": {
+      "numeros": [
+        69
+      ]
+    }
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-H-S08",
+    "plantilla": "H-S08",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos tienen un resumen de más de 1.500 caracteres?",
+    "gold": {
+      "numeros": [
+        38
+      ]
+    }
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-H-H01",
+    "plantilla": "H-H01",
+    "tipo": "Híbrida",
+    "pregunta": "Entre los publicados antes de 2022, ¿cuál tiene más citas y de qué trata?",
+    "gold": {
+      "titulos": [
+        "THERMAL ANALYSIS OF PV SYSTEM AND SOLAR COLLECTOR INTEGRATED WITH GREENHOUSE DRYER FOR DRYING TOMATOES"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-H-H02",
+    "plantilla": "H-H02",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuál es el artículo más reciente que ya tiene 10 citas o más y qué estudia?",
+    "gold": {
+      "titulos": [
+        "SIMULATION-BASED DECISION SUPPORT FOR AGRIVOLTAIC SYSTEMS",
+        "APPLICATION OF FAT REPLACERS IN DAIRY PRODUCTS: A REVIEW"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-H-H03",
+    "plantilla": "H-H03",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuál es el artículo más citado cuyo título menciona «drying» y qué propone?",
+    "gold": {
+      "titulos": [
+        "THERMAL ANALYSIS OF PV SYSTEM AND SOLAR COLLECTOR INTEGRATED WITH GREENHOUSE DRYER FOR DRYING TOMATOES"
+      ],
+      "minimo": 1
+    },
+    "valor": "DRYING"
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-H-H04",
+    "plantilla": "H-H04",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuáles son los artículos que superan las 58 citas y de qué tratan?",
+    "gold": {
+      "titulos": [
+        "POWERING AGRICULTURE: PRESENT STATUS, FUTURE POTENTIAL, AND CHALLENGES OF RENEWABLE ENERGY APPLICATIONS",
+        "THERMAL ANALYSIS OF PV SYSTEM AND SOLAR COLLECTOR INTEGRATED WITH GREENHOUSE DRYER FOR DRYING TOMATOES",
+        "UTILIZATION OF SOLAR ENERGY IN SEWAGE SLUDGE COMPOSTING: FERTILIZER EFFECT AND APPLICATION"
+      ],
+      "minimo": 3
+    }
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-H-R01",
+    "plantilla": "H-R01",
+    "tipo": "RAG",
+    "pregunta": "¿Qué artículo evalúa técnica y económicamente un ciclo combinado que mezcla biogás con colectores solares cilindro-parabólicos?",
+    "gold": {
+      "titulos": [
+        "TECHNO ECONOMIC EVALUATION OF BIOGAS INTEGRATED PARABOLIC TROUGH SOLAR ENERGY COMBINED CYCLE"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-H-R02",
+    "plantilla": "H-R02",
+    "tipo": "RAG",
+    "pregunta": "¿Qué estudio compara la huella hídrica y de carbono de la cadena del tomate seco con el proceso convencional?",
+    "gold": {
+      "titulos": [
+        "WATER AND CARBON FOOTPRINT IMPROVEMENT FOR DRIED TOMATO VALUE CHAIN"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-H-R03",
+    "plantilla": "H-R03",
+    "tipo": "RAG",
+    "pregunta": "¿Qué trabajo prueba qué pasa al reemplazar parte del fertilizante químico por lodo de biogás en tomate de otoño?",
+    "gold": {
+      "titulos": [
+        "APPLICATION EFFECTS OF BIOGAS SLURRY PARTLY SUBSTITUTING FOR CHEMICAL FERTILIZER ON AUTUMN TOMATO PRODUCTION IN WINTER-SOLAR GREENHOUSE; 沼液部分替代化肥在日光温室秋番茄上的应用效果"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-H-S01",
+    "plantilla": "H-S01",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos años abarca el periodo de publicación del corpus, entre el primer y el último artículo?",
+    "gold": {
+      "numeros": [
+        19
+      ]
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-H-S02",
+    "plantilla": "H-S02",
+    "tipo": "SQL",
+    "pregunta": "¿Qué año tiene el mayor promedio de citas por artículo y cuál es ese promedio?",
+    "gold": {
+      "numeros": [
+        20.7
+      ],
+      "alguno_de": [
+        [
+          "2011"
+        ]
+      ]
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-H-S03",
+    "plantilla": "H-S03",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos publicados entre 2020 y 2025 tienen más de 10 citas?",
+    "gold": {
+      "numeros": [
+        29
+      ]
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-H-S04",
+    "plantilla": "H-S04",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos del corpus tienen DOI registrado?",
+    "gold": {
+      "numeros": [
+        263
+      ]
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-H-S05",
+    "plantilla": "H-S05",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos tienen la palabra «artificial» en el título?",
+    "gold": {
+      "numeros": [
+        51
+      ]
+    },
+    "valor": "ARTIFICIAL"
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-H-S06",
+    "plantilla": "H-S06",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántas citas de diferencia hay entre el artículo más citado y el segundo más citado?",
+    "gold": {
+      "numeros": [
+        27
+      ]
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-H-S07",
+    "plantilla": "H-S07",
+    "tipo": "SQL",
+    "pregunta": "¿Cuál es el máximo de citas que alcanza un artículo publicado antes de 2023?",
+    "gold": {
+      "numeros": [
+        116
+      ]
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-H-S08",
+    "plantilla": "H-S08",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos tienen un resumen de más de 1.500 caracteres?",
+    "gold": {
+      "numeros": [
+        73
+      ]
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-H-H01",
+    "plantilla": "H-H01",
+    "tipo": "Híbrida",
+    "pregunta": "Entre los publicados antes de 2023, ¿cuál tiene más citas y de qué trata?",
+    "gold": {
+      "titulos": [
+        "MULTI-CRITERIA PERFORMANCE ANALYSIS FOR DECISION MAKING IN PROJECT MANAGEMENT"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-H-H02",
+    "plantilla": "H-H02",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuál es el artículo más reciente que ya tiene 10 citas o más y qué estudia?",
+    "gold": {
+      "titulos": [
+        "HOW ARTIFICIAL INTELLIGENCE WILL TRANSFORM PROJECT MANAGEMENT IN THE AGE OF DIGITIZATION: A SYSTEMATIC LITERATURE REVIEW"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-H-H03",
+    "plantilla": "H-H03",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuál es el artículo más citado cuyo título menciona «artificial» y qué propone?",
+    "gold": {
+      "titulos": [
+        "ARTIFICIAL INTELLIGENCE ENABLED PROJECT MANAGEMENT: A SYSTEMATIC LITERATURE REVIEW"
+      ],
+      "minimo": 1
+    },
+    "valor": "ARTIFICIAL"
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-H-H04",
+    "plantilla": "H-H04",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuáles son los artículos que superan las 78 citas y de qué tratan?",
+    "gold": {
+      "titulos": [
+        "MULTI-CRITERIA PERFORMANCE ANALYSIS FOR DECISION MAKING IN PROJECT MANAGEMENT",
+        "A RISK PREDICTION MODEL FOR SOFTWARE PROJECT MANAGEMENT BASED ON SIMILARITY ANALYSIS OF CONTEXT HISTORIES",
+        "ARTIFICIAL INTELLIGENCE ENABLED PROJECT MANAGEMENT: A SYSTEMATIC LITERATURE REVIEW"
+      ],
+      "minimo": 3
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-H-R01",
+    "plantilla": "H-R01",
+    "tipo": "RAG",
+    "pregunta": "¿Qué estudio empírico analiza cómo los gestores de proyectos adoptan chatbots como ChatGPT en su trabajo?",
+    "gold": {
+      "titulos": [
+        "ARTIFICIAL INTELLIGENCE AND PROJECT MANAGEMENT: AN EMPIRICAL INVESTIGATION ON THE APPROPRIATION OF GENERATIVE CHATBOTS BY PROJECT MANAGERS"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-H-R02",
+    "plantilla": "H-R02",
+    "tipo": "RAG",
+    "pregunta": "¿Qué artículo discute la gestión de proyectos en la cuarta revolución industrial, con robots, internet de las cosas y computación cuántica?",
+    "gold": {
+      "titulos": [
+        "PROJECT MANAGEMENT IN THE FOURTH INDUSTRIAL REVOLUTION"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-H-R03",
+    "plantilla": "H-R03",
+    "tipo": "RAG",
+    "pregunta": "¿Qué trabajo revisa herramientas de gestión DevOps para planificar sprints y medir la madurez de la ejecución?",
+    "gold": {
+      "titulos": [
+        "DEVOPS PROJECT MANAGEMENT TOOLS FOR SPRINT PLANNING, ESTIMATION AND EXECUTION MATURITY"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-H-S01",
+    "plantilla": "H-S01",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos años abarca el periodo de publicación del corpus, entre el primer y el último artículo?",
+    "gold": {
+      "numeros": [
+        18
+      ]
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-H-S02",
+    "plantilla": "H-S02",
+    "tipo": "SQL",
+    "pregunta": "¿Qué año tiene el mayor promedio de citas por artículo y cuál es ese promedio?",
+    "gold": {
+      "numeros": [
+        61.0
+      ],
+      "alguno_de": [
+        [
+          "2008"
+        ]
+      ]
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-H-S03",
+    "plantilla": "H-S03",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos publicados entre 2014 y 2024 tienen más de 10 citas?",
+    "gold": {
+      "numeros": [
+        30
+      ]
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-H-S04",
+    "plantilla": "H-S04",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos del corpus tienen DOI registrado?",
+    "gold": {
+      "numeros": [
+        156
+      ]
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-H-S05",
+    "plantilla": "H-S05",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos tienen la palabra «control» en el título?",
+    "gold": {
+      "numeros": [
+        128
+      ]
+    },
+    "valor": "CONTROL"
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-H-S06",
+    "plantilla": "H-S06",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántas citas de diferencia hay entre el artículo más citado y el segundo más citado?",
+    "gold": {
+      "numeros": [
+        69
+      ]
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-H-S07",
+    "plantilla": "H-S07",
+    "tipo": "SQL",
+    "pregunta": "¿Cuál es el máximo de citas que alcanza un artículo publicado antes de 2017?",
+    "gold": {
+      "numeros": [
+        221
+      ]
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-H-S08",
+    "plantilla": "H-S08",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos tienen un resumen de más de 1.500 caracteres?",
+    "gold": {
+      "numeros": [
+        6
+      ]
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-H-H01",
+    "plantilla": "H-H01",
+    "tipo": "Híbrida",
+    "pregunta": "Entre los publicados antes de 2017, ¿cuál tiene más citas y de qué trata?",
+    "gold": {
+      "titulos": [
+        "OPTIMAL CONTROL OF NONLINEAR INVERTED PENDULUM SYSTEM USING PID CONTROLLER AND LQR: PERFORMANCE ANALYSIS WITHOUT AND WITH DISTURBANCE INPUT"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-H-H02",
+    "plantilla": "H-H02",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuál es el artículo más reciente que ya tiene 10 citas o más y qué estudia?",
+    "gold": {
+      "titulos": [
+        "LQR-BASED PID CONTROLLER WITH VARIABLE LOAD TUNED WITH DATA-DRIVEN METHODS FOR DOUBLE INVERTED PENDULUM",
+        "PHASE-BASED ADAPTIVE FRACTIONAL LQR FOR INVERTED-PENDULUM-TYPE ROBOTS: FORMULATION AND VERIFICATION"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-H-H03",
+    "plantilla": "H-H03",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuál es el artículo más citado cuyo título menciona «control» y qué propone?",
+    "gold": {
+      "titulos": [
+        "OPTIMAL CONTROL OF NONLINEAR INVERTED PENDULUM SYSTEM USING PID CONTROLLER AND LQR: PERFORMANCE ANALYSIS WITHOUT AND WITH DISTURBANCE INPUT"
+      ],
+      "minimo": 1
+    },
+    "valor": "CONTROL"
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-H-H04",
+    "plantilla": "H-H04",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuáles son los artículos que superan las 84 citas y de qué tratan?",
+    "gold": {
+      "titulos": [
+        "OPTIMAL CONTROL OF NONLINEAR INVERTED PENDULUM SYSTEM USING PID CONTROLLER AND LQR: PERFORMANCE ANALYSIS WITHOUT AND WITH DISTURBANCE INPUT",
+        "ROBUST LQR CONTROLLER DESIGN FOR STABILIZING AND TRAJECTORY TRACKING OF INVERTED PENDULUM",
+        "OPTIMAL CONTROL OF NONLINEAR INVERTED PENDULUM DYNAMICAL SYSTEM WITH DISTURBANCE INPUT USING PID CONTROLLER & LQR"
+      ],
+      "minimo": 3
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-H-R01",
+    "plantilla": "H-R01",
+    "tipo": "RAG",
+    "pregunta": "¿Qué artículo incluye la resistencia del péndulo en el modelo de un péndulo invertido y le diseña un LQR?",
+    "gold": {
+      "titulos": [
+        "THE INVERTED-PENDULUM MODEL WITH CONSIDERATION OF PENDULUM RESISTANCE AND ITS LQR CONTROLLER"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-H-R02",
+    "plantilla": "H-R02",
+    "tipo": "RAG",
+    "pregunta": "¿Qué trabajo entrena con aprendizaje por refuerzo profundo guiado un controlador para un péndulo invertido de una sola etapa, apoyado en un modelo RBF-ARX?",
+    "gold": {
+      "titulos": [
+        "GUIDED DEEP REINFORCEMENT LEARNING BASED ON RBF-ARX PSEUDO LQR IN SINGLE STAGE INVERTED PENDULUM"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-H-R03",
+    "plantilla": "H-R03",
+    "tipo": "RAG",
+    "pregunta": "¿Qué estudio equilibra un péndulo invertido circular con teoría LQR y lo compara con un controlador difuso?",
+    "gold": {
+      "titulos": [
+        "PERFORMANCE THE BALANCE OF CIRCULAR INVERTED PENDULUM BY USING LQR CONTROLLED THEORY"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-H-S01",
+    "plantilla": "H-S01",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos años abarca el periodo de publicación del corpus, entre el primer y el último artículo?",
+    "gold": {
+      "numeros": [
+        29
+      ]
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-H-S02",
+    "plantilla": "H-S02",
+    "tipo": "SQL",
+    "pregunta": "¿Qué año tiene el mayor promedio de citas por artículo y cuál es ese promedio?",
+    "gold": {
+      "numeros": [
+        173.8
+      ],
+      "alguno_de": [
+        [
+          "2013"
+        ]
+      ]
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-H-S03",
+    "plantilla": "H-S03",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos publicados entre 2019 y 2025 tienen más de 10 citas?",
+    "gold": {
+      "numeros": [
+        281
+      ]
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-H-S04",
+    "plantilla": "H-S04",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos del corpus tienen DOI registrado?",
+    "gold": {
+      "numeros": [
+        1101
+      ]
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-H-S05",
+    "plantilla": "H-S05",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos tienen la palabra «sensor» en el título?",
+    "gold": {
+      "numeros": [
+        243
+      ]
+    },
+    "valor": "SENSOR"
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-H-S06",
+    "plantilla": "H-S06",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántas citas de diferencia hay entre el artículo más citado y el segundo más citado?",
+    "gold": {
+      "numeros": [
+        565.0
+      ]
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-H-S07",
+    "plantilla": "H-S07",
+    "tipo": "SQL",
+    "pregunta": "¿Cuál es el máximo de citas que alcanza un artículo publicado antes de 2022?",
+    "gold": {
+      "numeros": [
+        1453.0
+      ]
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-H-S08",
+    "plantilla": "H-S08",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos tienen un resumen de más de 1.500 caracteres?",
+    "gold": {
+      "numeros": [
+        342
+      ]
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-H-H01",
+    "plantilla": "H-H01",
+    "tipo": "Híbrida",
+    "pregunta": "Entre los publicados antes de 2022, ¿cuál tiene más citas y de qué trata?",
+    "gold": {
+      "titulos": [
+        "TWENTY FIVE YEARS OF REMOTE SENSING IN PRECISION AGRICULTURE: KEY ADVANCES AND REMAINING KNOWLEDGE GAPS"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-H-H02",
+    "plantilla": "H-H02",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuál es el artículo más reciente que ya tiene 10 citas o más y qué estudia?",
+    "gold": {
+      "titulos": [
+        "ENHANCING WATER MANAGEMENT IN SMART AGRICULTURE: A CLOUD AND IOT-BASED SMART IRRIGATION SYSTEM",
+        "A COMPREHENSIVE SURVEY ON IOT AND AI BASED APPLICATIONS IN DIFFERENT PRE-HARVEST, DURING-HARVEST AND POST-HARVEST ACTIVITIES OF SMART AGRICULTURE",
+        "OPTICAL REMOTE SENSING OF CROP BIOPHYSICAL AND BIOCHEMICAL PARAMETERS: AN OVERVIEW OF ADVANCES IN SENSOR TECHNOLOGIES AND MACHINE LEARNING ALGORITHMS FOR PRECISION AGRICULTURE",
+        "SMART AGRICULTURE TECHNOLOGY: AN INTEGRATED FRAMEWORK OF RENEWABLE ENERGY RESOURCES, IOT-BASED ENERGY MANAGEMENT, AND PRECISION ROBOTICS",
+        "INTEGRATING ARTIFICIAL INTELLIGENCE AND INTERNET OF THINGS (IOT) FOR ENHANCED CROP MONITORING AND MANAGEMENT IN PRECISION AGRICULTURE",
+        "SMART AGRICULTURE ASSURANCE: IOT AND BLOCKCHAIN FOR TRUSTED SUSTAINABLE PRODUCE",
+        "IOT SOLUTIONS WITH ARTIFICIAL INTELLIGENCE TECHNOLOGIES FOR PRECISION AGRICULTURE: DEFINITIONS, APPLICATIONS, CHALLENGES, AND OPPORTUNITIES",
+        "INTEGRATED INTERNET OF THINGS (IOT) SOLUTIONS FOR EARLY FIRE DETECTION IN SMART AGRICULTURE",
+        "WIRELESS SENSOR NETWORKS FOR PRECISION AGRICULTURE: A REVIEW OF NPK SENSOR IMPLEMENTATIONS",
+        "REMOTE SENSING AND DECISION SUPPORT SYSTEM APPLICATIONS IN PRECISION AGRICULTURE: CHALLENGES AND POSSIBILITIES",
+        "DEVELOPING A HYBRID IRRIGATION SYSTEM FOR SMART AGRICULTURE USING IOT SENSORS AND MACHINE LEARNING IN SRI GANGANAGAR, RAJASTHAN",
+        "INTEGRATION OF REMOTE SENSING AND MACHINE LEARNING FOR PRECISION AGRICULTURE: A COMPREHENSIVE PERSPECTIVE ON APPLICATIONS",
+        "AUTOMATED WEATHER FORECASTING AND FIELD MONITORING USING GRU-CNN MODEL ALONG WITH IOT TO SUPPORT PRECISION AGRICULTURE",
+        "A NEW QOS OPTIMIZATION IN IOT-SMART AGRICULTURE USING RAPID-ADAPTION-BASED NATURE-INSPIRED APPROACH",
+        "RENEWABLE ENERGY HARVESTING FOR WIRELESS SENSOR NETWORKS IN PRECISION AGRICULTURE",
+        "SMART AGRICULTURE SOLUTIONS: HARNESSING AI AND IOT FOR CROP MANAGEMENT",
+        "ENERGY-EFFICIENT CLUSTER HEAD USING MODIFIED FUZZY LOGIC WITH WOA AND PATH SELECTION USING ENHANCED CSO IN IOT-ENABLED SMART AGRICULTURE SYSTEMS",
+        "ABNORMAL CROPS IMAGE DATA ACQUISITION STRATEGY BY EXPLOITING EDGE INTELLIGENCE AND DYNAMIC-STATIC SYNERGY IN SMART AGRICULTURE",
+        "EFFECTS OF IOT COMMUNICATION PROTOCOLS FOR PRECISION AGRICULTURE IN OUTDOOR ENVIRONMENTS",
+        "EDGE IOT PROTOTYPING USING MODEL-DRIVEN REPRESENTATIONS: A USE CASE FOR SMART AGRICULTURE",
+        "OPTIMISING PERFORMANCES OF LORA BASED IOT ENABLED WIRELESS SENSOR NETWORK FOR SMART AGRICULTURE",
+        "ENHANCING CROP YIELD PREDICTIONS WITH PENSEMBLE 4: IOT AND ML-DRIVEN FOR PRECISION AGRICULTURE",
+        "AN EFFICIENT IOT BASED CROP DISEASE PREDICTION AND CROP RECOMMENDATION FOR PRECISION AGRICULTURE",
+        "SMART AGRICULTURE USING ENSEMBLE MACHINE LEARNING TECHNIQUES IN IOT ENVIRONMENT",
+        "A HYBRID APPROACH FOR RICE CROP DISEASE DETECTION IN AGRICULTURAL IOT SYSTEM",
+        "PAMICRM: IMPROVING PRECISION AGRICULTURE THROUGH MULTIMODAL IMAGE ANALYSIS FOR CROP WATER REQUIREMENT ESTIMATION USING MULTIDOMAIN REMOTE SENSING DATA SAMPLES",
+        "ENABLING SMART AGRICULTURE: AN IOT-BASED FRAMEWORK FOR REAL-TIME MONITORING AND ANALYSIS OF AGRICULTURAL DATA",
+        "INTERNET OF THINGS (IOT)-ENABLED MACHINE LEARNING MODELS FOR EFFICIENT MONITORING OF SMART AGRICULTURE",
+        "OPTIMALLY SENSORS NODES SELECTION FOR ADAPTIVE HETEROGENEOUS PRECISION AGRICULTURE USING WIRELESS SENSOR NETWORKS BASED ON GENETIC ALGORITHM AND EXTENDED KALMAN FILTER",
+        "SMART AGRICULTURE AND GREENHOUSE GAS EMISSION MITIGATION: A 6G-IOT PERSPECTIVE",
+        "REMOTE SENSING IN PRECISION AGRICULTURE"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-H-H03",
+    "plantilla": "H-H03",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuál es el artículo más citado cuyo título menciona «sensor» y qué propone?",
+    "gold": {
+      "titulos": [
+        "ENERGY-EFFICIENT WIRELESS SENSOR NETWORKS FOR PRECISION AGRICULTURE: A REVIEW"
+      ],
+      "minimo": 1
+    },
+    "valor": "SENSOR"
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-H-H04",
+    "plantilla": "H-H04",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuáles son los artículos que superan las 884 citas y de qué tratan?",
+    "gold": {
+      "titulos": [
+        "TWENTY FIVE YEARS OF REMOTE SENSING IN PRECISION AGRICULTURE: KEY ADVANCES AND REMAINING KNOWLEDGE GAPS",
+        "APPLICATIONS OF REMOTE SENSING IN PRECISION AGRICULTURE: A REVIEW",
+        "INTERNET-OF-THINGS (IOT)-BASED SMART AGRICULTURE: TOWARD MAKING THE FIELDS TALK"
+      ],
+      "minimo": 3
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-H-R01",
+    "plantilla": "H-R01",
+    "tipo": "RAG",
+    "pregunta": "¿Qué trabajo desarrolla un sistema de monitoreo agrícola con drones autónomos que miden temperatura y humedad?",
+    "gold": {
+      "titulos": [
+        "HARNESSING THE POWER OF DRONES FOR PRECISION AGRICULTURE: A REAL-TIME MONITORING SYSTEM UTILIZING SENSOR DATA AND RF COMMUNICATION"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-H-R02",
+    "plantilla": "H-R02",
+    "tipo": "RAG",
+    "pregunta": "¿Qué estudio evalúa mediante simulación el rendimiento de la plataforma FIWARE para IoT agrícola?",
+    "gold": {
+      "titulos": [
+        "SIMULATION BASED PERFORMANCE EVALUATION OF FIWARE IOT PLATFORM FOR SMART AGRICULTURE"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-H-R03",
+    "plantilla": "H-R03",
+    "tipo": "RAG",
+    "pregunta": "¿Qué revisión trata de los sensores de bajo consumo en redes de sensores inalámbricos para agricultura de precisión?",
+    "gold": {
+      "titulos": [
+        "ENERGY-SAVING SENSORS FOR PRECISION AGRICULTURE IN WIRELESS SENSOR NETWORK: A REVIEW"
+      ],
+      "minimo": 1
+    }
+  }
+]

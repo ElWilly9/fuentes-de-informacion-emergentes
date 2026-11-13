@@ -1,0 +1,6 @@
+{
+ "dataset_sha256": "bd017548d7d5a968baf4acab35e9b3ed7a92c2c8af1fe636ee0ea9956a409944",
+ "congelado": "2026-11-10T23:42:21",
+ "nota": "Dataset fijado ANTES de programar V10 (HEAD del agente: V9). src_sha256_v10 se agrega al fijar V10, antes de correr cualquier configuracion sobre este set.",
+ "src_sha256_v10": "a7f6aa75e5e62aed43fc0c1bcf6cf36a295aa7c636eae1e3a14e9fd37e86d0a6"
+}

@@ -1,0 +1,6 @@
+{
+ "dataset_sha256": "9eafe8c09fb207a8606e743128b04ebb7f6bc88e7beafc2ccf52d65ba2125169",
+ "src_sha256_v9": "ba0ec83cb3472d07d534f50b099315e9ca754bfbb72915ad3f415150b65befe6",
+ "congelado": "2026-11-10T22:18:03",
+ "nota": "Dataset y src (V9 = 3649bbd + consenso de SQL + imports de capas) fijados antes de correr cualquier configuracion sobre este set."
+}
