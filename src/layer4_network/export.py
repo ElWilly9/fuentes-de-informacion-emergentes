@@ -9,8 +9,8 @@ así lo que se ve coincide con lo que responde el chat.
 import html
 import math
 
-from src.layer5_network.communities import analyze
-from src.layer5_network.networks import load_corpus, coupling_graph, keyword_graph, coauthor_graph
+from src.layer4_network.communities import analyze
+from src.layer4_network.networks import load_corpus, coupling_graph, keyword_graph, coauthor_graph
 
 # Paleta categórica (frentes/temas 1..10); gris = sin grupo; dorado = autor puente
 PALETTE = ["#2563eb", "#e8590c", "#16a34a", "#9333ea", "#dc2626", "#0891b2", "#ca8a04", "#db2777",

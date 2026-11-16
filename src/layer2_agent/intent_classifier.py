@@ -19,6 +19,9 @@ load_dotenv()
 OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
 OLLAMA_MODEL    = os.getenv("OLLAMA_MODEL", "glm4:9b")
 OLLAMA_NUM_PREDICT = int(os.getenv("OLLAMA_NUM_PREDICT", "2048"))  # tope de tokens de salida: corta los bucles de texto basura de glm4
+# Contexto fijo en todas las llamadas (si solo algunas lo cambian, Ollama recarga el modelo). Sin fijarlo, el
+# valor por defecto depende de la versión de Ollama y de la VRAM (4.096 en una GPU de 12 GB).
+OLLAMA_NUM_CTX = int(os.getenv("OLLAMA_NUM_CTX", "8192"))
 
 INTENT_SYSTEM_PROMPT = """Eres un clasificador de intención para un sistema de consulta bibliométrica.
 Dada una pregunta del usuario, determina el canal de respuesta.
@@ -71,6 +74,7 @@ def classify_intent(ctx: SchemaContext, history: list[dict] | None = None) -> st
         model=OLLAMA_MODEL,
         temperature=0.0,
         num_predict=OLLAMA_NUM_PREDICT,
+        num_ctx=OLLAMA_NUM_CTX,
     )
 
     user_msg = _format_history(ctx.query, history) + INTENT_USER_TEMPLATE.format(

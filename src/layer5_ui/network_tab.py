@@ -10,10 +10,10 @@ from pathlib import Path
 import pandas as pd
 import streamlit as st
 
-from src.layer4_ui.network_view import network_html
-from src.layer5_network.communities import analyze
-from src.layer5_network.context import _tag, _trend_line
-from src.layer5_network.export import KINDS, graph_data
+from src.layer5_ui.network_view import network_html
+from src.layer4_network.communities import analyze
+from src.layer4_network.context import _tag, _trend_line
+from src.layer4_network.export import KINDS, graph_data
 
 
 @st.cache_data(show_spinner="Calculando la red…")

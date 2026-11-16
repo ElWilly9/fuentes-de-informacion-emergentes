@@ -27,6 +27,9 @@ load_dotenv()
 OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
 OLLAMA_MODEL    = os.getenv("OLLAMA_MODEL", "glm4:9b")
 OLLAMA_NUM_PREDICT = int(os.getenv("OLLAMA_NUM_PREDICT", "2048"))  # tope de tokens de salida: corta los bucles de texto basura de glm4
+# Contexto fijo en todas las llamadas (si solo algunas lo cambian, Ollama recarga el modelo). Sin fijarlo, el
+# valor por defecto depende de la versión de Ollama y de la VRAM (4.096 en una GPU de 12 GB).
+OLLAMA_NUM_CTX = int(os.getenv("OLLAMA_NUM_CTX", "8192"))
 
 ERROR_LOG = Path(__file__).resolve().parents[2] / "logs" / "agent_errors.log"
 
@@ -76,26 +79,42 @@ RESPUESTA EN ESPAÑOL:"""
 
 # Juez aparte (no dentro del prompt de respuesta: con glm4, pedir "responde solo X si nada sirve"
 # volvía las respuestas mínimas). Decide si hay que pasar a buscar en las referencias citadas.
-JUDGE_SYSTEM_PROMPT = """Decides si una lista de artículos científicos contiene información que
-responde una pregunta. Responde solo SI o NO."""
+# Pide el número del artículo y no SI/NO: con SI/NO, glm4 decía NO en 2 de las 10 RAG de Agrovoltaics (Q27 con el
+# artículo correcto 1.º, Q30 con él 2.º); numerado acierta las 10. Con preguntas fuera del corpus da 0 en 3 de 4
+# (el Pendubot, que solo está en referencias, lo confunde con otro péndulo subactuado).
+JUDGE_SYSTEM_PROMPT = """Decides si alguno de los artículos científicos de una lista trata lo que pregunta el usuario.
+Si la pregunta nombra un sistema, método, producto o lugar concreto, el artículo debe tratar ese mismo: uno parecido no cuenta.
+Responde solo con el número del artículo que lo trata, o 0 si ninguno lo trata."""
 
 
 def articles_answer_question(query: str, rag_result) -> bool:
     """True si al menos uno de los artículos recuperados responde la pregunta (ante la duda, True)."""
+    return pick_article(query, rag_result) != 0
+
+
+def pick_article(query: str, rag_result) -> int | None:
+    """Número (1…n) del artículo recuperado que trata la pregunta, 0 si ninguno, None si el juez no responde."""
     if not rag_result or not getattr(rag_result, "articles", None):
-        return False
+        return 0
     listing = "\n".join(
-        f"- {a.get('title', '')}: {(a.get('abstract') or '')[:300]}" for a in rag_result.articles)
-    llm = ChatOllama(base_url=OLLAMA_BASE_URL, model=OLLAMA_MODEL, temperature=0.0, num_predict=OLLAMA_NUM_PREDICT)
+        f"{i}. {a.get('title', '')}"
+        + (f" (keywords: {a['author_keywords']})" if a.get("author_keywords") else "")
+        + f": {(a.get('abstract') or '')[:300]}" for i, a in enumerate(rag_result.articles, 1))
+    llm = ChatOllama(base_url=OLLAMA_BASE_URL, model=OLLAMA_MODEL, temperature=0.0, num_predict=OLLAMA_NUM_PREDICT,
+                     num_ctx=OLLAMA_NUM_CTX)
     try:
         verdict = llm.invoke([
             {"role": "system", "content": JUDGE_SYSTEM_PROMPT},
-            {"role": "user", "content": f"PREGUNTA: {query}\n\nARTÍCULOS:\n{listing}\n\n¿Alguno responde la pregunta? (SI/NO):"},
-        ]).content.strip().upper()
+            {"role": "user", "content": f"PREGUNTA: {query}\n\nARTÍCULOS:\n{listing}\n\nNúmero (0 si ninguno):"},
+        ]).content.strip()
     except Exception as e:
         log_error("juez de artículos", e)
-        return True
-    return not verdict.startswith("NO")
+        return None
+    m = re.match(r"\D*(\d+)", verdict)
+    if not m:
+        return None
+    n = int(m.group(1))
+    return n if n <= len(rag_result.articles) else None
 
 
 # ── Prompts para canal hybrid (SQL + RAG) ─────────────────────────────────────
@@ -110,7 +129,9 @@ REGLAS:
 3. Usa los artículos semánticos para el contexto temático (de qué tratan).
 4. Integra ambas fuentes en una sola respuesta coherente — no las listes por separado.
 5. No inventes datos: usa SOLO lo que aparece en las fuentes.
-6. Si una fuente está vacía, apóyate en la otra."""
+6. Si una fuente está vacía, apóyate en la otra.
+7. Si el SQL devuelve una lista de artículos, nómbralos TODOS (una entrada por fila), también los
+   que no aparecen en la búsqueda semántica."""
 
 HYBRID_USER_TEMPLATE = """Responde esta pregunta combinando las dos fuentes.
 
@@ -278,21 +299,25 @@ def _format_history(query: str, history: list[dict] | None, max_turns: int = 3) 
 
 
 
-def _format_results(result: SQLResult, max_rows: int = 15, budget: int | None = None) -> str:
+def _format_results(result: SQLResult, max_rows: int = 15, budget: int | None = None,
+                    numbered: bool = False) -> str:
     """Formatea los resultados SQL como texto tabular para el prompt.
 
-    Con `budget`, si la tabla no cabe, recorta por igual las celdas largas (p. ej. abstracts)."""
-    text = _format_rows(result, max_rows)
+    Con `budget`, si la tabla no cabe, recorta por igual las celdas largas (p. ej. abstracts).
+    `numbered` antepone "Fila N:" a cada fila: en híbridas, con filas largas (título | abstract) glm4
+    se saltaba una de las 4 (ai-H04)."""
+    text = _format_rows(result, max_rows, numbered=numbered)
     if budget is None or len(text) <= budget or not result.rows:
         return text
     max_cell = max(len(str(v)) for row in result.rows[:max_rows] for v in row.values())
     while max_cell > 80 and len(text) > budget:
         max_cell = int(max_cell * 0.8)
-        text = _format_rows(result, max_rows, max_cell)
+        text = _format_rows(result, max_rows, max_cell, numbered)
     return text
 
 
-def _format_rows(result: SQLResult, max_rows: int, max_cell: int | None = None) -> str:
+def _format_rows(result: SQLResult, max_rows: int, max_cell: int | None = None,
+                 numbered: bool = False) -> str:
     if not result.rows:
         return "(sin resultados)"
 
@@ -302,11 +327,11 @@ def _format_rows(result: SQLResult, max_rows: int, max_cell: int | None = None) 
     lines.append("-" * len(lines[0]))
 
     # Filas
-    for row in result.rows[:max_rows]:
+    for i, row in enumerate(result.rows[:max_rows], 1):
         values = [str(row.get(col, "")) for col in result.columns]
         if max_cell:
             values = [v if len(v) <= max_cell else v[:max_cell] + "..." for v in values]
-        lines.append(" | ".join(values))
+        lines.append((f"Fila {i}: " if numbered else "") + " | ".join(values))
 
     if result.row_count > max_rows:
         lines.append(f"... ({result.row_count - max_rows} filas más)")
@@ -353,6 +378,7 @@ def synthesize_answer(
         model=OLLAMA_MODEL,
         temperature=0.3,  # Un poco de variabilidad para respuestas naturales
         num_predict=OLLAMA_NUM_PREDICT,
+        num_ctx=OLLAMA_NUM_CTX,
     )
 
     results_text = _format_results(result, budget=PROMPT_DATA_BUDGET)
@@ -423,7 +449,8 @@ def synthesize_hybrid(
 
     # Las dos fuentes comparten PROMPT_DATA_BUDGET: el SQL toma hasta la mitad (o todo, si no hay RAG)
     # y los abstracts recuperados se ajustan a lo que quede.
-    sql_text = (_format_results(sql_result, budget=PROMPT_DATA_BUDGET // 2 if has_rag else PROMPT_DATA_BUDGET)
+    sql_text = (_format_results(sql_result, budget=PROMPT_DATA_BUDGET // 2 if has_rag else PROMPT_DATA_BUDGET,
+                                numbered=True)
                 if has_sql else "(sin resultados estructurados)")
     rag_budget = max(1500, PROMPT_DATA_BUDGET - len(sql_text)
                      - RAG_ARTICLE_OVERHEAD * len(rag_result.articles)) if has_rag else None
@@ -434,6 +461,7 @@ def synthesize_hybrid(
         model=OLLAMA_MODEL,
         temperature=0.3,
         num_predict=OLLAMA_NUM_PREDICT,
+        num_ctx=OLLAMA_NUM_CTX,
     )
 
     user_msg = _format_history(ctx.query, history) + note + HYBRID_USER_TEMPLATE.format(
@@ -468,9 +496,9 @@ def _authors_and_countries(srs: list[str], db_path: str | None) -> dict[str, tup
     for sr in srs:
         authors = [r[0] for r in conn.execute(
             "SELECT DISTINCT au.AuthorName FROM ArticleAuthor aa JOIN Author au ON au.AuthorID = aa.AuthorID "
-            "WHERE aa.SR = ? ORDER BY aa.AuthorOrder", (sr,)) if r[0]]
+            "WHERE TRIM(aa.SR) = TRIM(?) ORDER BY aa.AuthorOrder", (sr,)) if r[0]]
         countries = [r[0] for r in conn.execute(
-            "SELECT DISTINCT Country FROM Affiliation WHERE SR = ? AND Country IS NOT NULL", (sr,))]
+            "SELECT DISTINCT Country FROM Affiliation WHERE TRIM(SR) = TRIM(?) AND Country IS NOT NULL", (sr,))]
         out[sr] = ("; ".join(authors[:8]), ", ".join(countries))
     conn.close()
     return out
@@ -500,7 +528,8 @@ def synthesize_followup(ctx: SchemaContext, previous: list[dict], suggestions, d
     # "Sugerencia N" y no "Artículo N": evita que el modelo las confunda con los artículos anteriores
     sugg_text = re.sub(r"--- Artículo \d+", "--- Sugerencia", sugg_text)
 
-    llm = ChatOllama(base_url=OLLAMA_BASE_URL, model=OLLAMA_MODEL, temperature=0.3, num_predict=OLLAMA_NUM_PREDICT)
+    llm = ChatOllama(base_url=OLLAMA_BASE_URL, model=OLLAMA_MODEL, temperature=0.3, num_predict=OLLAMA_NUM_PREDICT,
+                     num_ctx=OLLAMA_NUM_CTX)
     user_msg = _format_history(ctx.query, history) + FOLLOWUP_USER_TEMPLATE.format(
         query=ctx.query, previous=previous_text, suggestions=sugg_text)
     try:
@@ -535,6 +564,7 @@ def reflect_on_answer(
         model=OLLAMA_MODEL,
         temperature=0.0,
         num_predict=OLLAMA_NUM_PREDICT,
+        num_ctx=OLLAMA_NUM_CTX,
     )
 
     results_text = _format_results(result) if result else "(sin resultados)"
@@ -595,7 +625,8 @@ RESPUESTA EN ESPAÑOL:"""
 
 def synthesize_network(query: str, kind: str, context: str, history: list[dict] | None = None) -> str:
     """Redacta la respuesta de una pregunta de redes, comunidades o tendencias a partir del análisis ya calculado."""
-    llm = ChatOllama(base_url=OLLAMA_BASE_URL, model=OLLAMA_MODEL, temperature=0.2, num_predict=OLLAMA_NUM_PREDICT)
+    llm = ChatOllama(base_url=OLLAMA_BASE_URL, model=OLLAMA_MODEL, temperature=0.2, num_predict=OLLAMA_NUM_PREDICT,
+                     num_ctx=OLLAMA_NUM_CTX)
     kind_label = {"graph": "redes de coautoría y acoplamiento", "community": "frentes de investigación y temas",
                   "forecast": "series de tiempo y tendencias"}.get(kind, kind)
     user_msg = _format_history(query, history) + NETWORK_USER_TEMPLATE.format(

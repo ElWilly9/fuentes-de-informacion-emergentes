@@ -12,9 +12,9 @@ participación de los últimos años que la del corpus, con al menos EMERGING_MI
 import os
 import re
 
-from src.layer5_network.communities import analyze
-from src.layer5_network.networks import load_corpus
-from src.layer5_network.trends import annual_series, growth_indicators, arima_forecast, RECENT_YEARS
+from src.layer4_network.communities import analyze
+from src.layer4_network.networks import load_corpus
+from src.layer4_network.trends import annual_series, growth_indicators, arima_forecast, RECENT_YEARS
 
 EMERGING_MIN_ARTICLES = int(os.getenv("EMERGING_MIN_ARTICLES", "3"))
 
@@ -24,12 +24,22 @@ _GRAPH = re.compile(r"puente|coautor|co-autor|colaboraci|colabora|red(es)? de (a
                     r"centralidad|intermediaci|betweenness|m[aá]s conectad|nodos? central", re.IGNORECASE)
 _FORECAST = re.compile(r"pron[oó]stic|predic|proyecci|series? de tiempo|serie temporal|arima|tendencia|"
                        r"evoluci[oó]n|evolucionad|crecimiento|crecer[aá]|crece|futuro|pr[oó]ximos a[nñ]os", re.IGNORECASE)
-_COMMUNITY = re.compile(r"frentes?|comunidad|cl[uú]ster|agrupaci|grupos? tem[aá]tic|l[ií]neas? de investigaci|"
+_COMMUNITY = re.compile(r"frentes?|comunidades|comunidad (tem[aá]tica|de investigaci|cient[ií]fica)|cl[uú]ster|"
+                        r"agrupaci|grupos? tem[aá]tic|l[ií]neas? de investigaci|"
                         r"emergente|temas? (principales|de investigaci)|mapa tem[aá]tico|subtemas?", re.IGNORECASE)
+# "¿Qué artículo/estudio…?" busca un artículo por su contenido, aunque mencione una comunidad de agricultores o una
+# predicción (Agro-P-R01 iba a `community` por "una comunidad")
+_ARTICLE_LOOKUP = re.compile(r"^\W*(qu[eé]|cu[aá]l(es)?|hay alg[uú]n[oa]?s?)\s+(art[ií]culos?|estudios?|trabajos?|papers?)\b",
+                             re.IGNORECASE)
+# …salvo que nombre algo que solo existe en el análisis de redes ("¿qué artículos forman el frente emergente?")
+_STRONG = re.compile(r"frentes?|emergente|puente|coautor|centralidad|intermediaci|pron[oó]stic|arima|serie de tiempo",
+                     re.IGNORECASE)
 
 
 def detect_network_intent(query: str) -> str | None:
     """graph / forecast / community si la pregunta pide un análisis de redes o de tendencias."""
+    if _ARTICLE_LOOKUP.search(query) and not _STRONG.search(query):
+        return None
     if _GRAPH.search(query):
         return "graph"
     if _COMMUNITY.search(query) and not _FORECAST.search(query):

@@ -24,10 +24,10 @@ from src.layer1_schema.models import SchemaContext
 from src.layer1_schema.schema_linker import link_schema, build_value_hints, author_hints, column_types
 from src.layer2_agent.query_rewriter import rewrite_query
 from src.layer2_agent.intent_classifier import classify_intent
-from src.layer2_agent.sql_generator import generate_sql
+from src.layer2_agent.sql_generator import generate_sql, generate_consensus_sql, SQL_ENSEMBLE
 from src.layer2_agent.sql_validator import execute_sql, SQLResult
-from src.layer2_agent.refiner import refine_sql
-from src.layer2_agent.answer_synthesizer import synthesize_answer, articles_answer_question
+from src.layer2_agent.refiner import refine_sql, retry_if_empty
+from src.layer2_agent.answer_synthesizer import synthesize_answer, articles_answer_question, pick_article
 
 load_dotenv()
 
@@ -108,10 +108,11 @@ def _fallback_to_references(result: SQLResult | None, db_path: str | None) -> SQ
     if not result or not result.success or result.row_count > 0:
         return None
     query = result.query or ""
-    if not (_MAIN_FILTER.search(query) or re.search(r"\bcorpus_articles\b", query)):
+    if not (_MAIN_FILTER.search(query) or re.search(r"\bcorpus_(articles|affiliation|articleauthor)\b", query)):
         return None
-    # La consulta estaba limitada a principales, ya sea por el filtro del LLM o por la vista corpus_articles
-    alt_sql = re.sub(r"\bcorpus_articles\b", "reference_articles", _MAIN_FILTER.sub(r"\1 = 0", query))
+    # La consulta estaba limitada a principales, ya sea por el filtro del LLM o por las vistas corpus_*
+    alt_sql = re.sub(r"\bcorpus_(articles|affiliation|articleauthor)\b", r"reference_\1",
+                     _MAIN_FILTER.sub(r"\1 = 0", query))
     alt = execute_sql(alt_sql, db_path=db_path) if db_path else execute_sql(alt_sql)
     return alt if alt.success and alt.row_count > 0 else None
 
@@ -126,7 +127,7 @@ def _articles_from_sql(result: SQLResult | None, db_path: str | None, limit: int
     out, conn = [], sqlite3.connect(db_path)
     for row in result.rows[:limit]:
         if "sr" in cols:
-            r = conn.execute("SELECT SR, title FROM Article WHERE SR = ? ORDER BY ismainarticle DESC",
+            r = conn.execute("SELECT SR, title FROM Article WHERE TRIM(SR) = TRIM(?) ORDER BY ismainarticle DESC",
                              (row.get(cols["sr"]),)).fetchone()
         else:
             r = conn.execute("SELECT SR, title FROM Article WHERE UPPER(TRIM(title)) = UPPER(TRIM(?)) "
@@ -186,18 +187,22 @@ def node_classify_intent(state: dict) -> dict:
         intent = "followup"
     else:
         # Redes, frentes y tendencias se detectan con reglas (Capa 5); el resto lo decide el LLM
-        from src.layer5_network.context import detect_network_intent
+        from src.layer4_network.context import detect_network_intent
         intent = detect_network_intent(state.get("user_query", "")) or classify_intent(ctx, history=state.get("history"))
     state["intent"] = intent
     return state
 
 def node_generate_sql(state: dict) -> dict:
     ctx = state["schema_context"]
-    sql = generate_sql(
-        ctx,
-        history=state.get("history"),
-        feedback=state.get("reflection_feedback") or None,
-    )
+    if SQL_ENSEMBLE:
+        sql = generate_consensus_sql(ctx, history=state.get("history"), feedback=state.get("reflection_feedback") or None,
+                                     db_path=state.get("db_path"))
+    else:
+        sql = generate_sql(
+            ctx,
+            history=state.get("history"),
+            feedback=state.get("reflection_feedback") or None,
+        )
     state["generated_sql"] = sql
     return state
 
@@ -205,6 +210,7 @@ def node_validate_sql(state: dict) -> dict:
     sql = state["generated_sql"]
     db_path = state.get("db_path")
     result = execute_sql(sql, db_path=db_path) if db_path else execute_sql(sql)
+    result = retry_if_empty(state["schema_context"], result, db_path)
     state["sql_result"] = result
     state["sql_visible"] = result.query
     return state
@@ -259,6 +265,21 @@ def node_reflect(state: dict) -> dict:
     return state
 
 
+def _put_picked_first(query: str, rag_result) -> int | None:
+    """
+    El juez (`pick_article`) dice qué artículo recuperado trata la pregunta y se pone primero en el contexto.
+    Con el correcto 2.º, glm4 solía responder con el 1.º (coffee-R03; antes Q26 y Q29 de las 32 preguntas).
+    Devuelve el número elegido (0 = ninguno, None = el juez no respondió).
+    """
+    picked = pick_article(query, rag_result)
+    if picked and picked > 1:
+        arts = rag_result.articles
+        arts.insert(0, arts.pop(picked - 1))
+        for i, a in enumerate(arts, 1):
+            a["rank"] = i
+    return picked
+
+
 def node_hybrid(state: dict) -> dict:
     """
     Nodo hybrid: combina una consulta SQL (cifras exactas) con búsqueda
@@ -288,6 +309,10 @@ def node_hybrid(state: dict) -> dict:
         top_k=int(os.getenv("RAG_TOP_K", "5"))
     )
     if getattr(rag_result, "success", False):
+        # Apagado por defecto: a temperatura 0, en los 4 sets (196 preguntas) dio exactamente los mismos puntajes
+        # con y sin el juez, y suma ~0,6 s por pregunta (2026-11-03). HYBRID_PICK_ARTICLE=1 lo activa.
+        if os.getenv("HYBRID_PICK_ARTICLE", "0") == "1":
+            _put_picked_first(ctx.query, rag_result)
         state["rag_results"] = _rag_labels(rag_result.articles)
     state["articles_shown"] = _articles_from_sql(sql_result, db_path) + _articles_from_rag(rag_result)
 
@@ -312,6 +337,7 @@ def node_rag_search(state: dict) -> dict:
         model=os.getenv("OLLAMA_MODEL", "glm4:9b"),
         temperature=0.3,
         num_predict=int(os.getenv("OLLAMA_NUM_PREDICT", "2048")),
+        num_ctx=int(os.getenv("OLLAMA_NUM_CTX", "8192")),
     )
     history_text = _format_history(ctx.query, state.get("history"))
 
@@ -334,9 +360,10 @@ def node_rag_search(state: dict) -> dict:
         state["answer"] = f"Error en busqueda semantica: {principales.error}"
         state["success"] = False
         return state
+    picked = _put_picked_first(ctx.query, principales)
     shown = list(principales.articles)
     answer = None
-    if not articles_answer_question(ctx.query, principales):
+    if picked == 0:
         referencias = search("referencia")
         if referencias.success and articles_answer_question(ctx.query, referencias):
             shown += referencias.articles
@@ -385,7 +412,7 @@ def node_network(state: dict) -> dict:
     Nodo Capa 5 (graph / community / forecast): calcula redes, comunidades o series de tiempo
     sobre la BD de la sesión y el LLM solo redacta la respuesta con esas cifras.
     """
-    from src.layer5_network.context import network_context
+    from src.layer4_network.context import network_context
     from src.layer2_agent.answer_synthesizer import synthesize_network, log_error
 
     intent = state.get("intent", "community")

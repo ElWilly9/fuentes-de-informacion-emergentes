@@ -13,7 +13,7 @@ from dotenv import load_dotenv
 from langchain_ollama import ChatOllama
 
 from src.layer1_schema.models import SchemaContext
-from src.layer2_agent.sql_generator import generate_sql, _build_schema_text, is_bibliometric
+from src.layer2_agent.sql_generator import OLLAMA_SQL_MODEL, generate_sql, generate_consensus_sql, SQL_ENSEMBLE, _build_schema_text, is_bibliometric
 from src.layer2_agent.sql_validator import execute_sql, SQLResult
 
 load_dotenv()
@@ -21,6 +21,9 @@ load_dotenv()
 OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
 OLLAMA_MODEL    = os.getenv("OLLAMA_MODEL", "glm4:9b")
 OLLAMA_NUM_PREDICT = int(os.getenv("OLLAMA_NUM_PREDICT", "2048"))  # tope de tokens de salida: corta los bucles de texto basura de glm4
+# Contexto fijo en todas las llamadas (si solo algunas lo cambian, Ollama recarga el modelo). Sin fijarlo, el
+# valor por defecto depende de la versión de Ollama y de la VRAM (4.096 en una GPU de 12 GB).
+OLLAMA_NUM_CTX = int(os.getenv("OLLAMA_NUM_CTX", "8192"))
 SQL_MAX_RETRIES = int(os.getenv("SQL_MAX_RETRIES", "3"))
 
 # ── Prompt para corrección ────────────────────────────────────────────────────
@@ -76,9 +79,10 @@ def refine_sql(ctx: SchemaContext, failed_sql: str, error: str) -> str:
 
     llm = ChatOllama(
         base_url=OLLAMA_BASE_URL,
-        model=OLLAMA_MODEL,
+        model=OLLAMA_SQL_MODEL,
         temperature=0.0,
         num_predict=OLLAMA_NUM_PREDICT,
+        num_ctx=OLLAMA_NUM_CTX,
     )
 
     schema_text = _build_schema_text(ctx)
@@ -118,14 +122,14 @@ def generate_and_validate(ctx: SchemaContext, db_path: str = None) -> SQLResult:
         Resultado exitoso o el último intento fallido.
     """
     # Paso 1: Generar SQL inicial
-    sql = generate_sql(ctx)
+    sql = generate_consensus_sql(ctx, db_path=db_path) if SQL_ENSEMBLE else generate_sql(ctx)
 
     # Paso 2: Ejecutar y validar
     kwargs = {"db_path": db_path} if db_path else {}
     result = execute_sql(sql, **kwargs)
 
     if result.success:
-        return result
+        return retry_if_empty(ctx, result, db_path)
 
     # Paso 3: Ciclo de refinamiento
     for attempt in range(1, SQL_MAX_RETRIES + 1):
@@ -142,6 +146,23 @@ def generate_and_validate(ctx: SchemaContext, db_path: str = None) -> SQLResult:
     # Si agotó los intentos
     print(f"      No se pudo corregir después de {SQL_MAX_RETRIES} intentos")
     return result
+
+
+# Reintento cuando el SQL corre pero no devuelve filas. Un solo intento, y solo se acepta si trae filas.
+# APAGADO por defecto (2026-11-03): no aportó. Spider 0,663 con y sin; BIRD 0,417 con, 0,420 sin; 196 preguntas de los
+# sets propios con puntajes idénticos.
+SQL_EMPTY_RETRY = os.getenv("SQL_EMPTY_RETRY", "0") == "1"
+EMPTY_RESULT_ERROR = ("La consulta se ejecutó sin errores pero devolvió 0 filas. Revisa si añadiste filtros, JOIN o "
+                      "condiciones que la pregunta no pide, o si los valores no están escritos como en la base de datos.")
+
+
+def retry_if_empty(ctx: SchemaContext, result: SQLResult, db_path: str = None) -> SQLResult:
+    """Si `result` corrió bien pero vino vacío, pide una corrección; la usa solo si devuelve filas."""
+    if not (SQL_EMPTY_RETRY and result and result.success and result.row_count == 0):
+        return result
+    kwargs = {"db_path": db_path} if db_path else {}
+    retried = execute_sql(refine_sql(ctx, result.query, EMPTY_RESULT_ERROR), **kwargs)
+    return retried if retried.success and retried.row_count > 0 else result
 
 
 # ── Entry point ───────────────────────────────────────────────────────────────

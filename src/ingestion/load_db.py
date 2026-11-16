@@ -200,6 +200,8 @@ def clean_placeholders(conn: sqlite3.Connection) -> dict[str, int]:
     - Todo texto que sea exactamente un marcador (sin distinguir mayúsculas) pasa a NULL.
     - Affiliation sin país se elimina: no puede entrar en ninguna estadística geográfica.
     - journal sin nombre se elimina.
+    - Artículo principal sin Article.journal: su source_title viene mal del Excel ('J FINANC' en todos estos, que son
+      conference papers, 82 en ai y 71 en pendulo) y pasa a NULL.
     Los artículos nunca se eliminan (Article.source_title queda NULL si no hay revista).
     Retorna el número de filas afectadas por tipo de cambio.
     """

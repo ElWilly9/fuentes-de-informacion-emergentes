@@ -18,10 +18,10 @@ from pathlib import Path
 
 import networkx as nx
 
-from src.layer5_network.networks import (
+from src.layer4_network.networks import (
     CorpusData, load_corpus, coupling_graph, keyword_graph, coauthor_graph,
 )
-from src.layer5_network.trends import annual_series, growth_indicators
+from src.layer4_network.trends import annual_series, growth_indicators
 
 LOUVAIN_SEED = int(os.getenv("LOUVAIN_SEED", "42"))
 LOUVAIN_RESOLUTION = float(os.getenv("LOUVAIN_RESOLUTION", "1.0"))

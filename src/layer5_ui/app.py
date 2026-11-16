@@ -168,7 +168,7 @@ else:
     vista = st.segmented_control("Vista", ["💬 Chat", "🕸️ Red del corpus"], default="💬 Chat", required=True,
                                  key="vista", label_visibility="collapsed")
     if vista == "🕸️ Red del corpus":
-        from src.layer4_ui.network_tab import render_network_view
+        from src.layer5_ui.network_tab import render_network_view
         render_network_view(get_session_paths(st.session_state.current_session)["db"])
         st.stop()
 

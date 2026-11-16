@@ -47,7 +47,7 @@ SCHEMA_SIMILARITY_THRESHOLD = float(os.getenv("SCHEMA_SIMILARITY_THRESHOLD", "0.
 TABLE_COLUMNS: dict[str, list[str]] = {
     "article": [
         "sr", "title", "abstract", "year", "cited_by",
-        "author_keywords", "doi", "document_type", "source_title",
+        "author_keywords", "doi", "document_type", "source_title", "publisher", "language", "open_access_indicator",
         "ismainarticle",
     ],
     "author": ["authorid", "authorname", "authorfullname", "orcid"],
@@ -375,12 +375,36 @@ def link_schema(query: str, chroma_dir: str = None, top_k: int = SCHEMA_TOP_K) -
     # Respetar el límite top_k (las forzadas tienen prioridad al final)
     selected_tables = selected_tables[:top_k + 2]   # permitir 1-2 extras por entidades
 
+    # scimagodb solo cuando se pregunta por métricas de revistas: entraba por similitud en preguntas como
+    # "el artículo más citado" y glm4 la unía sin usarla, perdiendo filas (ai-H01 daba 0).
+    if "scimagodb" in selected_tables and "quartile" not in entities and not re.search(
+            r"cuartil|quartile|q[1-4]|sjr|scimago|[ií]ndice h|h.index|impacto de la revista", query_lower):
+        selected_tables.remove("scimagodb")
+    # Igual con treeofscience: glm4 la unía en "el más citado con 'PV' en el título" o "los 3 más citados de
+    # Jordania" (Q16, ai-P-H02) y perdía filas.
+    if "treeofscience" in selected_tables and "tos_class" not in entities and not re.search(
+            r"tree of science|[aá]rbol de la ciencia|\btos\b|ra[ií]z|ra[ií]ces|tronco|hojas?\b|cl[aá]sic", query_lower):
+        selected_tables.remove("treeofscience")
+
     # article siempre va: es la única tabla que distingue artículos principales de referencias
     if "article" not in selected_tables:
         selected_tables.insert(0, "article")
 
     # ── Paso 5: Recopilar columnas y FKs ─────────────────────────────────────
     relevant_columns = {t: TABLE_COLUMNS.get(t, []) for t in selected_tables}
+    # Sin esto, qwen2.5-coder añade `authororder = 1` sin que se pida y pierde artículos
+    if "articleauthor" in relevant_columns and not re.search(r"primer autor|autor principal|orden de autor",
+                                                             query_lower):
+        relevant_columns["articleauthor"] = [c for c in relevant_columns["articleauthor"] if c != "authororder"]
+
+    # publisher y language solo si la pregunta habla de ellos (igual que scimagodb/treeofscience): no cambian el prompt del resto
+    if "article" in relevant_columns:
+        art = list(relevant_columns["article"])
+        if not re.search(r"editorial|editora|publisher|casa editor", query_lower):
+            art = [c for c in art if c != "publisher"]
+        if not re.search(r"idioma|lengua|language|ingl[eé]s|espa[nñ]ol|chino", query_lower):
+            art = [c for c in art if c != "language"]
+        relevant_columns["article"] = art
 
     relevant_fks: list[str] = []
     for table in selected_tables:

@@ -13,7 +13,10 @@ Autor: Daniel Camilo Blanco Galán — Universidad Nacional de Colombia
 """
 
 import os
+import re
 import sqlite3
+import unicodedata
+from pathlib import Path
 from dataclasses import dataclass, field
 
 from dotenv import load_dotenv
@@ -38,6 +41,18 @@ Reply with the English translation ONLY: no quotes, no explanations."""
 
 _translation_cache: dict[str, str] = {}
 
+# Las palabras clave (autor + índice) no están en el texto indexado (solo el abstract), y muchas preguntas las
+# nombran tal cual. Se fusiona el orden semántico con el de coincidencias de palabras clave (RRF, k = 60).
+# Solo cuentan las palabras clave raras (en ≤5 % de los artículos principales): con 10 %, términos como
+# DRYING o SOLAR ENERGY bajaban Q30 del 1.º al 8.º puesto. Medido en las 18 RAG de plantillas: en el top-5
+# 13 → 17 (la que falta, pendulo-R02, tiene dos artículos con el mismo SR); Q23–Q32 igual salvo Q30 1.º → 2.º.
+# APAGADA por defecto (2026-11-03): solo ayuda a las preguntas de plantilla que listan palabras clave. Con preguntas
+# en lenguaje natural empeora (artículo esperado en el top-5, con / sin fusión): prueba 11/12 vs 12/12, prueba 2
+# 10/12 vs 12/12, corpus coffee (1.102 artículos) 10/14 vs 13/14; plantillas 17/18 vs 15/18.
+RAG_KEYWORD_FUSION = os.getenv("RAG_KEYWORD_FUSION", "0") == "1"
+RRF_K = 60
+_keyword_cache: dict[tuple[str, float], dict[str, set[str]]] = {}
+
 
 @dataclass
 class RAGResult:
@@ -58,7 +73,8 @@ def to_search_query(query: str) -> str:
         from langchain_ollama import ChatOllama
         llm = ChatOllama(base_url=os.getenv("OLLAMA_BASE_URL", "http://localhost:11434"),
                          model=os.getenv("OLLAMA_MODEL", "glm4:9b"), temperature=0.0,
-                         num_predict=int(os.getenv("OLLAMA_NUM_PREDICT", "2048")))
+                         num_predict=int(os.getenv("OLLAMA_NUM_PREDICT", "2048")),
+                         num_ctx=int(os.getenv("OLLAMA_NUM_CTX", "8192")))
         try:
             text = llm.invoke([{"role": "system", "content": TRANSLATE_PROMPT},
                                {"role": "user", "content": query}]).content
@@ -82,11 +98,13 @@ def _enrich_with_db(articles: list[dict], db_path: str) -> list[dict]:
     conn = sqlite3.connect(db_path)
     conn.row_factory = sqlite3.Row
 
+    # TRIM: el SR de los artículos sin revista termina en espacio ("SILVA JESM, 2024, ") y Chroma guarda el
+    # id sin él; con "SR = ?" 160 de 487 principales llegaban al prompt sin abstract, año ni keywords.
     for art in articles:
         sr = art.get("SR", "")
         row = conn.execute(
             "SELECT title, abstract, year, cited_by, author_keywords, "
-            "source_title, document_type FROM Article WHERE SR = ? "
+            "source_title, document_type FROM Article WHERE TRIM(SR) = TRIM(?) "
             "ORDER BY ismainarticle DESC",
             (sr,)
         ).fetchone()
@@ -123,6 +141,44 @@ def _ensure_main_flag(collection, db_path: str) -> None:
         metas = [{**(m or {}), "ismainarticle": flags.get(sr, 0)}
                  for sr, m in zip(ids, data["metadatas"][i:i + 500])]
         collection.update(ids=ids, metadatas=metas)
+
+
+def _norm(text: str) -> str:
+    text = unicodedata.normalize("NFKD", str(text)).encode("ascii", "ignore").decode().lower()
+    return " " + re.sub(r"[^a-z0-9]+", " ", text).strip() + " "
+
+
+def _rare_keywords(db_path: str) -> dict[str, set[str]]:
+    """SR → palabras clave normalizadas de cada artículo principal que están en ≤5 % del corpus."""
+    key = (db_path, os.path.getmtime(db_path))
+    if key not in _keyword_cache:
+        conn = sqlite3.connect(db_path)
+        rows = conn.execute("SELECT SR, author_keywords, index_keywords FROM Article "
+                            "WHERE ismainarticle = 1").fetchall()
+        conn.close()
+        kws: dict[str, set[str]] = {}
+        for sr, a, b in rows:
+            words = {_norm(k).strip() for k in f"{a or ''};{b or ''}".split(";")}
+            kws.setdefault(str(sr).strip(), set()).update(w for w in words if len(w) >= 4)
+        df: dict[str, int] = {}
+        for words in kws.values():
+            for w in words:
+                df[w] = df.get(w, 0) + 1
+        max_df = max(2, 0.05 * len(kws))
+        _keyword_cache[key] = {sr: {w for w in words if df[w] <= max_df} for sr, words in kws.items()}
+    return _keyword_cache[key]
+
+
+def _fuse_keywords(articles: list[dict], texts: list[str], db_path: str) -> list[dict]:
+    """Reordena los artículos (ya ordenados por similitud) fusionando con las coincidencias de palabras clave."""
+    kws = _rare_keywords(db_path)
+    text = "".join(_norm(t) for t in texts)
+    hits = {a["SR"]: sum(f" {w} " in text for w in kws.get(a["SR"], ())) for a in articles}
+    lexical = sorted((a["SR"] for a in articles if hits[a["SR"]]), key=lambda sr: -hits[sr])
+    score = {a["SR"]: 1 / (RRF_K + i) for i, a in enumerate(articles, 1)}
+    for i, sr in enumerate(lexical, 1):
+        score[sr] += 1 / (RRF_K + i)
+    return sorted(articles, key=lambda a: -score[a["SR"]])
 
 
 def _query(collection, query: str, n: int, where: dict | None, exclude: set[str]) -> list[dict]:
@@ -173,8 +229,13 @@ def search_by_origin(query: str, chroma_dir, db_path, origin: str = "principal",
 
         flag = 1 if origin == "principal" else 0
         search_query = to_search_query(query)
-        articles = [{**a, "origen": origin}
-                    for a in _query(collection, search_query, top_k, {"ismainarticle": flag}, exclude)[:top_k]]
+        if RAG_KEYWORD_FUSION and origin == "principal":
+            # Todos los principales por similitud (son cientos), para que la fusión pueda subir cualquiera
+            candidates = _query(collection, search_query, collection.count(), {"ismainarticle": flag}, exclude)
+            candidates = _fuse_keywords(candidates, [query, search_query], str(db_path))
+        else:
+            candidates = _query(collection, search_query, top_k, {"ismainarticle": flag}, exclude)
+        articles = [{**a, "origen": origin} for a in candidates[:top_k]]
         for i, a in enumerate(articles, 1):
             a["rank"] = i
         articles = _enrich_with_db(articles, db_path)
