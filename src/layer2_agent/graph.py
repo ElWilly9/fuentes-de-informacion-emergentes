@@ -55,7 +55,7 @@ class AgentState:
     retry_count: int = 0
     rag_results: list[str] = field(default_factory=list)
     articles_shown: list[dict] = field(default_factory=list)  # [{"sr", "title"}] mostrados en este turno
-    network_context: str = ""      # Capa 5: análisis calculado que se le pasó al LLM
+    network_context: str = ""      # Capa 4: análisis calculado que se le pasó al LLM
 
     # Memoria conversacional (multi-turno)
     history: list[dict] = field(default_factory=list)
@@ -186,7 +186,7 @@ def node_classify_intent(state: dict) -> dict:
     if _previous_articles(state):
         intent = "followup"
     else:
-        # Redes, frentes y tendencias se detectan con reglas (Capa 5); el resto lo decide el LLM
+        # Redes, frentes y tendencias se detectan con reglas (Capa 4); el resto lo decide el LLM
         from src.layer4_network.context import detect_network_intent
         intent = detect_network_intent(state.get("user_query", "")) or classify_intent(ctx, history=state.get("history"))
     state["intent"] = intent
@@ -409,7 +409,7 @@ def node_followup(state: dict) -> dict:
 
 def node_network(state: dict) -> dict:
     """
-    Nodo Capa 5 (graph / community / forecast): calcula redes, comunidades o series de tiempo
+    Nodo Capa 4 (graph / community / forecast): calcula redes, comunidades o series de tiempo
     sobre la BD de la sesión y el LLM solo redacta la respuesta con esas cifras.
     """
     from src.layer4_network.context import network_context

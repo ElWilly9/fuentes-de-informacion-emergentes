@@ -4,7 +4,7 @@
     {
       "name": "streamlit-app",
       "runtimeExecutable": ".venv/Scripts/streamlit.exe",
-      "runtimeArgs": ["run", "src/layer4_ui/app.py", "--server.port", "8501", "--server.headless", "true"],
+      "runtimeArgs": ["run", "src/layer5_ui/app.py", "--server.port", "8501", "--server.headless", "true"],
       "port": 8501
     }
   ]

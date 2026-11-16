@@ -1,5 +1,5 @@
 """
-diagnostico_arima.py — Diagnóstico del pronóstico ARIMA de la Capa 5 (artículos por año)
+diagnostico_arima.py — Diagnóstico del pronóstico ARIMA de la Capa 4 (artículos por año)
 ========================================================================================
 Pedido por William (2026-10-20). No cambia el agente: revisa el método de `trends.arima_forecast`.
 
@@ -32,7 +32,7 @@ warnings.simplefilter("ignore")
 
 
 def load_series(session: str) -> tuple[np.ndarray, np.ndarray]:
-    from src.layer5_network.communities import analyze
+    from src.layer4_network.communities import analyze
     r = analyze(str(ROOT / "data" / "sessions" / session / "db" / "bibliometria.db"))
     s = r["total_series"]
     years = np.array(sorted(s))
@@ -153,7 +153,7 @@ FIXED = [(label({"order": o, "trend": t, "log": log}), log, o, t) for log in (Fa
 
 def agent_select(train: np.ndarray, h: int) -> dict:
     """La regla vigente del agente (trends.arima_forecast), sin sus mínimos de años/artículos. Hasta el 2026-10-20 era AIC con d ∈ {0,1} en conteos; desde entonces, log(1+y) ARIMA(p,1,q) con deriva, p,q ≤ 1 por AICc."""
-    from src.layer5_network import trends
+    from src.layer4_network import trends
     old = trends.ARIMA_MIN_YEARS, trends.ARIMA_MIN_ARTICLES
     trends.ARIMA_MIN_YEARS = trends.ARIMA_MIN_ARTICLES = 0
     try:

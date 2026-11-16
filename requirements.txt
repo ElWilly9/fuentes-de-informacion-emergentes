@@ -29,11 +29,11 @@ numpy>=1.26.0
 tqdm>=4.60.0
 httpx>=0.28.0
 
-# Redes y series de tiempo (Capa 5)
+# Redes y series de tiempo (Capa 4)
 networkx>=3.3
 statsmodels>=0.14
 
-# Interfaz (Capa 4)
+# Interfaz (Capa 5)
 streamlit>=1.30.0
 
 # Testing

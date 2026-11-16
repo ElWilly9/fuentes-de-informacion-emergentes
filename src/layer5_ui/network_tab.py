@@ -1,7 +1,7 @@
 """
 network_tab.py — Vista "Red del corpus" de la app Streamlit
 ===========================================================
-Muestra las redes de la Capa 5 (frentes, temas, coautoría) en un grafo interactivo 2D/3D y,
+Muestra las redes de la Capa 4 (frentes, temas, coautoría) en un grafo interactivo 2D/3D y,
 debajo, la tabla de grupos con la misma clasificación (emergente / señal débil) que usa el chat.
 """
 

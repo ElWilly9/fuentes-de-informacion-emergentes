@@ -15,7 +15,7 @@ procesados con el algoritmo de Robledo / Tree of Science) decidiendo entre SQL, 
 - **Capa 2 — agente LangGraph** (`src/layer2_agent/graph.py`): rewrite_query → schema_linking →
   classify_intent → `sql` (generate → validate → refine ≤3 → synthesize → reflect) | `rag` | `hybrid`.
 - **Capa 3 — RAG** (`src/layer3_rag`): abstracts en ChromaDB.
-- **Capa 4 — UI** Streamlit (`src/layer4_ui/app.py`).
+- **Capa 5 — UI** Streamlit (`src/layer5_ui/app.py`).
 - LLM local vía Ollama. Modelo en uso: **glm4:9b** (funciona bien según William). Embeddings: nomic-embed-text.
 - Entorno: `.venv` con Python 3.14. Sesiones de datos existentes: `Agrovoltaics`, `ai`.
 - Proyecto hermano más antiguo y con evaluaciones BIRD/RAGAS: `../bibliometric-rag` (ver su
@@ -309,7 +309,7 @@ Para citas, el Word coincide tomando el máximo entre Scopus y WoS. El agente no
   c/u: la corrida completa tarda ~20 min. Falta la corrida completa y revisar el sesgo del juez.
 - Hallazgos de la prueba: Q01 el agente usa `COUNT(DISTINCT sr)` (65, gold 66 por SR repetido), Q05 olvida
   `ismainarticle=1`, y las híbridas se enrutan a `sql` en vez de `hybrid`.
-- [x] (2026-10-14, decisiones de William) **Capa 5: redes, frentes y series de tiempo** (`src/layer5_network/`).
+- [x] (2026-10-14, decisiones de William) **Capa 4: redes, frentes y series de tiempo** (`src/layer4_network/`).
   El agente SQL/RAG queda congelado por ahora (corrida 4 = 3,88). Hallazgos sobre los datos que fijaron el diseño:
   las citas directas entre artículos del corpus casi no existen (Agrovoltaics 3/1.874, ai 10/5.588), así que los frentes
   se calculan con **acoplamiento bibliográfico** (referencias compartidas: conecta 40/65, 168/262 y 128/153 artículos);
@@ -338,8 +338,8 @@ Para citas, el Word coincide tomando el máximo entre Scopus y WoS. El agente no
     `community`; tendencia/pronóstico/evolución → `forecast`) va antes del clasificador LLM; ninguna de las 32
     preguntas del benchmark se desvía. `node_network` → `synthesize_network` (`NETWORK_SYSTEM_PROMPT`: solo explica
     cifras ya calculadas). La UI muestra "Análisis de redes calculado" en un desplegable.
-  - Prueba: `benchmark/agrovoltaics/prueba_capa5.py` (7 preguntas; ruta correcta 7/7). Última corrida
-    `results/prueba_capa5_Agrovoltaics_20261014_201010.md`: cifras correctas en las 7. Agrovoltaics: 4 frentes (secado
+  - Prueba: `benchmark/agrovoltaics/prueba_capa4.py` (7 preguntas; ruta correcta 7/7). Última corrida
+    `results/prueba_capa4_Agrovoltaics_20261014_201010.md`: cifras correctas en las 7. Agrovoltaics: 4 frentes (secado
     solar/invernaderos 21 art., agrovoltaica/sombreado 7, biogás 5, Anaplasma 3 = señal débil), ningún autor puente,
     ARIMA(1,1,0) del total: 2025 13,5 (10,9–16,1). Agrovoltaica: 7 artículos, +88 %/año, emergente, sin ARIMA (serie corta).
   - (2026-10-20, pedido por William) **Diagnóstico del ARIMA** (`benchmark/series_tiempo/diagnostico_arima.py`,
@@ -359,13 +359,13 @@ Para citas, el Word coincide tomando el máximo entre Scopus y WoS. El agente no
     en los 3 corpus. Origen móvil: ×0,88 / ×0,78 / ×1,08 el ingenuo (antes ×1,00 / ×1,01 / ×1,02). Sección 6 del informe.
     Ojo: la deriva (+9,5 %/año en Agrovoltaics) no coincide con el crecimiento de Poisson (+22 %): la deriva solo
     depende del primer y último año; Poisson ajusta toda la serie.
-  - Pendiente: preguntas con respuesta esperada para la Capa 5 en el benchmark; probar en `ai`/`pendulo`;
+  - Pendiente: preguntas con respuesta esperada para la Capa 4 en el benchmark; probar en `ai`/`pendulo`;
     validar los frentes contra las ramas del Tree of Science con una medida (p. ej. NMI).
 - [x] (2026-10-14) **Visor de redes en la UI** (pedido por William): la app tiene arriba un selector "💬 Chat / 🕸️ Red
-  del corpus". `layer5_network/export.py` (`graph_data`) convierte las redes en nodos/enlaces con los mismos colores
-  que usa el agente (frentes, temas, autores puente en dorado, artículos puente con borde); `layer4_ui/network_view.py`
+  del corpus". `layer4_network/export.py` (`graph_data`) convierte las redes en nodos/enlaces con los mismos colores
+  que usa el agente (frentes, temas, autores puente en dorado, artículos puente con borde); `layer5_ui/network_view.py`
   genera la página con force-graph 1.43.5 (2D) o 3d-force-graph 1.73.3 (3D) desde jsDelivr (necesita internet) y se
-  muestra con `st.iframe`; `layer4_ui/network_tab.py` pone los controles (red, 2D/3D, peso mínimo del enlace, ocultar
+  muestra con `st.iframe`; `layer5_ui/network_tab.py` pone los controles (red, 2D/3D, peso mínimo del enlace, ocultar
   aislados) y la tabla de grupos con la clasificación emergente/señal débil. Interacción: arrastrar, zoom, rotar (3D),
   pasar el cursor resalta vecinos, clic fija un panel con el detalle, clic en la leyenda oculta un grupo, buscador.
   `analyze()` ahora devuelve `front_of`, `theme_of`, `author_fronts` y las intermediaciones; los temas con <3 artículos

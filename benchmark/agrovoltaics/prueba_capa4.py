@@ -1,8 +1,8 @@
 """
-Prueba de la Capa 5 (redes, frentes y series de tiempo) contra el agente completo.
+Prueba de la Capa 4 (redes, frentes y series de tiempo) contra el agente completo.
 
-Uso: python benchmark/agrovoltaics/prueba_capa5.py [--session Agrovoltaics]
-Guarda las respuestas en results/prueba_capa5_<fecha>.md (con el análisis que recibió el LLM).
+Uso: python benchmark/agrovoltaics/prueba_capa4.py [--session Agrovoltaics]
+Guarda las respuestas en results/prueba_capa4_<fecha>.md (con el análisis que recibió el LLM).
 """
 
 import argparse
@@ -34,7 +34,7 @@ def main():
     ap.add_argument("--session", default="Agrovoltaics")
     args = ap.parse_args()
     s = ROOT / "data" / "sessions" / args.session
-    out = [f"# Prueba Capa 5 — sesión {args.session}\n", f"Corrida: {datetime.now():%Y-%m-%d %H:%M}\n"]
+    out = [f"# Prueba Capa 4 — sesión {args.session}\n", f"Corrida: {datetime.now():%Y-%m-%d %H:%M}\n"]
     for esperado, q in PREGUNTAS:
         t = time.time()
         st = run_agent(q, db_path=str(s / "db" / "bibliometria.db"), chroma_dir=str(s / "chroma"))
@@ -44,7 +44,7 @@ def main():
                 f"**Respuesta:**\n\n{st['answer']}\n",
                 "<details><summary>Análisis que recibió el LLM</summary>\n\n```\n"
                 f"{st.get('network_context', '')}\n```\n</details>\n", "---\n"]
-    path = ROOT / "benchmark" / "agrovoltaics" / "results" / f"prueba_capa5_{args.session}_{datetime.now():%Y%m%d_%H%M%S}.md"
+    path = ROOT / "benchmark" / "agrovoltaics" / "results" / f"prueba_capa4_{args.session}_{datetime.now():%Y%m%d_%H%M%S}.md"
     path.write_text("\n".join(out), encoding="utf-8")
     print("Guardado en", path)
 

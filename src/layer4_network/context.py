@@ -1,5 +1,5 @@
 """
-context.py — Resultados de la Capa 5 como texto para el LLM
+context.py — Resultados de la Capa 4 como texto para el LLM
 ===========================================================
 El LLM no calcula nada: recibe aquí las cifras ya calculadas y solo redacta.
 

@@ -1,5 +1,5 @@
 """
-export.py — Redes de la Capa 5 como nodos y enlaces para visualizarlas
+export.py — Redes de la Capa 4 como nodos y enlaces para visualizarlas
 ======================================================================
 Devuelve {"nodes", "links", "legend", "summary"} listo para force-graph (2D) o 3d-force-graph (3D).
 Los colores salen de la misma pertenencia que usa el agente (frentes Louvain, temas, autores puente),

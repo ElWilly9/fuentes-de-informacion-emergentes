@@ -599,7 +599,7 @@ def reflect_on_answer(
         return True, "reflexión omitida (error del evaluador)"
 
 
-# ── Respuestas de la Capa 5 (redes, comunidades, series de tiempo) ───────────
+# ── Respuestas de la Capa 4 (redes, comunidades, series de tiempo) ───────────
 
 NETWORK_SYSTEM_PROMPT = """Eres un asistente experto en bibliometría y análisis de redes científicas.
 Respondes preguntas sobre redes de coautoría y de citas, frentes de investigación y tendencias de

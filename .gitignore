@@ -17,3 +17,12 @@ benchmark/**/NOTAS_*.md
 benchmark/**/*.html
 benchmark/series_tiempo/salida_*.txt
 benchmark/**/*.log
+
+# Python y LaTeX temporales
+__pycache__/
+*.pyc
+tesis_latex/*.aux
+tesis_latex/*.bbl
+tesis_latex/*.blg
+tesis_latex/*.log
+tesis_latex/*.out

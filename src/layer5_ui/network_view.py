@@ -1,5 +1,5 @@
 """
-network_view.py — Visor interactivo de las redes de la Capa 5
+network_view.py — Visor interactivo de las redes de la Capa 4
 =============================================================
 Genera una página HTML autocontenida con force-graph (2D) o 3d-force-graph (3D), que se
 muestra en Streamlit con st.iframe. Interacción: arrastrar nodos, zoom con la rueda, rotar
@@ -183,7 +183,7 @@ _THEMES = {
 
 
 def network_html(data: dict, mode_3d: bool = False, height: int = 640) -> str:
-    """Página HTML con el grafo interactivo. `data` viene de layer5_network.export.graph_data."""
+    """Página HTML con el grafo interactivo. `data` viene de layer4_network.export.graph_data."""
     payload = json.dumps(data, ensure_ascii=False).replace("</", "<\\/")
     theme = _THEMES[mode_3d]
     hint = ("Arrastra para rotar · rueda para zoom · clic derecho para desplazar · clic en un nodo para fijarlo"

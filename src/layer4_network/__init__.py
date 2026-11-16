@@ -1,5 +1,5 @@
 """
-Capa 5 — Redes bibliométricas y series de tiempo.
+Capa 4 — Redes bibliométricas y series de tiempo.
 
 Cálculo determinista (sin LLM) sobre la BD SQLite de una sesión:
 - networks.py   : redes de acoplamiento bibliográfico, coocurrencia de palabras clave y coautoría.
