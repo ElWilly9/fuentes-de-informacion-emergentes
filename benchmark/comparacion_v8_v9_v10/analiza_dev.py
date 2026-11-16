@@ -5,7 +5,7 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 L = Path(r"C:\Users\PAE ML SQL RAG\Documents\limpio")
 SETS = "plantillas prueba prueba2 prueba3 prueba4 coffee generalizacion".split()
-CFG = {"v8": "V8", "v9": "V9", "v10_sinconsenso": "V10 sin consenso"}
+CFG = {"v8": "V8", "v9": "V9", "v10_sinconsenso": "V10 sin consenso", "v10": "V10 con consenso"}
 ok = lambda r: int(r["puntaje"] >= .999)
 rd = lambda p: [json.loads(l) for l in Path(p).read_text(encoding="utf-8").splitlines() if l.strip()]
 def mcn(b, c):
@@ -13,27 +13,33 @@ def mcn(b, c):
     return 1.0 if n == 0 else min(1.0, 2 * sum(comb(n, i) for i in range(min(b, c) + 1)) / 2 ** n)
 D = {(c, s): {r["id"]: r for r in rd(HERE / f"results_dev/{c}__{s}.jsonl")} for c in CFG for s in SETS}
 out = ["### Sets de desarrollo: aciertos exactos (puntaje 1,0)", "",
-       "| Set | n | V8 | V9 | V10 sin consenso | s/preg V8 · V9 · V10sc |", "|---|---|---|---|---|---|"]
+       "| Set | n | V8 | V9 | V10 sin consenso | V10 con consenso | s/preg V8 · V9 · V10sc · V10c |", "|---|---|---|---|---|---|---|"]
 tot = {c: 0 for c in CFG}; N = 0
 for s in SETS:
     n = len(D[("v8", s)]); N += n
     row = {c: sum(ok(r) for r in D[(c, s)].values()) for c in CFG}
     for c in CFG: tot[c] += row[c]
     lat = " · ".join(f"{st.mean(r['latencia_s'] for r in D[(c, s)].values()):.1f}" for c in CFG)
-    out.append(f"| {s} | {n} | {row['v8']} | {row['v9']} | {row['v10_sinconsenso']} | {lat} |")
+    out.append(f"| {s} | {n} | {row['v8']} | {row['v9']} | {row['v10_sinconsenso']} | {row['v10']} | {lat} |")
 lat = " · ".join(f"{st.mean(r['latencia_s'] for s in SETS for r in D[(c, s)].values()):.1f}" for c in CFG)
-out.append(f"| **Total** | {N} | **{tot['v8']}** | **{tot['v9']}** | **{tot['v10_sinconsenso']}** | {lat} |")
+out.append(f"| **Total** | {N} | **{tot['v8']}** | **{tot['v9']}** | **{tot['v10_sinconsenso']}** | **{tot['v10']}** | {lat} |")
 out += ["", "Mediana s/preg y llamadas LLM/preg (todos los sets): " + "; ".join(
     f"{CFG[c]}: {st.median(r['latencia_s'] for s in SETS for r in D[(c, s)].values()):.1f} s, {st.mean(r['llm_calls'] for s in SETS for r in D[(c, s)].values()):.2f} llamadas" for c in CFG), "",
     "### McNemar exacto pareado (b = A sí / B no; c = B sí / A no)", "", "| A vs B | set | n | A | B | b | c | p |", "|---|---|---|---|---|---|---|---|"]
 mc = []
-for A, B in [("v9", "v8"), ("v10_sinconsenso", "v8"), ("v10_sinconsenso", "v9")]:
+for A, B in [("v9", "v8"), ("v10_sinconsenso", "v8"), ("v10_sinconsenso", "v9"), ("v10", "v8"), ("v10", "v9"), ("v10", "v10_sinconsenso")]:
     for s in SETS + ["combinado"]:
         ss = SETS if s == "combinado" else [s]
         pr = [(ok(D[(A, x)][i]), ok(D[(B, x)][i])) for x in ss for i in D[(A, x)]]
         b = sum(1 for x, y in pr if x and not y); c = sum(1 for x, y in pr if y and not x)
         mc.append(dict(A=A, B=B, set=s, n=len(pr), A_ok=sum(x for x, _ in pr), B_ok=sum(y for _, y in pr), b=b, c=c, p=round(mcn(b, c), 4)))
         out.append(f"| {CFG[A]} vs {CFG[B]} | {s} | {len(pr)} | {mc[-1]['A_ok']} | {mc[-1]['B_ok']} | {b} | {c} | {mcn(b, c):.4f} |")
+        if s == "combinado":
+            ss2 = [x for x in SETS if x != "generalizacion"]
+            pr2 = [(ok(D[(A, x)][i]), ok(D[(B, x)][i])) for x in ss2 for i in D[(A, x)]]
+            b2 = sum(1 for x, y in pr2 if x and not y); c2 = sum(1 for x, y in pr2 if y and not x)
+            mc.append(dict(A=A, B=B, set="combinado sin generalizacion", n=len(pr2), A_ok=sum(x for x, _ in pr2), B_ok=sum(y for _, y in pr2), b=b2, c=c2, p=round(mcn(b2, c2), 4)))
+            out.append(f"| {CFG[A]} vs {CFG[B]} | **combinado sin generalización** | {len(pr2)} | {mc[-1]['A_ok']} | {mc[-1]['B_ok']} | {b2} | {c2} | {mcn(b2, c2):.4f} |")
 # externos
 ex = ["", "### Bancos externos (300, semilla 42)", "", "| Banco · métrica | V8 | V9 | V10 sin consenso |", "|---|---|---|---|"]
 O = L / "fuentes-de-informacion-emergentes/benchmark/externos"; N10 = L / "wt_cmp_v10/benchmark/externos"; N9 = L / "wt_cmp_v9/benchmark/externos"

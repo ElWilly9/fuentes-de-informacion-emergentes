@@ -1,17 +1,17 @@
 ### Sets de desarrollo: aciertos exactos (puntaje 1,0)
 
-| Set | n | V8 | V9 | V10 sin consenso | s/preg V8 · V9 · V10sc |
-|---|---|---|---|---|---|
-| plantillas | 60 | 53 | 56 | 50 | 12.8 · 14.0 · 11.0 |
-| prueba | 48 | 47 | 45 | 47 | 10.2 · 13.4 · 10.3 |
-| prueba2 | 39 | 36 | 38 | 37 | 8.5 · 11.4 · 8.6 |
-| prueba3 | 40 | 36 | 37 | 29 | 8.4 · 13.4 · 9.2 |
-| prueba4 | 68 | 58 | 56 | 59 | 9.1 · 13.5 · 9.2 |
-| coffee | 49 | 46 | 47 | 44 | 9.6 · 13.0 · 9.6 |
-| generalizacion | 68 | 34 | 52 | 54 | 9.0 · 12.7 · 8.4 |
-| **Total** | 372 | **310** | **331** | **320** | 9.7 · 13.1 · 9.5 |
+| Set | n | V8 | V9 | V10 sin consenso | V10 con consenso | s/preg V8 · V9 · V10sc · V10c |
+|---|---|---|---|---|---|---|
+| plantillas | 60 | 53 | 56 | 50 | 54 | 12.8 · 14.0 · 11.0 · 14.3 |
+| prueba | 48 | 47 | 45 | 47 | 45 | 10.2 · 13.4 · 10.3 · 13.8 |
+| prueba2 | 39 | 36 | 38 | 37 | 35 | 8.5 · 11.4 · 8.6 · 11.5 |
+| prueba3 | 40 | 36 | 37 | 29 | 32 | 8.4 · 13.4 · 9.2 · 13.4 |
+| prueba4 | 68 | 58 | 56 | 59 | 59 | 9.1 · 13.5 · 9.2 · 13.4 |
+| coffee | 49 | 46 | 47 | 44 | 48 | 9.6 · 13.0 · 9.6 · 12.8 |
+| generalizacion | 68 | 34 | 52 | 54 | 57 | 9.0 · 12.7 · 8.4 · 12.9 |
+| **Total** | 372 | **310** | **331** | **320** | **330** | 9.7 · 13.1 · 9.5 · 13.2 |
 
-Mediana s/preg y llamadas LLM/preg (todos los sets): V8: 7.7 s, 3.98 llamadas; V9: 10.4 s, 5.68 llamadas; V10 sin consenso: 7.0 s, 3.99 llamadas
+Mediana s/preg y llamadas LLM/preg (todos los sets): V8: 7.7 s, 3.98 llamadas; V9: 10.4 s, 5.68 llamadas; V10 sin consenso: 7.0 s, 3.99 llamadas; V10 con consenso: 10.3 s, 5.66 llamadas
 
 ### McNemar exacto pareado (b = A sí / B no; c = B sí / A no)
 
@@ -25,6 +25,7 @@ Mediana s/preg y llamadas LLM/preg (todos los sets): V8: 7.7 s, 3.98 llamadas; V
 | V9 vs V8 | coffee | 49 | 47 | 46 | 2 | 1 | 1.0000 |
 | V9 vs V8 | generalizacion | 68 | 52 | 34 | 19 | 1 | 0.0000 |
 | V9 vs V8 | combinado | 372 | 331 | 310 | 29 | 8 | 0.0008 |
+| V9 vs V8 | **combinado sin generalización** | 304 | 279 | 276 | 10 | 7 | 0.6291 |
 | V10 sin consenso vs V8 | plantillas | 60 | 50 | 53 | 1 | 4 | 0.3750 |
 | V10 sin consenso vs V8 | prueba | 48 | 47 | 47 | 1 | 1 | 1.0000 |
 | V10 sin consenso vs V8 | prueba2 | 39 | 37 | 36 | 1 | 0 | 1.0000 |
@@ -33,6 +34,7 @@ Mediana s/preg y llamadas LLM/preg (todos los sets): V8: 7.7 s, 3.98 llamadas; V
 | V10 sin consenso vs V8 | coffee | 49 | 44 | 46 | 0 | 2 | 0.5000 |
 | V10 sin consenso vs V8 | generalizacion | 68 | 54 | 34 | 20 | 0 | 0.0000 |
 | V10 sin consenso vs V8 | combinado | 372 | 320 | 310 | 27 | 17 | 0.1742 |
+| V10 sin consenso vs V8 | **combinado sin generalización** | 304 | 266 | 276 | 7 | 17 | 0.0639 |
 | V10 sin consenso vs V9 | plantillas | 60 | 50 | 56 | 1 | 7 | 0.0703 |
 | V10 sin consenso vs V9 | prueba | 48 | 47 | 45 | 2 | 0 | 0.5000 |
 | V10 sin consenso vs V9 | prueba2 | 39 | 37 | 38 | 0 | 1 | 1.0000 |
@@ -41,6 +43,34 @@ Mediana s/preg y llamadas LLM/preg (todos los sets): V8: 7.7 s, 3.98 llamadas; V
 | V10 sin consenso vs V9 | coffee | 49 | 44 | 47 | 0 | 3 | 0.2500 |
 | V10 sin consenso vs V9 | generalizacion | 68 | 54 | 52 | 2 | 0 | 0.5000 |
 | V10 sin consenso vs V9 | combinado | 372 | 320 | 331 | 11 | 22 | 0.0801 |
+| V10 sin consenso vs V9 | **combinado sin generalización** | 304 | 266 | 279 | 9 | 22 | 0.0294 |
+| V10 con consenso vs V8 | plantillas | 60 | 54 | 53 | 4 | 3 | 1.0000 |
+| V10 con consenso vs V8 | prueba | 48 | 45 | 47 | 1 | 3 | 0.6250 |
+| V10 con consenso vs V8 | prueba2 | 39 | 35 | 36 | 1 | 2 | 1.0000 |
+| V10 con consenso vs V8 | prueba3 | 40 | 32 | 36 | 1 | 5 | 0.2188 |
+| V10 con consenso vs V8 | prueba4 | 68 | 59 | 58 | 3 | 2 | 1.0000 |
+| V10 con consenso vs V8 | coffee | 49 | 48 | 46 | 3 | 1 | 0.6250 |
+| V10 con consenso vs V8 | generalizacion | 68 | 57 | 34 | 23 | 0 | 0.0000 |
+| V10 con consenso vs V8 | combinado | 372 | 330 | 310 | 36 | 16 | 0.0078 |
+| V10 con consenso vs V8 | **combinado sin generalización** | 304 | 273 | 276 | 13 | 16 | 0.7111 |
+| V10 con consenso vs V9 | plantillas | 60 | 54 | 56 | 1 | 3 | 0.6250 |
+| V10 con consenso vs V9 | prueba | 48 | 45 | 45 | 1 | 1 | 1.0000 |
+| V10 con consenso vs V9 | prueba2 | 39 | 35 | 38 | 0 | 3 | 0.2500 |
+| V10 con consenso vs V9 | prueba3 | 40 | 32 | 37 | 0 | 5 | 0.0625 |
+| V10 con consenso vs V9 | prueba4 | 68 | 59 | 56 | 3 | 0 | 0.2500 |
+| V10 con consenso vs V9 | coffee | 49 | 48 | 47 | 1 | 0 | 1.0000 |
+| V10 con consenso vs V9 | generalizacion | 68 | 57 | 52 | 5 | 0 | 0.0625 |
+| V10 con consenso vs V9 | combinado | 372 | 330 | 331 | 11 | 12 | 1.0000 |
+| V10 con consenso vs V9 | **combinado sin generalización** | 304 | 273 | 279 | 6 | 12 | 0.2379 |
+| V10 con consenso vs V10 sin consenso | plantillas | 60 | 54 | 50 | 4 | 0 | 0.1250 |
+| V10 con consenso vs V10 sin consenso | prueba | 48 | 45 | 47 | 0 | 2 | 0.5000 |
+| V10 con consenso vs V10 sin consenso | prueba2 | 39 | 35 | 37 | 0 | 2 | 0.5000 |
+| V10 con consenso vs V10 sin consenso | prueba3 | 40 | 32 | 29 | 6 | 3 | 0.5078 |
+| V10 con consenso vs V10 sin consenso | prueba4 | 68 | 59 | 59 | 2 | 2 | 1.0000 |
+| V10 con consenso vs V10 sin consenso | coffee | 49 | 48 | 44 | 4 | 0 | 0.1250 |
+| V10 con consenso vs V10 sin consenso | generalizacion | 68 | 57 | 54 | 4 | 1 | 0.3750 |
+| V10 con consenso vs V10 sin consenso | combinado | 372 | 330 | 320 | 20 | 10 | 0.0987 |
+| V10 con consenso vs V10 sin consenso | **combinado sin generalización** | 304 | 273 | 266 | 16 | 9 | 0.2295 |
 
 ### Bancos externos (300, semilla 42)
 

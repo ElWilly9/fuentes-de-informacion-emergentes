@@ -43,9 +43,7 @@ ap.add_argument("--dev", help="set de desarrollo (plantillas, prueba, prueba2, p
 ap.add_argument("--limit", type=int, default=0, help="solo las primeras N preguntas (prueba de humo)")
 ap.add_argument("--out", default="results")
 args = ap.parse_args()
-if args.dev and args.config == "v10":   # pedido de William (15-nov): sin V10 con consenso en los sets de desarrollo
-    print("[omitido] V10 con consenso en sets de desarrollo", flush=True)
-    sys.exit(0)
+# (16-nov) V10 con consenso en sets de desarrollo: reactivado por pedido de William
 
 tree_name, extra_env = CONFIGS[args.config]
 TREE = LIMPIO / tree_name
