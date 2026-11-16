@@ -38,10 +38,14 @@ CONFIGS = {
 
 ap = argparse.ArgumentParser()
 ap.add_argument("--config", required=True, choices=list(CONFIGS))
-ap.add_argument("--set", required=True, type=int, choices=[3, 4, 5])
+ap.add_argument("--set", type=int, choices=[3, 4, 5])
+ap.add_argument("--dev", help="set de desarrollo (plantillas, prueba, prueba2, prueba3, prueba4, coffee, generalizacion)")
 ap.add_argument("--limit", type=int, default=0, help="solo las primeras N preguntas (prueba de humo)")
 ap.add_argument("--out", default="results")
 args = ap.parse_args()
+if args.dev and args.config == "v10":   # pedido de William (15-nov): sin V10 con consenso en los sets de desarrollo
+    print("[omitido] V10 con consenso en sets de desarrollo", flush=True)
+    sys.exit(0)
 
 tree_name, extra_env = CONFIGS[args.config]
 TREE = LIMPIO / tree_name
@@ -85,19 +89,28 @@ def src_hash(root: Path) -> str:
 
 
 DATA = HERE / "datos"
-qfile = DATA / f"preguntas_heldout{args.set}.json"
-frozen = json.loads((DATA / f"congelado_heldout{args.set}.json").read_text(encoding="utf-8"))
-raw = qfile.read_bytes()
-h_raw = hashlib.sha256(raw).hexdigest()
-h_crlf = hashlib.sha256(raw.replace(b"\r\n", b"\n").replace(b"\n", b"\r\n")).hexdigest()
-if frozen["dataset_sha256"] not in (h_raw, h_crlf):
-    sys.exit(f"El dataset del set {args.set} NO coincide con el congelado: abortando.")
+SETNAME = args.dev or f"set{args.set}"
+if args.dev:
+    qfile = DATA / "dev" / f"preguntas_{args.dev}.json"
+    raw = qfile.read_bytes()
+    h_raw = hashlib.sha256(raw).hexdigest()
+else:
+    qfile = DATA / f"preguntas_heldout{args.set}.json"
+    frozen = json.loads((DATA / f"congelado_heldout{args.set}.json").read_text(encoding="utf-8"))
+    raw = qfile.read_bytes()
+    h_raw = hashlib.sha256(raw).hexdigest()
+    h_crlf = hashlib.sha256(raw.replace(b"\r\n", b"\n").replace(b"\n", b"\r\n")).hexdigest()
+    if frozen["dataset_sha256"] not in (h_raw, h_crlf):
+        sys.exit(f"El dataset del set {args.set} NO coincide con el congelado: abortando.")
 head = subprocess.check_output(["git", "rev-parse", "--short", "HEAD"], text=True, cwd=TREE).strip()
 dirty = subprocess.check_output(["git", "status", "--short", "--", ":(glob)src/**/*.py"], text=True, cwd=TREE).strip()
 if dirty:
     sys.exit(f"src/ de {tree_name} tiene cambios sin commit: abortando.\n{dirty}")
 SH = src_hash(TREE)
-print(f"[verif] config={args.config} set={args.set} dataset IGUAL al congelado; árbol {tree_name} HEAD {head}; src {SH[:12]}",
+EXPECTED = {"wt_cmp_v8": "dd489e0d489f", "wt_cmp_v9": "ba0ec83cb347", "wt_cmp_v10": "a7f6aa75e5e6"}
+if SH[:12] != EXPECTED[tree_name]:
+    sys.exit(f"CHECK_SRC: src {SH[:12]} no es el de {tree_name}: abortando.")
+print(f"[verif] config={args.config} set={SETNAME} dataset verificado; árbol {tree_name} HEAD {head}; src {SH[:12]}",
       flush=True)
 
 items = json.loads(raw.decode("utf-8"))
@@ -105,7 +118,7 @@ if args.limit:
     items = items[: args.limit]
 out_dir = HERE / args.out
 out_dir.mkdir(exist_ok=True)
-cache = out_dir / f"{args.config}__set{args.set}.jsonl"
+cache = out_dir / f"{args.config}__{SETNAME}.jsonl"
 done = {json.loads(l)["id"] for l in cache.read_text(encoding="utf-8").splitlines()} if cache.exists() else set()
 
 # ── calentamiento (fuera de los tiempos): carga glm4, el coder (si se usa) y el embedder ─────────────────────
@@ -141,7 +154,7 @@ for it in items:
         st, err = {}, f"{type(e).__name__}: {e}"
     dt = round(time.time() - t0, 1)
     answer = st.get("answer") or ""
-    rec = {**it, "config": args.config, "set": args.set, "intent": st.get("intent"), "respuesta": answer,
+    rec = {**it, "config": args.config, "set": SETNAME, "intent": st.get("intent"), "respuesta": answer,
            "sql": st.get("sql_visible") or st.get("generated_sql") or "", "error": err,
            "puntaje": round(rp.score(it, answer), 3), "latencia_s": dt,
            "llm_calls": sum(CALLS.values()), "llm_calls_por_modelo": dict(CALLS),

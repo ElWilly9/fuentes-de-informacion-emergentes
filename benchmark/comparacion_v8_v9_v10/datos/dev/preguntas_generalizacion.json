@@ -1,0 +1,912 @@
+[
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-G-S01",
+    "plantilla": "G-S01",
+    "tipo": "SQL",
+    "pregunta": "¿Qué editorial concentra más artículos del corpus y cuántos?",
+    "gold": {
+      "numeros": [
+        14
+      ],
+      "alguno_de": [
+        [
+          "ELSEVIER LTD"
+        ]
+      ]
+    }
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-G-S02",
+    "plantilla": "G-S02",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos del corpus tienen un solo autor?",
+    "gold": {
+      "numeros": [
+        3
+      ]
+    }
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-G-S03",
+    "plantilla": "G-S03",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántas revistas distintas aparecen en el corpus?",
+    "gold": {
+      "numeros": [
+        28
+      ]
+    }
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-G-S04",
+    "plantilla": "G-S04",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos tienen más citas que el promedio del corpus?",
+    "gold": {
+      "numeros": [
+        18
+      ]
+    }
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-G-S05",
+    "plantilla": "G-S05",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos tienen «greenhouses» entre sus palabras clave de autor?",
+    "gold": {
+      "numeros": [
+        20
+      ]
+    },
+    "valor": "GREENHOUSES"
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-G-S06",
+    "plantilla": "G-S06",
+    "tipo": "SQL",
+    "pregunta": "¿Qué autor acumula más citas con sus artículos del corpus y cuántas?",
+    "gold": {
+      "numeros": [
+        165
+      ],
+      "alguno_de": [
+        [
+          "RAHMAN"
+        ],
+        [
+          "KHAN"
+        ],
+        [
+          "FIELD"
+        ],
+        [
+          "TECHATO"
+        ],
+        [
+          "ALAMEH"
+        ]
+      ]
+    }
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-G-S07",
+    "plantilla": "G-S07",
+    "tipo": "SQL",
+    "pregunta": "¿Cuál es el mayor número de autores que firma un solo artículo del corpus?",
+    "gold": {
+      "numeros": [
+        16
+      ]
+    }
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-G-S08",
+    "plantilla": "G-S08",
+    "tipo": "SQL",
+    "pregunta": "¿En cuántos idiomas distintos están escritos los artículos del corpus?",
+    "gold": {
+      "numeros": [
+        2
+      ]
+    }
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-G-S09",
+    "plantilla": "G-S09",
+    "tipo": "SQL",
+    "pregunta": "¿Qué porcentaje de todas las citas del corpus corresponde al artículo más citado?",
+    "gold": {
+      "numeros": [
+        21.1
+      ]
+    }
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-G-H01",
+    "plantilla": "G-H01",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuál es el artículo más citado de la editorial Elsevier Ltd y de qué trata?",
+    "gold": {
+      "titulos": [
+        "POWERING AGRICULTURE: PRESENT STATUS, FUTURE POTENTIAL, AND CHALLENGES OF RENEWABLE ENERGY APPLICATIONS"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-G-H02",
+    "plantilla": "G-H02",
+    "tipo": "Híbrida",
+    "pregunta": "¿Qué artículo del corpus tiene más autores y qué estudia?",
+    "gold": {
+      "titulos": [
+        "INFLUENCE OF SPECTRALLY SELECTIVE SOLAR CELLS ON MICROALGAE GROWTH IN PHOTO-BIOREACTORS"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-G-H03",
+    "plantilla": "G-H03",
+    "tipo": "Híbrida",
+    "pregunta": "Entre los artículos de un solo autor, ¿cuál es el más citado y de qué trata?",
+    "gold": {
+      "titulos": [
+        "PRE- AND POSTHARVEST STRATEGIES TO ENHANCE BIOACTIVE CONSTITUENTS OF FRUITS AND VEGETABLES"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-G-H04",
+    "plantilla": "G-H04",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuál es el artículo más citado que lleva la palabra clave «greenhouses» y qué propone?",
+    "gold": {
+      "titulos": [
+        "THERMAL ANALYSIS OF PV SYSTEM AND SOLAR COLLECTOR INTEGRATED WITH GREENHOUSE DRYER FOR DRYING TOMATOES"
+      ],
+      "minimo": 1
+    },
+    "valor": "GREENHOUSES"
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-G-R01",
+    "plantilla": "G-R01",
+    "tipo": "RAG",
+    "pregunta": "¿Qué artículo diseña un secador solar portátil y barato para secar el alimento que se da a los camarones de cultivo?",
+    "gold": {
+      "titulos": [
+        "DESIGN, FABRICATION, AND EVALUATION OF A LOW-COST PORTABLE SOLAR DRYER FOR SHRIMP FEEDS"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-G-R02",
+    "plantilla": "G-R02",
+    "tipo": "RAG",
+    "pregunta": "¿Qué estudio optimiza la mezcla de materia prima y el aislamiento de un biodigestor calentado por un invernadero solar en clima frío?",
+    "gold": {
+      "titulos": [
+        "OPTIMIZATION OF FEEDSTOCK AND INSULATING STRATEGIES TO ENHANCE BIOGAS PRODUCTION OF SOLAR-ASSISTED BIODIGESTER SYSTEM"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-G-R03",
+    "plantilla": "G-R03",
+    "tipo": "RAG",
+    "pregunta": "¿Qué trabajo evalúa cómo el secado solar cambia las propiedades sensoriales del limoncillo cultivado en Antioquia?",
+    "gold": {
+      "titulos": [
+        "EFFECT OF SOLAR DRYING ON PHYSICAL, CHEMICAL, AND SENSORY PROPERTIES OF CYMBOPOGON CITRATUS GROWN IN ANTIOQUIA - COLOMBIA"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-G-R04",
+    "plantilla": "G-R04",
+    "tipo": "RAG",
+    "pregunta": "¿Qué artículo modela con diferencias finitas cómo varía la temperatura al biosecar residuos sólidos orgánicos?",
+    "gold": {
+      "titulos": [
+        "FINITE DIFFERENCE MODELING OF THE TEMPERATURE PROFILE DURING THE BIODRYING OF ORGANIC SOLID WASTE"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-G-S01",
+    "plantilla": "G-S01",
+    "tipo": "SQL",
+    "pregunta": "¿Qué editorial concentra más artículos del corpus y cuántos?",
+    "gold": {
+      "numeros": [
+        73
+      ],
+      "alguno_de": [
+        [
+          "INSTITUTE OF ELECTRICAL AND EL"
+        ]
+      ]
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-G-S02",
+    "plantilla": "G-S02",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos del corpus tienen un solo autor?",
+    "gold": {
+      "numeros": [
+        39
+      ]
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-G-S03",
+    "plantilla": "G-S03",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántas revistas distintas aparecen en el corpus?",
+    "gold": {
+      "numeros": [
+        43
+      ]
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-G-S04",
+    "plantilla": "G-S04",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos tienen más citas que el promedio del corpus?",
+    "gold": {
+      "numeros": [
+        65
+      ]
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-G-S05",
+    "plantilla": "G-S05",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos tienen «machine-learning» entre sus palabras clave de autor?",
+    "gold": {
+      "numeros": [
+        37
+      ]
+    },
+    "valor": "MACHINE-LEARNING"
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-G-S06",
+    "plantilla": "G-S06",
+    "tipo": "SQL",
+    "pregunta": "¿Qué autor acumula más citas con sus artículos del corpus y cuántas?",
+    "gold": {
+      "numeros": [
+        117
+      ],
+      "alguno_de": [
+        [
+          "GOURC"
+        ]
+      ]
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-G-S07",
+    "plantilla": "G-S07",
+    "tipo": "SQL",
+    "pregunta": "¿Cuál es el mayor número de autores que firma un solo artículo del corpus?",
+    "gold": {
+      "numeros": [
+        11
+      ]
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-G-S08",
+    "plantilla": "G-S08",
+    "tipo": "SQL",
+    "pregunta": "¿En cuántos idiomas distintos están escritos los artículos del corpus?",
+    "gold": {
+      "numeros": [
+        1
+      ]
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-G-S09",
+    "plantilla": "G-S09",
+    "tipo": "SQL",
+    "pregunta": "¿Qué porcentaje de todas las citas del corpus corresponde al artículo más citado?",
+    "gold": {
+      "numeros": [
+        6.5
+      ]
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-G-H01",
+    "plantilla": "G-H01",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuál es el artículo más citado de la editorial Institute Of Electrical And Electronics Engineers Inc. y de qué trata?",
+    "gold": {
+      "titulos": [
+        "THE INFLUENCE OF AGILE METHODOLOGY (SCRUM) ON SOFTWARE PROJECT MANAGEMENT"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-G-H02",
+    "plantilla": "G-H02",
+    "tipo": "Híbrida",
+    "pregunta": "¿Qué artículo del corpus tiene más autores y qué estudia?",
+    "gold": {
+      "titulos": [
+        "ARTIFICIAL INTELLIGENCE IN PROJECT MANAGEMENT: SYSTEMATIC LITERATURE REVIEW"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-G-H03",
+    "plantilla": "G-H03",
+    "tipo": "Híbrida",
+    "pregunta": "Entre los artículos de un solo autor, ¿cuál es el más citado y de qué trata?",
+    "gold": {
+      "titulos": [
+        "PROJECT MANAGEMENT: OPENINGS FOR DISRUPTION FROM AI AND ADVANCED ANALYTICS"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-G-H04",
+    "plantilla": "G-H04",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuál es el artículo más citado que lleva la palabra clave «machine-learning» y qué propone?",
+    "gold": {
+      "titulos": [
+        "EMPIRICAL EXPLORATION OF PREDICTIVE MAINTENANCE IN CONCRETE MANUFACTURING: HARNESSING MACHINE LEARNING FOR ENHANCED EQUIPMENT RELIABILITY IN CONSTRUCTION PROJECT MANAGEMENT"
+      ],
+      "minimo": 1
+    },
+    "valor": "MACHINE-LEARNING"
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-G-R01",
+    "plantilla": "G-R01",
+    "tipo": "RAG",
+    "pregunta": "¿Qué estudio analiza lo que discutía en Reddit una comunidad de científicos de datos antes, durante y después de la pandemia?",
+    "gold": {
+      "titulos": [
+        "ANALYZING A DATA SCIENCE ONLINE PRACTITIONER COMMUNITY: TRENDS AND IMPLICATIONS FOR DATA SCIENCE PROJECT MANAGEMENT"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-G-R02",
+    "plantilla": "G-R02",
+    "tipo": "RAG",
+    "pregunta": "¿Qué artículo explica cómo usar contratos inteligentes de blockchain para gestionar proyectos de forma descentralizada?",
+    "gold": {
+      "titulos": [
+        "TECHNICAL USE OF SMART CONTRACTS IN BLOCKCHAIN-BASED PROJECT MANAGEMENT"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-G-R03",
+    "plantilla": "G-R03",
+    "tipo": "RAG",
+    "pregunta": "¿Qué trabajo aplica inteligencia artificial a la gestión de proyectos de infraestructura de transporte?",
+    "gold": {
+      "titulos": [
+        "APPLIED METHODOLOGICAL ESSENCE OF PROJECT MANAGEMENT IN TRANSPORT THROUGH ARTIFICIAL INTELLIGENCE"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-G-R04",
+    "plantilla": "G-R04",
+    "tipo": "RAG",
+    "pregunta": "¿Qué estudio desarrolla una plataforma de aprendizaje para transferir conocimiento de gestión de proyectos de software cuando se trabaja a distancia?",
+    "gold": {
+      "titulos": [
+        "INNOVATIVE LEARNING PLATFORMS ENHANCE KNOWLEDGE TRANSFER IN SOFTWARE PROJECT MANAGEMENT: A PARADIGM FOR NEW SERVICES DEVELOPMENT"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-G-S01",
+    "plantilla": "G-S01",
+    "tipo": "SQL",
+    "pregunta": "¿Qué editorial concentra más artículos del corpus y cuántos?",
+    "gold": {
+      "numeros": [
+        49
+      ],
+      "alguno_de": [
+        [
+          "INSTITUTE OF ELECTRICAL AND EL"
+        ]
+      ]
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-G-S02",
+    "plantilla": "G-S02",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos del corpus tienen un solo autor?",
+    "gold": {
+      "numeros": [
+        7
+      ]
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-G-S03",
+    "plantilla": "G-S03",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántas revistas distintas aparecen en el corpus?",
+    "gold": {
+      "numeros": [
+        34
+      ]
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-G-S04",
+    "plantilla": "G-S04",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos tienen más citas que el promedio del corpus?",
+    "gold": {
+      "numeros": [
+        45
+      ]
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-G-S05",
+    "plantilla": "G-S05",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos tienen «quadratic regulators» entre sus palabras clave de autor?",
+    "gold": {
+      "numeros": [
+        32
+      ]
+    },
+    "valor": "QUADRATIC REGULATORS"
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-G-S06",
+    "plantilla": "G-S06",
+    "tipo": "SQL",
+    "pregunta": "¿Qué autor acumula más citas con sus artículos del corpus y cuántas?",
+    "gold": {
+      "numeros": [
+        374
+      ],
+      "alguno_de": [
+        [
+          "TYAGI"
+        ]
+      ]
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-G-S07",
+    "plantilla": "G-S07",
+    "tipo": "SQL",
+    "pregunta": "¿Cuál es el mayor número de autores que firma un solo artículo del corpus?",
+    "gold": {
+      "numeros": [
+        12
+      ]
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-G-S08",
+    "plantilla": "G-S08",
+    "tipo": "SQL",
+    "pregunta": "¿En cuántos idiomas distintos están escritos los artículos del corpus?",
+    "gold": {
+      "numeros": [
+        1
+      ]
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-G-S09",
+    "plantilla": "G-S09",
+    "tipo": "SQL",
+    "pregunta": "¿Qué porcentaje de todas las citas del corpus corresponde al artículo más citado?",
+    "gold": {
+      "numeros": [
+        11.0
+      ]
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-G-H01",
+    "plantilla": "G-H01",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuál es el artículo más citado de la editorial Institute Of Electrical And Electronics Engineers Inc. y de qué trata?",
+    "gold": {
+      "titulos": [
+        "ANT COLONY BASED LQR AND PID TUNED PARAMETERS FOR CONTROLLING INVERTED PENDULUM"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-G-H02",
+    "plantilla": "G-H02",
+    "tipo": "Híbrida",
+    "pregunta": "¿Qué artículo del corpus tiene más autores y qué estudia?",
+    "gold": {
+      "titulos": [
+        "MBPOA-BASED LQR CONTROLLER AND ITS APPLICATION TO THE DOUBLE-PARALLEL INVERTED PENDULUM SYSTEM"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-G-H03",
+    "plantilla": "G-H03",
+    "tipo": "Híbrida",
+    "pregunta": "Entre los artículos de un solo autor, ¿cuál es el más citado y de qué trata?",
+    "gold": {
+      "titulos": [
+        "APPLICATION OF GENETIC ALGORITHM OPTIMIZATION LQR WEIGHTING MATRICES CONTROL INVERTED PENDULUM"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-G-H04",
+    "plantilla": "G-H04",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuál es el artículo más citado que lleva la palabra clave «quadratic regulators» y qué propone?",
+    "gold": {
+      "titulos": [
+        "AN INVESTIGATION ON THE DESIGN AND PERFORMANCE ASSESSMENT OF DOUBLE-PID AND LQR CONTROLLERS FOR THE INVERTED PENDULUM"
+      ],
+      "minimo": 1
+    },
+    "valor": "QUADRATIC REGULATORS"
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-G-R01",
+    "plantilla": "G-R01",
+    "tipo": "RAG",
+    "pregunta": "¿Qué artículo combina un regulador cuadrático lineal con un filtro de Kalman y un filtro H infinito para un péndulo de Furuta?",
+    "gold": {
+      "titulos": [
+        "KALMAN FILTER AND H∞FILTER BASED LINEAR QUADRATIC REGULATOR FOR FURUTA PENDULUM"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-G-R02",
+    "plantilla": "G-R02",
+    "tipo": "RAG",
+    "pregunta": "¿Qué capítulo propone un controlador PID de orden fraccionario basado en un LQR de orden reducido, optimizado con enjambre de partículas?",
+    "gold": {
+      "titulos": [
+        "OPTIMAL FRACTIONAL ORDER PROPORTIONAL—INTEGRAL—DIFFERENTIAL CONTROLLER FOR INVERTED PENDULUM WITH REDUCED ORDER LINEAR QUADRATIC REGULATOR"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-G-R03",
+    "plantilla": "G-R03",
+    "tipo": "RAG",
+    "pregunta": "¿Qué trabajo diseña un LQR con observador para un péndulo invertido triple sobre carro usando lógica difusa y algoritmos genéticos?",
+    "gold": {
+      "titulos": [
+        "DESIGN OF THE LQR CONTROLLER AND OBSERVER WITH FUZZY LOGIC GA AND GA-PSO ALGORITHM FOR TRIPLE AN INVERTED PENDULUM AND CART SYSTEM"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-G-R04",
+    "plantilla": "G-R04",
+    "tipo": "RAG",
+    "pregunta": "¿Qué artículo trata del levantamiento (swing-up) y la estabilización con LQR de un péndulo rotatorio movido por un motor de corriente continua?",
+    "gold": {
+      "titulos": [
+        "SWING-UP AND LQR STABILIZATION OF A ROTARY INVERTED PENDULUM"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-G-S01",
+    "plantilla": "G-S01",
+    "tipo": "SQL",
+    "pregunta": "¿Qué editorial concentra más artículos del corpus y cuántos?",
+    "gold": {
+      "numeros": [
+        431
+      ],
+      "alguno_de": [
+        [
+          "INSTITUTE OF ELECTRICAL AND EL"
+        ]
+      ]
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-G-S02",
+    "plantilla": "G-S02",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos del corpus tienen un solo autor?",
+    "gold": {
+      "numeros": [
+        49
+      ]
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-G-S03",
+    "plantilla": "G-S03",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántas revistas distintas aparecen en el corpus?",
+    "gold": {
+      "numeros": [
+        661
+      ]
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-G-S04",
+    "plantilla": "G-S04",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos tienen más citas que el promedio del corpus?",
+    "gold": {
+      "numeros": [
+        218
+      ]
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-G-S05",
+    "plantilla": "G-S05",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos tienen «crop monitoring» entre sus palabras clave de autor?",
+    "gold": {
+      "numeros": [
+        16
+      ]
+    },
+    "valor": "CROP MONITORING"
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-G-S06",
+    "plantilla": "G-S06",
+    "tipo": "SQL",
+    "pregunta": "¿Qué autor acumula más citas con sus artículos del corpus y cuántas?",
+    "gold": {
+      "numeros": [
+        1455.0
+      ],
+      "alguno_de": [
+        [
+          "MULLA"
+        ]
+      ]
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-G-S07",
+    "plantilla": "G-S07",
+    "tipo": "SQL",
+    "pregunta": "¿Cuál es el mayor número de autores que firma un solo artículo del corpus?",
+    "gold": {
+      "numeros": [
+        15
+      ]
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-G-S08",
+    "plantilla": "G-S08",
+    "tipo": "SQL",
+    "pregunta": "¿En cuántos idiomas distintos están escritos los artículos del corpus?",
+    "gold": {
+      "numeros": [
+        4
+      ]
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-G-S09",
+    "plantilla": "G-S09",
+    "tipo": "SQL",
+    "pregunta": "¿Qué porcentaje de todas las citas del corpus corresponde al artículo más citado?",
+    "gold": {
+      "numeros": [
+        5.0
+      ]
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-G-H01",
+    "plantilla": "G-H01",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuál es el artículo más citado de la editorial Institute Of Electrical And Electronics Engineers Inc. y de qué trata?",
+    "gold": {
+      "titulos": [
+        "INTERNET-OF-THINGS (IOT)-BASED SMART AGRICULTURE: TOWARD MAKING THE FIELDS TALK"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-G-H02",
+    "plantilla": "G-H02",
+    "tipo": "Híbrida",
+    "pregunta": "¿Qué artículo del corpus tiene más autores y qué estudia?",
+    "gold": {
+      "titulos": [
+        "APPLICATION OF NON-ORTHOGONAL MULTIPLE ACCESS IN WIRELESS SENSOR NETWORKS FOR SMART AGRICULTURE",
+        "AN EFFICIENT CLUSTER HEAD SELECTION FOR WIRELESS SENSOR NETWORK-BASED SMART AGRICULTURE SYSTEMS",
+        "INTERNET OF THINGS (IOT) AND SENSORS TECHNOLOGIES IN SMART AGRICULTURE: APPLICATIONS, OPPORTUNITIES, AND CURRENT TRENDS"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-G-H03",
+    "plantilla": "G-H03",
+    "tipo": "Híbrida",
+    "pregunta": "Entre los artículos de un solo autor, ¿cuál es el más citado y de qué trata?",
+    "gold": {
+      "titulos": [
+        "TWENTY FIVE YEARS OF REMOTE SENSING IN PRECISION AGRICULTURE: KEY ADVANCES AND REMAINING KNOWLEDGE GAPS"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-G-H04",
+    "plantilla": "G-H04",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuál es el artículo más citado que lleva la palabra clave «crop monitoring» y qué propone?",
+    "gold": {
+      "titulos": [
+        "REMOTE SENSING FOR PRECISION AGRICULTURE: SENTINEL-2 IMPROVED FEATURES AND APPLICATIONS"
+      ],
+      "minimo": 1
+    },
+    "valor": "CROP MONITORING"
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-G-R01",
+    "plantilla": "G-R01",
+    "tipo": "RAG",
+    "pregunta": "¿Qué estudio aplica filtros de ruido de regresión a los datos ruidosos de sensores IoT para predecir la evapotranspiración?",
+    "gold": {
+      "titulos": [
+        "TACKLING THE PROBLEM OF NOISY IOT SENSOR DATA IN SMART AGRICULTURE: REGRESSION NOISE FILTERS FOR ENHANCED EVAPOTRANSPIRATION PREDICTION"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-G-R02",
+    "plantilla": "G-R02",
+    "tipo": "RAG",
+    "pregunta": "¿Qué artículo propone un protocolo de enrutamiento seguro con árbol de clústeres y el algoritmo de la libélula para IoT agrícola?",
+    "gold": {
+      "titulos": [
+        "A CLUSTER-TREE-BASED SECURE ROUTING PROTOCOL USING DRAGONFLY ALGORITHM (DA) IN THE INTERNET OF THINGS (IOT) FOR SMART AGRICULTURE"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-G-R03",
+    "plantilla": "G-R03",
+    "tipo": "RAG",
+    "pregunta": "¿Qué trabajo monitorea cultivos de arroz con internet de las cosas y aprendizaje profundo?",
+    "gold": {
+      "titulos": [
+        "PADDY CROP MONITORING SYSTEM USING IOT AND DEEP LEARNING"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-G-R04",
+    "plantilla": "G-R04",
+    "tipo": "RAG",
+    "pregunta": "¿Qué revisión compara satélites y drones para la teledetección en agricultura de precisión?",
+    "gold": {
+      "titulos": [
+        "FROM SATELLITE TO UAV-BASED REMOTE SENSING: A REVIEW ON PRECISION AGRICULTURE"
+      ],
+      "minimo": 1
+    }
+  }
+]

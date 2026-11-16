@@ -1,0 +1,526 @@
+[
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-Q-S01",
+    "plantilla": "Q-S01",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos del corpus tienen al menos 20 citas?",
+    "gold": {
+      "numeros": [
+        8
+      ]
+    }
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-Q-S02",
+    "plantilla": "Q-S02",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos se han publicado desde 2022?",
+    "gold": {
+      "numeros": [
+        34
+      ]
+    }
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-Q-S03",
+    "plantilla": "Q-S03",
+    "tipo": "SQL",
+    "pregunta": "¿En cuántos artículos hay autores de Alemania o de Tailandia?",
+    "gold": {
+      "numeros": [
+        12
+      ]
+    },
+    "valor": [
+      "GERMANY",
+      "THAILAND"
+    ]
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-Q-S04",
+    "plantilla": "Q-S04",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántas citas suman en total todos los artículos del corpus?",
+    "gold": {
+      "numeros": [
+        782
+      ]
+    }
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-Q-S05",
+    "plantilla": "Q-S05",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos con autores de China se publicaron entre 2020 y 2024?",
+    "gold": {
+      "numeros": [
+        7
+      ]
+    },
+    "valor": "CHINA"
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-Q-S06",
+    "plantilla": "Q-S06",
+    "tipo": "SQL",
+    "pregunta": "¿En cuántos años distintos hay artículos publicados en el corpus?",
+    "gold": {
+      "numeros": [
+        15
+      ]
+    }
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-Q-H01",
+    "plantilla": "Q-H01",
+    "tipo": "Híbrida",
+    "pregunta": "¿Qué artículos se publicaron en 2020 y de qué tratan?",
+    "gold": {
+      "titulos": [
+        "THERMAL ANALYSIS OF PV SYSTEM AND SOLAR COLLECTOR INTEGRATED WITH GREENHOUSE DRYER FOR DRYING TOMATOES",
+        "COSTS AND BENEFITS OF USING PARABOLIC GREENHOUSE SOLAR DRYERS FOR DRIED HERB PRODUCTS IN THAILAND",
+        "SOLAR DRYING OF GREENHOUSE CROP RESIDUES FOR ENERGY VALORIZATION: MODELING AND DETERMINATION OF OPTIMAL CONDITIONS",
+        "EFFECTS OF ORGANIC MATTER ON NITROGEN MINERALIZING AND MICROENVIRONMENT IN CORN STRAW FERMENTATION; 添加有机物对玉米秸秆发酵中氮素转化及微环境的影响"
+      ],
+      "minimo": 4
+    }
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-Q-H02",
+    "plantilla": "Q-H02",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuál es el artículo de acceso abierto más citado y de qué trata?",
+    "gold": {
+      "titulos": [
+        "SPECTRAL ENGINEERING OF ULTRATHIN GERMANIUM SOLAR CELLS FOR COMBINED PHOTOVOLTAIC AND PHOTOSYNTHESIS"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-Q-H03",
+    "plantilla": "Q-H03",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuál es el segundo artículo más citado del corpus y qué estudia?",
+    "gold": {
+      "titulos": [
+        "THERMAL ANALYSIS OF PV SYSTEM AND SOLAR COLLECTOR INTEGRATED WITH GREENHOUSE DRYER FOR DRYING TOMATOES"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-Q-R01",
+    "plantilla": "Q-R01",
+    "tipo": "RAG",
+    "pregunta": "¿Hay algún estudio que proponga que un gran hospital produzca su propia energía con biogás de sus residuos y de una granja?",
+    "gold": {
+      "titulos": [
+        "ECOLOGICAL SANITATION, ORGANIC ANIMAL FARM, AND COGENERATION: CLOSING THE LOOP IN ACHIEVING SUSTAINABLE DEVELOPMENT—A CONCEPT STUDY WITH ON-SITE BIOGAS FUELED TRIGENERATION RETROFIT IN A 900-BED UNIVERSITY HOSPITAL"
+      ],
+      "minimo": 1
+    },
+    "sr": "TAŞELI BK, 2016, ENERGY BUILD"
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-Q-R02",
+    "plantilla": "Q-R02",
+    "tipo": "RAG",
+    "pregunta": "¿Qué artículo simula cómo las gotas condensadas en la cara interna de una ventana semitransparente cambian la luz que pasa, por ejemplo en invernaderos?",
+    "gold": {
+      "titulos": [
+        "TRANSMITTANCE OF SEMITRANSPARENT WINDOWS WITH ABSORBING CAP-SHAPED DROPLETS CONDENSED ON THEIR BACKSIDE"
+      ],
+      "minimo": 1
+    },
+    "sr": "ZHU K, 2017, J QUANT SPECTROSC RADIAT TRANSF"
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-Q-R03",
+    "plantilla": "Q-R03",
+    "tipo": "RAG",
+    "pregunta": "¿Qué trabajo mide cómo regar menos de lo necesario afecta la calidad poscosecha de crisantemos de corte?",
+    "gold": {
+      "titulos": [
+        "EFFECT OF DEFICIT IRRIGATION ON POST-HARVEST QUALITY OF CUT CHRYSANTHEMUM “SHENMA”; 亏缺灌溉对切花菊“神马”采后品质的影响"
+      ],
+      "minimo": 1
+    },
+    "sr": "TIAN P, 2024, "
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-Q-R04",
+    "plantilla": "Q-R04",
+    "tipo": "RAG",
+    "pregunta": "¿Qué estudio compara el orden en que se aplican agua y fertilizante en el riego de coliflor dentro de un invernadero solar?",
+    "gold": {
+      "titulos": [
+        "EFFECTS OF DIFFERENT FERTIGATION STRATEGIES ON THE DISTRIBUTION OF CAULIFLOWER ' S ROOTS AND SOIL NITROGEN"
+      ],
+      "minimo": 1
+    },
+    "sr": "WU Y, 2018, "
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-Q-S01",
+    "plantilla": "Q-S01",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos del corpus tienen al menos 20 citas?",
+    "gold": {
+      "numeros": [
+        25
+      ]
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-Q-S02",
+    "plantilla": "Q-S02",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos se han publicado desde 2023?",
+    "gold": {
+      "numeros": [
+        145
+      ]
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-Q-S03",
+    "plantilla": "Q-S03",
+    "tipo": "SQL",
+    "pregunta": "¿En cuántos artículos hay autores de Jordania o de Malasia?",
+    "gold": {
+      "numeros": [
+        24
+      ]
+    },
+    "valor": [
+      "JORDAN",
+      "MALAYSIA"
+    ]
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-Q-S04",
+    "plantilla": "Q-S04",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántas citas suman en total todos los artículos del corpus?",
+    "gold": {
+      "numeros": [
+        1784
+      ]
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-Q-S05",
+    "plantilla": "Q-S05",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos con autores de China se publicaron entre 2021 y 2025?",
+    "gold": {
+      "numeros": [
+        16
+      ]
+    },
+    "valor": "CHINA"
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-Q-S06",
+    "plantilla": "Q-S06",
+    "tipo": "SQL",
+    "pregunta": "¿En cuántos años distintos hay artículos publicados en el corpus?",
+    "gold": {
+      "numeros": [
+        20
+      ]
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-Q-H01",
+    "plantilla": "Q-H01",
+    "tipo": "Híbrida",
+    "pregunta": "¿Qué artículos se publicaron en 2016 y de qué tratan?",
+    "gold": {
+      "titulos": [
+        "REFLECTING ON 10 YEARS OF FOCUS ON INNOVATION, ORGANISATIONAL LEARNING AND KNOWLEDGE MANAGEMENT LITERATURE IN A CONSTRUCTION PROJECT MANAGEMENT CONTEXT",
+        "THEORETICAL FRAMEWORK OF FUZZY-AI MODEL IN QUANTITATIVE PROJECT MANAGEMENT",
+        "DATA MINING FOR HEALTHY TOMORROW WITH THE IMPLEMENTATION OF SOFTWARE PROJECT MANAGEMENT TECHNIQUE"
+      ],
+      "minimo": 3
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-Q-H02",
+    "plantilla": "Q-H02",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuál es el artículo de acceso abierto más citado y de qué trata?",
+    "gold": {
+      "titulos": [
+        "MULTI-CRITERIA PERFORMANCE ANALYSIS FOR DECISION MAKING IN PROJECT MANAGEMENT"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-Q-H03",
+    "plantilla": "Q-H03",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuál es el segundo artículo más citado del corpus y qué estudia?",
+    "gold": {
+      "titulos": [
+        "A RISK PREDICTION MODEL FOR SOFTWARE PROJECT MANAGEMENT BASED ON SIMILARITY ANALYSIS OF CONTEXT HISTORIES"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-Q-R01",
+    "plantilla": "Q-R01",
+    "tipo": "RAG",
+    "pregunta": "¿Qué artículo usa aprendizaje automático sobre reseñas, llamadas y redes sociales de clientes para detectar sus necesidades y recomendar un producto?",
+    "gold": {
+      "titulos": [
+        "MACHINE LEARNING APPROACH FOR TARGETING AND RECOMMENDING A PRODUCT FOR PROJECT MANAGEMENT"
+      ],
+      "minimo": 1
+    },
+    "sr": "MALIK H, 2021, "
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-Q-R02",
+    "plantilla": "Q-R02",
+    "tipo": "RAG",
+    "pregunta": "¿Hay algún estudio que mida cómo los empleados aceptan las tecnologías digitales en la gestión de proyectos, a partir de sus percepciones?",
+    "gold": {
+      "titulos": [
+        "AN EMPIRICAL FRAMEWORK FOR ASSESSING THE DIGITAL TECHNOLOGIES USERS’ ACCEPTANCE IN PROJECT MANAGEMENT"
+      ],
+      "minimo": 1
+    },
+    "sr": "VǍRZARU AA, 2022, "
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-Q-R03",
+    "plantilla": "Q-R03",
+    "tipo": "RAG",
+    "pregunta": "¿Qué trabajo propone usar automatización robótica de procesos (RPA) en la gestión de proyectos de software?",
+    "gold": {
+      "titulos": [
+        "ROBOTIC PROCESS AUTOMATION FOR SOFTWARE PROJECT MANAGEMENT"
+      ],
+      "minimo": 1
+    },
+    "sr": "NITIN RAJADHYAKSHA C, 2022, J FINANC"
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-Q-R04",
+    "plantilla": "Q-R04",
+    "tipo": "RAG",
+    "pregunta": "¿Qué artículo encuesta a empresas de TI de Jordania sobre cómo la inteligencia artificial optimiza la gestión ágil de proyectos?",
+    "gold": {
+      "titulos": [
+        "AGILE PROJECT MANAGEMENT OPTIMIZATION WITH AI TECHNOLOGY: CHALLENGES AND IMPACT"
+      ],
+      "minimo": 1
+    },
+    "sr": "HAMZA MF, 2025, J FINANC"
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-Q-S01",
+    "plantilla": "Q-S01",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos del corpus tienen al menos 20 citas?",
+    "gold": {
+      "numeros": [
+        29
+      ]
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-Q-S02",
+    "plantilla": "Q-S02",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos se han publicado desde 2022?",
+    "gold": {
+      "numeros": [
+        47
+      ]
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-Q-S03",
+    "plantilla": "Q-S03",
+    "tipo": "SQL",
+    "pregunta": "¿En cuántos artículos hay autores de Turquía o de Tailandia?",
+    "gold": {
+      "numeros": [
+        21
+      ]
+    },
+    "valor": [
+      "TURKEY",
+      "THAILAND"
+    ]
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-Q-S04",
+    "plantilla": "Q-S04",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántas citas suman en total todos los artículos del corpus?",
+    "gold": {
+      "numeros": [
+        2001
+      ]
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-Q-S05",
+    "plantilla": "Q-S05",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos con autores de China se publicaron entre 2020 y 2024?",
+    "gold": {
+      "numeros": [
+        9
+      ]
+    },
+    "valor": "CHINA"
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-Q-S06",
+    "plantilla": "Q-S06",
+    "tipo": "SQL",
+    "pregunta": "¿En cuántos años distintos hay artículos publicados en el corpus?",
+    "gold": {
+      "numeros": [
+        19
+      ]
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-Q-H01",
+    "plantilla": "Q-H01",
+    "tipo": "Híbrida",
+    "pregunta": "¿Qué artículos se publicaron en 2019 y de qué tratan?",
+    "gold": {
+      "titulos": [
+        "ROBUST LQR BASED ANFIS CONTROL OF X-Z INVERTED PENDULUM",
+        "CONTROL OF A DOUBLE PENDULUM CRANE SYSTEM USING PSO-TUNED LQR",
+        "A SYNTHETIC LQR CONTROL FOR THE PLANAR INVERTED PENDULUM",
+        "DEVELOPMENT AND CONTROL OF ROTARY INVERSE PENDULUM BY LQR WITH INTEGRAL ACTION"
+      ],
+      "minimo": 4
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-Q-H02",
+    "plantilla": "Q-H02",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuál es el artículo de acceso abierto más citado y de qué trata?",
+    "gold": {
+      "titulos": [
+        "OPTIMAL CONTROL OF NONLINEAR INVERTED PENDULUM SYSTEM USING PID CONTROLLER AND LQR: PERFORMANCE ANALYSIS WITHOUT AND WITH DISTURBANCE INPUT"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-Q-H03",
+    "plantilla": "Q-H03",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuál es el segundo artículo más citado del corpus y qué estudia?",
+    "gold": {
+      "titulos": [
+        "ROBUST LQR CONTROLLER DESIGN FOR STABILIZING AND TRAJECTORY TRACKING OF INVERTED PENDULUM"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-Q-R01",
+    "plantilla": "Q-R01",
+    "tipo": "RAG",
+    "pregunta": "¿Qué artículo valida en un equipo real dos lazos PID cuyas ganancias se calculan con respuesta en frecuencia y con LQR para estabilizar un péndulo sobre carro?",
+    "gold": {
+      "titulos": [
+        "EXPERIMENTAL VALIDATION OF PID AND LQR CONTROL TECHNIQUES FOR STABILIZATION OF CART INVERTED PENDULUM SYSTEM"
+      ],
+      "minimo": 1
+    },
+    "sr": "VALLURU SK, 2018, J FINANC"
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-Q-R02",
+    "plantilla": "Q-R02",
+    "tipo": "RAG",
+    "pregunta": "¿Hay algún trabajo sobre un péndulo invertido triple que use la teoría del espacio cociente difuso y un algoritmo genético para elegir las matrices Q y R?",
+    "gold": {
+      "titulos": [
+        "LQR OPTIMAL CONTROL OF TRIPLE INVERTED PENDULUM BASED ON FUZZY QUOTIENT SPACE THEORY"
+      ],
+      "minimo": 1
+    },
+    "sr": "ZHANG C, 2012, J FINANC"
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-Q-R03",
+    "plantilla": "Q-R03",
+    "tipo": "RAG",
+    "pregunta": "¿Qué estudio compara un LQR con un control predictivo por modelo en el espacio de estados para un péndulo invertido de laboratorio?",
+    "gold": {
+      "titulos": [
+        "A COMPARISON OF LQR AND MPC CONTROL ALGORITHMS OF AN INVERTED PENDULUM"
+      ],
+      "minimo": 1
+    },
+    "sr": "JEZIERSKI A, 2017, ADV INTELL SYST COMPUT"
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-Q-R04",
+    "plantilla": "Q-R04",
+    "tipo": "RAG",
+    "pregunta": "¿Qué artículo combina LQR y lógica difusa en un péndulo invertido doble y evita la explosión de reglas difusas con una función de fusión?",
+    "gold": {
+      "titulos": [
+        "LQR-FUZZY CONTROL FOR DOUBLE INVERTED PENDULUM"
+      ],
+      "minimo": 1
+    },
+    "sr": "WANG L, 2010, J FINANC"
+  }
+]

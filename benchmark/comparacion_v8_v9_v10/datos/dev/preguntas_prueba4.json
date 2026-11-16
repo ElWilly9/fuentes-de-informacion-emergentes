@@ -1,0 +1,979 @@
+[
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-U-S01",
+    "plantilla": "U-S01",
+    "tipo": "SQL",
+    "pregunta": "¿Qué revista publica más artículos del corpus y cuántos?",
+    "gold": {
+      "numeros": [
+        4
+      ],
+      "alguno_de": [
+        [
+          "ACTA HORTIC"
+        ]
+      ]
+    }
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-U-S02",
+    "plantilla": "U-S02",
+    "tipo": "SQL",
+    "pregunta": "¿Qué autor tiene más artículos en el corpus y cuántos?",
+    "gold": {
+      "numeros": [
+        3
+      ],
+      "alguno_de": [
+        [
+          "AGERT"
+        ],
+        [
+          "VEHSE"
+        ],
+        [
+          "GEHRKE"
+        ],
+        [
+          "OSTERTHUN"
+        ],
+        [
+          "NEUGEBOHRN"
+        ]
+      ]
+    }
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-U-S03",
+    "plantilla": "U-S03",
+    "tipo": "SQL",
+    "pregunta": "¿Cuál es el promedio de citas de los artículos con autores de India?",
+    "gold": {
+      "numeros": [
+        8.75
+      ]
+    },
+    "valor": "INDIA"
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-U-S04",
+    "plantilla": "U-S04",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos de revista hay en el corpus, sin contar conference papers ni otros tipos?",
+    "gold": {
+      "numeros": [
+        54
+      ]
+    }
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-U-S05",
+    "plantilla": "U-S05",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos con autores de China se publicaron en 2023?",
+    "gold": {
+      "numeros": [
+        1
+      ]
+    },
+    "valor": "CHINA"
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-U-S06",
+    "plantilla": "U-S06",
+    "tipo": "SQL",
+    "pregunta": "¿Cuál es el promedio de citas de los artículos publicados desde 2022?",
+    "gold": {
+      "numeros": [
+        10.06
+      ]
+    }
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-U-S07",
+    "plantilla": "U-S07",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos con autores de China tienen al menos 10 citas?",
+    "gold": {
+      "numeros": [
+        5
+      ]
+    },
+    "valor": "CHINA"
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-U-S08",
+    "plantilla": "U-S08",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos tienen autores de China y también de Estados Unidos?",
+    "gold": {
+      "numeros": [
+        2
+      ]
+    }
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-U-S09",
+    "plantilla": "U-S09",
+    "tipo": "SQL",
+    "pregunta": "¿Qué país tiene más conference papers y cuántos?",
+    "gold": {
+      "numeros": [
+        3
+      ],
+      "alguno_de": [
+        [
+          "CHINA",
+          "China"
+        ]
+      ]
+    }
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-U-S10",
+    "plantilla": "U-S10",
+    "tipo": "SQL",
+    "pregunta": "¿En qué año tuvo China más artículos y cuántos?",
+    "gold": {
+      "numeros": [
+        3
+      ],
+      "alguno_de": [
+        [
+          "2021"
+        ],
+        [
+          "2014"
+        ]
+      ]
+    },
+    "valor": "CHINA"
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-U-H01",
+    "plantilla": "U-H01",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuál es el artículo más citado de la revista ACTA HORTIC y de qué trata?",
+    "gold": {
+      "titulos": [
+        "PRE- AND POSTHARVEST STRATEGIES TO ENHANCE BIOACTIVE CONSTITUENTS OF FRUITS AND VEGETABLES"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-U-H02",
+    "plantilla": "U-H02",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuál es el artículo de revista más citado publicado desde 2022 y qué propone?",
+    "gold": {
+      "titulos": [
+        "POWERING AGRICULTURE: PRESENT STATUS, FUTURE POTENTIAL, AND CHALLENGES OF RENEWABLE ENERGY APPLICATIONS"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-U-H03",
+    "plantilla": "U-H03",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuál es el artículo más citado con autores de India publicado desde 2022 y qué estudia?",
+    "gold": {
+      "titulos": [
+        "CRITICAL REVIEW ON VARIOUS SOLAR DRYING TECHNOLOGIES: DIRECT AND INDIRECT SOLAR DRYER SYSTEMS"
+      ],
+      "minimo": 1
+    },
+    "valor": "INDIA"
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-U-H04",
+    "plantilla": "U-H04",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuáles son los dos artículos más citados de 2024 y de qué tratan?",
+    "gold": {
+      "titulos": [
+        "SIMULATION-BASED DECISION SUPPORT FOR AGRIVOLTAIC SYSTEMS",
+        "APPLICATION OF FAT REPLACERS IN DAIRY PRODUCTS: A REVIEW"
+      ],
+      "minimo": 2
+    }
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-U-R01",
+    "plantilla": "U-R01",
+    "tipo": "RAG",
+    "pregunta": "¿Qué estudio aprovecha el biogás de un digestor para secar en un invernadero solar una maleza acuática invasora?",
+    "gold": {
+      "titulos": [
+        "PERFORMANCE OF A SOLAR GREENHOUSE-BIOGAS HYBRID DRYER FOR DEHYDRATION OF WATER HYACINTH (EICHHORNIA CRASSIPES)"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-U-R02",
+    "plantilla": "U-R02",
+    "tipo": "RAG",
+    "pregunta": "¿Qué artículo compara variedades y formas de curado para mejorar la calidad de la cúrcuma en polvo?",
+    "gold": {
+      "titulos": [
+        "EFFECTS OF VARIETY AND CURING AND DRYING METHODS ON QUALITY ATTRIBUTES OF TURMERIC (CURCUMA DOMESTICA) POWDER"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-U-R03",
+    "plantilla": "U-R03",
+    "tipo": "RAG",
+    "pregunta": "¿Hay alguna revisión sobre cómo tratar los lodos fecales en campamentos de personas desplazadas?",
+    "gold": {
+      "titulos": [
+        "SUSTAINABLE FAECAL SLUDGE MANAGEMENT IN INTERNALLY DISPLACED PERSONS (IDPS) SETTLEMENTS IN TROPICAL CLIMATE: A REVIEW"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-U-S01",
+    "plantilla": "U-S01",
+    "tipo": "SQL",
+    "pregunta": "¿Qué revista publica más artículos del corpus y cuántos?",
+    "gold": {
+      "numeros": [
+        8
+      ],
+      "alguno_de": [
+        [
+          "LECT NOTES NETW SYST"
+        ]
+      ]
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-U-S02",
+    "plantilla": "U-S02",
+    "tipo": "SQL",
+    "pregunta": "¿Qué autor tiene más artículos en el corpus y cuántos?",
+    "gold": {
+      "numeros": [
+        3
+      ],
+      "alguno_de": [
+        [
+          "UYSAL"
+        ]
+      ]
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-U-S03",
+    "plantilla": "U-S03",
+    "tipo": "SQL",
+    "pregunta": "¿Cuál es el promedio de citas de los artículos con autores de India?",
+    "gold": {
+      "numeros": [
+        3.16
+      ]
+    },
+    "valor": "INDIA"
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-U-S04",
+    "plantilla": "U-S04",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos de revista hay en el corpus, sin contar conference papers ni otros tipos?",
+    "gold": {
+      "numeros": [
+        103
+      ]
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-U-S05",
+    "plantilla": "U-S05",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos con autores de China se publicaron en 2024?",
+    "gold": {
+      "numeros": [
+        2
+      ]
+    },
+    "valor": "CHINA"
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-U-S06",
+    "plantilla": "U-S06",
+    "tipo": "SQL",
+    "pregunta": "¿Cuál es el promedio de citas de los artículos publicados desde 2023?",
+    "gold": {
+      "numeros": [
+        3.3
+      ]
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-U-S07",
+    "plantilla": "U-S07",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos con autores de China tienen al menos 10 citas?",
+    "gold": {
+      "numeros": [
+        6
+      ]
+    },
+    "valor": "CHINA"
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-U-S08",
+    "plantilla": "U-S08",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos tienen autores de China y también de Malasia?",
+    "gold": {
+      "numeros": [
+        2
+      ]
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-U-S09",
+    "plantilla": "U-S09",
+    "tipo": "SQL",
+    "pregunta": "¿Qué país tiene más conference papers y cuántos?",
+    "gold": {
+      "numeros": [
+        25
+      ],
+      "alguno_de": [
+        [
+          "INDIA",
+          "India"
+        ]
+      ]
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-U-S10",
+    "plantilla": "U-S10",
+    "tipo": "SQL",
+    "pregunta": "¿En qué año tuvo China más artículos y cuántos?",
+    "gold": {
+      "numeros": [
+        5
+      ],
+      "alguno_de": [
+        [
+          "2021"
+        ]
+      ]
+    },
+    "valor": "CHINA"
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-U-H01",
+    "plantilla": "U-H01",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuál es el artículo más citado de la revista LECT NOTES NETW SYST y de qué trata?",
+    "gold": {
+      "titulos": [
+        "A SURVEY OF ARTIFICIAL INTELLIGENCE TOOLS IN PROJECT MANAGEMENT"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-U-H02",
+    "plantilla": "U-H02",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuál es el artículo de revista más citado publicado desde 2023 y qué propone?",
+    "gold": {
+      "titulos": [
+        "ARTIFICIAL INTELLIGENCE ENABLED PROJECT MANAGEMENT: A SYSTEMATIC LITERATURE REVIEW"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-U-H03",
+    "plantilla": "U-H03",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuál es el artículo más citado con autores de India publicado desde 2023 y qué estudia?",
+    "gold": {
+      "titulos": [
+        "AI-ASSISTED RESOURCE ALLOCATION IN PROJECT MANAGEMENT"
+      ],
+      "minimo": 1
+    },
+    "valor": "INDIA"
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-U-H04",
+    "plantilla": "U-H04",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuáles son los dos artículos más citados de 2025 y de qué tratan?",
+    "gold": {
+      "titulos": [
+        "HOW ARTIFICIAL INTELLIGENCE WILL TRANSFORM PROJECT MANAGEMENT IN THE AGE OF DIGITIZATION: A SYSTEMATIC LITERATURE REVIEW",
+        "THE DESIGN AND IMPLEMENTATION OF AN EDUCATIONAL CHATBOT WITH PERSONALIZED ADAPTIVE LEARNING FEATURES FOR PROJECT MANAGEMENT TRAINING",
+        "AUGMENTING GENERAL-PURPOSE LARGE-LANGUAGE MODELS WITH DOMAIN-SPECIFIC MULTIMODAL KNOWLEDGE GRAPH FOR QUESTION-ANSWERING IN CONSTRUCTION PROJECT MANAGEMENT"
+      ],
+      "minimo": 2
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-U-R01",
+    "plantilla": "U-R01",
+    "tipo": "RAG",
+    "pregunta": "¿Qué estudio predice las notas de alumnos de cursos de gestión de proyectos con datos de un entorno virtual?",
+    "gold": {
+      "titulos": [
+        "PREDICTING STUDENTS’ PERFORMANCE IN A VIRTUAL EXPERIENCE FOR PROJECT MANAGEMENT LEARNING"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-U-R02",
+    "plantilla": "U-R02",
+    "tipo": "RAG",
+    "pregunta": "¿Qué artículo compara algoritmos de inteligencia artificial para planificar la construcción de plantas solares?",
+    "gold": {
+      "titulos": [
+        "ARTIFICIAL INTELLIGENT APPLICATION IN PROJECT MANAGEMENT: AN ALGORITHM COMPARISON FOR SOLAR PLANTS PLANNING CONSTRUCTION"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-U-R03",
+    "plantilla": "U-R03",
+    "tipo": "RAG",
+    "pregunta": "¿Hay algún trabajo sobre gestionar obras de construcción con gemelos digitales?",
+    "gold": {
+      "titulos": [
+        "CONSTRUCTION PROJECT MANAGEMENT WITH DIGITAL TWIN INFORMATION SYSTEM"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-U-S01",
+    "plantilla": "U-S01",
+    "tipo": "SQL",
+    "pregunta": "¿Qué revista publica más artículos del corpus y cuántos?",
+    "gold": {
+      "numeros": [
+        5
+      ],
+      "alguno_de": [
+        [
+          "IOP CONF SER: MATER SCI ENG"
+        ],
+        [
+          "LECT NOT EL ENGR"
+        ]
+      ]
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-U-S02",
+    "plantilla": "U-S02",
+    "tipo": "SQL",
+    "pregunta": "¿Qué autor tiene más artículos en el corpus y cuántos?",
+    "gold": {
+      "numeros": [
+        5
+      ],
+      "alguno_de": [
+        [
+          "SINGLA"
+        ]
+      ]
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-U-S03",
+    "plantilla": "U-S03",
+    "tipo": "SQL",
+    "pregunta": "¿Cuál es el promedio de citas de los artículos con autores de India?",
+    "gold": {
+      "numeros": [
+        23.09
+      ]
+    },
+    "valor": "INDIA"
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-U-S04",
+    "plantilla": "U-S04",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos de revista hay en el corpus, sin contar conference papers ni otros tipos?",
+    "gold": {
+      "numeros": [
+        43
+      ]
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-U-S05",
+    "plantilla": "U-S05",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos con autores de China se publicaron en 2023?",
+    "gold": {
+      "numeros": [
+        3
+      ]
+    },
+    "valor": "CHINA"
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-U-S06",
+    "plantilla": "U-S06",
+    "tipo": "SQL",
+    "pregunta": "¿Cuál es el promedio de citas de los artículos publicados desde 2022?",
+    "gold": {
+      "numeros": [
+        4.53
+      ]
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-U-S07",
+    "plantilla": "U-S07",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos con autores de China tienen al menos 10 citas?",
+    "gold": {
+      "numeros": [
+        11
+      ]
+    },
+    "valor": "CHINA"
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-U-S08",
+    "plantilla": "U-S08",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos tienen autores de Turquía y también de Vietnam?",
+    "gold": {
+      "numeros": [
+        1
+      ]
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-U-S09",
+    "plantilla": "U-S09",
+    "tipo": "SQL",
+    "pregunta": "¿Qué país tiene más conference papers y cuántos?",
+    "gold": {
+      "numeros": [
+        32
+      ],
+      "alguno_de": [
+        [
+          "CHINA",
+          "China"
+        ]
+      ]
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-U-S10",
+    "plantilla": "U-S10",
+    "tipo": "SQL",
+    "pregunta": "¿En qué año tuvo China más artículos y cuántos?",
+    "gold": {
+      "numeros": [
+        10
+      ],
+      "alguno_de": [
+        [
+          "2012"
+        ]
+      ]
+    },
+    "valor": "CHINA"
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-U-H01",
+    "plantilla": "U-H01",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuál es el artículo más citado de la revista IOP CONF SER: MATER SCI ENG y de qué trata?",
+    "gold": {
+      "titulos": [
+        "OPTIMAL CONTROL OF INVERTED PENDULUM SYSTEM USING PID CONTROLLER, LQR AND MPC"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-U-H02",
+    "plantilla": "U-H02",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuál es el artículo de revista más citado publicado desde 2022 y qué propone?",
+    "gold": {
+      "titulos": [
+        "CONTROL OF ROTARY DOUBLE INVERTED PENDULUM SYSTEM USING LQR SLIDING SURFACE BASED SLIDING MODE CONTROLLER"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-U-H03",
+    "plantilla": "U-H03",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuál es el artículo más citado con autores de India publicado desde 2022 y qué estudia?",
+    "gold": {
+      "titulos": [
+        "ON LQR CONTROLLER DESIGN FOR AN INVERTED PENDULUM STABILIZATION"
+      ],
+      "minimo": 1
+    },
+    "valor": "INDIA"
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-U-H04",
+    "plantilla": "U-H04",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuáles son los dos artículos más citados de 2023 y de qué tratan?",
+    "gold": {
+      "titulos": [
+        "ON LQR CONTROLLER DESIGN FOR AN INVERTED PENDULUM STABILIZATION",
+        "DESIGN OF ONLINE FUZZY TUNING LQR CONTROLLER APPLIED TO ROTARY SINGLE INVERTED PENDULUM: EXPERIMENTAL VALIDATION"
+      ],
+      "minimo": 2
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-U-R01",
+    "plantilla": "U-R01",
+    "tipo": "RAG",
+    "pregunta": "¿Qué artículo ajusta en línea con lógica difusa un regulador cuadrático para equilibrar un péndulo rotatorio?",
+    "gold": {
+      "titulos": [
+        "DESIGN OF ONLINE FUZZY TUNING LQR CONTROLLER APPLIED TO ROTARY SINGLE INVERTED PENDULUM: EXPERIMENTAL VALIDATION"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-U-R02",
+    "plantilla": "U-R02",
+    "tipo": "RAG",
+    "pregunta": "¿Qué trabajo compara el control predictivo explícito con el LQR en un doble péndulo sobre carro?",
+    "gold": {
+      "titulos": [
+        "OPTIMAL CONTROL OF THE DOUBLE INVERTED PENDULUM ON A CART: A COMPARATIVE STUDY OF EXPLICIT MPC AND LQR"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-U-R03",
+    "plantilla": "U-R03",
+    "tipo": "RAG",
+    "pregunta": "¿Qué estudio compara el control por modos deslizantes saturado con el LQR en un péndulo invertido?",
+    "gold": {
+      "titulos": [
+        "COMPARATIVE ANALYSIS OF THE SATURATED SLIDING MODE AND LQR CONTROLLERS APPLIED TO AN INVERTED PENDULUM"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-U-S01",
+    "plantilla": "U-S01",
+    "tipo": "SQL",
+    "pregunta": "¿Qué revista publica más artículos del corpus y cuántos?",
+    "gold": {
+      "numeros": [
+        33
+      ],
+      "alguno_de": [
+        [
+          "LECT NOTES NETWORKS SYST"
+        ]
+      ]
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-U-S02",
+    "plantilla": "U-S02",
+    "tipo": "SQL",
+    "pregunta": "¿Qué autor tiene más artículos en el corpus y cuántos?",
+    "gold": {
+      "numeros": [
+        6
+      ],
+      "alguno_de": [
+        [
+          "LLORET"
+        ],
+        [
+          "MORAIS"
+        ],
+        [
+          "SUCIU"
+        ]
+      ]
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-U-S03",
+    "plantilla": "U-S03",
+    "tipo": "SQL",
+    "pregunta": "¿Cuál es el promedio de citas de los artículos con autores de China?",
+    "gold": {
+      "numeros": [
+        25.0
+      ]
+    },
+    "valor": "CHINA"
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-U-S04",
+    "plantilla": "U-S04",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos de revista hay en el corpus, sin contar conference papers ni otros tipos?",
+    "gold": {
+      "numeros": [
+        333
+      ]
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-U-S05",
+    "plantilla": "U-S05",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos con autores de India se publicaron en 2024?",
+    "gold": {
+      "numeros": [
+        125
+      ]
+    },
+    "valor": "INDIA"
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-U-S06",
+    "plantilla": "U-S06",
+    "tipo": "SQL",
+    "pregunta": "¿Cuál es el promedio de citas de los artículos publicados desde 2023?",
+    "gold": {
+      "numeros": [
+        5.45
+      ]
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-U-S07",
+    "plantilla": "U-S07",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos con autores de India tienen al menos 10 citas?",
+    "gold": {
+      "numeros": [
+        155
+      ]
+    },
+    "valor": "INDIA"
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-U-S08",
+    "plantilla": "U-S08",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos tienen autores de Arabia Saudita y también de Pakistán?",
+    "gold": {
+      "numeros": [
+        16
+      ]
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-U-S09",
+    "plantilla": "U-S09",
+    "tipo": "SQL",
+    "pregunta": "¿Qué país tiene más conference papers y cuántos?",
+    "gold": {
+      "numeros": [
+        309
+      ],
+      "alguno_de": [
+        [
+          "INDIA",
+          "India"
+        ]
+      ]
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-U-S10",
+    "plantilla": "U-S10",
+    "tipo": "SQL",
+    "pregunta": "¿En qué año tuvo India más artículos y cuántos?",
+    "gold": {
+      "numeros": [
+        125
+      ],
+      "alguno_de": [
+        [
+          "2024"
+        ]
+      ]
+    },
+    "valor": "INDIA"
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-U-H01",
+    "plantilla": "U-H01",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuál es el artículo más citado de la revista LECT NOTES NETWORKS SYST y de qué trata?",
+    "gold": {
+      "titulos": [
+        "IOT-ENABLED SMART AGRICULTURE: SECURITY ISSUES AND APPLICATIONS"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-U-H02",
+    "plantilla": "U-H02",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuál es el artículo de revista más citado publicado desde 2023 y qué propone?",
+    "gold": {
+      "titulos": [
+        "INTERNET OF THINGS AND WIRELESS SENSOR NETWORKS FOR SMART AGRICULTURE APPLICATIONS: A SURVEY"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-U-H03",
+    "plantilla": "U-H03",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuál es el artículo más citado con autores de China publicado desde 2023 y qué estudia?",
+    "gold": {
+      "titulos": [
+        "SURVEY OF INTELLIGENT AGRICULTURAL IOT BASED ON 5G"
+      ],
+      "minimo": 1
+    },
+    "valor": "CHINA"
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-U-H04",
+    "plantilla": "U-H04",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuáles son los dos artículos más citados de 2024 y de qué tratan?",
+    "gold": {
+      "titulos": [
+        "ENHANCING WATER MANAGEMENT IN SMART AGRICULTURE: A CLOUD AND IOT-BASED SMART IRRIGATION SYSTEM",
+        "A COMPREHENSIVE SURVEY ON IOT AND AI BASED APPLICATIONS IN DIFFERENT PRE-HARVEST, DURING-HARVEST AND POST-HARVEST ACTIVITIES OF SMART AGRICULTURE"
+      ],
+      "minimo": 2
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-U-R01",
+    "plantilla": "U-R01",
+    "tipo": "RAG",
+    "pregunta": "¿Qué propuesta usa internet de las cosas para vigilar la salud de las vacas de una lechería?",
+    "gold": {
+      "titulos": [
+        "LIVECARE: AN IOT-BASED HEALTHCARE FRAMEWORK FOR LIVESTOCK IN SMART AGRICULTURE"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-U-R02",
+    "plantilla": "U-R02",
+    "tipo": "RAG",
+    "pregunta": "¿Qué artículo detecta enfermedades en las hojas con regresión logística?",
+    "gold": {
+      "titulos": [
+        "SMART AGRICULTURE IMPLEMENTATION USING IOT AND LEAF DISEASE DETECTION USING LOGISTIC REGRESSION"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-U-R03",
+    "plantilla": "U-R03",
+    "tipo": "RAG",
+    "pregunta": "¿Qué trabajo automatiza la medición de humedad y temperatura del suelo en cultivos de lechuga?",
+    "gold": {
+      "titulos": [
+        "DEVELOPMENT OF AN AUTOMATED MONITORING SYSTEM FOR SOIL MOISTURE AND TEMPERATURE IN SMART AGRICULTURE TO ENHANCE LETTUCE FARMING PRODUCTIVITY BASED ON IOT"
+      ],
+      "minimo": 1
+    }
+  }
+]

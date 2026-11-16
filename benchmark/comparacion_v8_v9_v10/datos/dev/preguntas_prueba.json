@@ -1,0 +1,651 @@
+[
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-P-S01",
+    "plantilla": "P-S01",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos de los artículos del corpus son conference papers?",
+    "gold": {
+      "numeros": [
+        12
+      ]
+    }
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-P-S02",
+    "plantilla": "P-S02",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos no han recibido ninguna cita?",
+    "gold": {
+      "numeros": [
+        11
+      ]
+    }
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-P-S03",
+    "plantilla": "P-S03",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos tienen 10 citas o más?",
+    "gold": {
+      "numeros": [
+        24
+      ]
+    }
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-P-S04",
+    "plantilla": "P-S04",
+    "tipo": "SQL",
+    "pregunta": "¿En qué año de publicación suman más citas los artículos, y cuántas?",
+    "gold": {
+      "numeros": [
+        225
+      ],
+      "alguno_de": [
+        [
+          "2022"
+        ]
+      ]
+    }
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-P-S05",
+    "plantilla": "P-S05",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos países distintos aparecen en las afiliaciones de los artículos del corpus?",
+    "gold": {
+      "numeros": [
+        29
+      ]
+    }
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-P-S06",
+    "plantilla": "P-S06",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos del corpus son de acceso abierto?",
+    "gold": {
+      "numeros": [
+        27
+      ]
+    }
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-P-S07",
+    "plantilla": "P-S07",
+    "tipo": "SQL",
+    "pregunta": "¿En qué año se publicó el primer artículo del corpus y cuántos artículos hubo ese año?",
+    "gold": {
+      "numeros": [
+        2007,
+        2
+      ]
+    }
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-P-S08",
+    "plantilla": "P-S08",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos se publicaron en 2021?",
+    "gold": {
+      "numeros": [
+        7
+      ]
+    }
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-P-H01",
+    "plantilla": "P-H01",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuál es el artículo más antiguo del corpus y de qué trata?",
+    "gold": {
+      "titulos": [
+        "ACCELERATION OF RURAL INDUSTRIALIZATION USING RENEWABLE ENERGY TECHNOLGOY",
+        "THE EVALUATION OF ECOAGRICULTURAL PATTERNS OF HILL AND DOWNLAND IN RED SOIL AREAS"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-P-H02",
+    "plantilla": "P-H02",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuáles son los 3 artículos más citados con autores de India y qué estudian?",
+    "gold": {
+      "titulos": [
+        "DRYING CHARACTERISTICS OF AMLA CANDY IN SOLAR TUNNEL GREENHOUSE DRYER",
+        "CRITICAL REVIEW ON VARIOUS SOLAR DRYING TECHNOLOGIES: DIRECT AND INDIRECT SOLAR DRYER SYSTEMS",
+        "PERFORMANCE ANALYSIS OF GREENHOUSE SOLAR DRYER USING EVACUATED TUBES"
+      ],
+      "minimo": 3
+    },
+    "valor": "INDIA"
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-P-H03",
+    "plantilla": "P-H03",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuál es el conference paper más citado del corpus y qué propone?",
+    "gold": {
+      "titulos": [
+        "PERFORMANCE ANALYSIS OF GREENHOUSE SOLAR DRYER USING EVACUATED TUBES"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-P-H04",
+    "plantilla": "P-H04",
+    "tipo": "Híbrida",
+    "pregunta": "¿Qué artículos ha publicado Jason A Carlyon y de qué tratan?",
+    "gold": {
+      "titulos": [
+        "THE OBLIGATE INTRACELLULAR BACTERIAL PATHOGEN ANAPLASMA PHAGOCYTOPHILUM EXPLOITS HOST CELL MULTIVESICULAR BODY BIOGENESIS FOR PROLIFERATION AND DISSEMINATION",
+        "DENDRIMER-ENABLED TRANSFORMATION OF ANAPLASMA PHAGOCYTOPHILUM"
+      ],
+      "minimo": 2
+    },
+    "valor": "CARLYON, JASON A"
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-P-R01",
+    "plantilla": "P-R01",
+    "tipo": "RAG",
+    "pregunta": "¿Hay algún estudio que optimice cómo varios agricultores de una comunidad comparten un secador solar de invernadero para ganar más?",
+    "gold": {
+      "titulos": [
+        "OPTIMUM SCHEDULING OF SHARED GREENHOUSE SOLAR DRYER IN THAI COMMUNITY"
+      ],
+      "minimo": 1
+    },
+    "sr": "LUANGCHOSIRI N, 2023, SOL ENERGY"
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-P-R02",
+    "plantilla": "P-R02",
+    "tipo": "RAG",
+    "pregunta": "¿Qué trabajo seca en un invernadero solar los lodos de plantas potabilizadoras de Marruecos y compara verano e invierno?",
+    "gold": {
+      "titulos": [
+        "EXPERIMENTAL INVESTIGATION OF SOLAR GREENHOUSE DRYING OF HYDROXIDE SLUDGE UNDER SUMMER AND WINTER CLIMATE"
+      ],
+      "minimo": 1
+    },
+    "sr": "FANTASSE A, 2022, POL J ENVIRON STUD"
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-P-R03",
+    "plantilla": "P-R03",
+    "tipo": "RAG",
+    "pregunta": "¿Qué artículo describe un método para introducir genes en la bacteria intracelular que causa la anaplasmosis usando macromoléculas ramificadas?",
+    "gold": {
+      "titulos": [
+        "DENDRIMER-ENABLED TRANSFORMATION OF ANAPLASMA PHAGOCYTOPHILUM"
+      ],
+      "minimo": 1
+    },
+    "sr": "OKI AT, 2015, MICROBES INFECT"
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-P-R04",
+    "plantilla": "P-R04",
+    "tipo": "RAG",
+    "pregunta": "¿Qué estudio modela matemáticamente el secado de granos de cacao fino de aroma en un secador solar, teniendo en cuenta que el secado es intermitente?",
+    "gold": {
+      "titulos": [
+        "ASSESSING MATHEMATICAL MODELS FOR THE INTERMITTENT DRYING OF COCOA (THEOBROMA CACAO L.) BEANS"
+      ],
+      "minimo": 1
+    },
+    "sr": "SAHADEO PJ, 2024, "
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-P-S01",
+    "plantilla": "P-S01",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos de los artículos del corpus son conference papers?",
+    "gold": {
+      "numeros": [
+        161
+      ]
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-P-S02",
+    "plantilla": "P-S02",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos no han recibido ninguna cita?",
+    "gold": {
+      "numeros": [
+        84
+      ]
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-P-S03",
+    "plantilla": "P-S03",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos tienen 10 citas o más?",
+    "gold": {
+      "numeros": [
+        46
+      ]
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-P-S04",
+    "plantilla": "P-S04",
+    "tipo": "SQL",
+    "pregunta": "¿En qué año de publicación suman más citas los artículos, y cuántas?",
+    "gold": {
+      "numeros": [
+        407
+      ],
+      "alguno_de": [
+        [
+          "2021"
+        ]
+      ]
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-P-S05",
+    "plantilla": "P-S05",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos países distintos aparecen en las afiliaciones de los artículos del corpus?",
+    "gold": {
+      "numeros": [
+        63
+      ]
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-P-S06",
+    "plantilla": "P-S06",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos del corpus son de acceso abierto?",
+    "gold": {
+      "numeros": [
+        76
+      ]
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-P-S07",
+    "plantilla": "P-S07",
+    "tipo": "SQL",
+    "pregunta": "¿En qué año se publicó el primer artículo del corpus y cuántos artículos hubo ese año?",
+    "gold": {
+      "numeros": [
+        2006,
+        2
+      ]
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-P-S08",
+    "plantilla": "P-S08",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos se publicaron en 2018?",
+    "gold": {
+      "numeros": [
+        6
+      ]
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-P-H01",
+    "plantilla": "P-H01",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuál es el artículo más antiguo del corpus y de qué trata?",
+    "gold": {
+      "titulos": [
+        "PROJECT MANAGEMENT IN ENTERPRISE: IT IMPLEMENTATION BASED ON FUZZY MODELS",
+        "PROJECT MANAGEMENT AT A UNIVERSITY"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-P-H02",
+    "plantilla": "P-H02",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuáles son los 3 artículos más citados con autores de Jordania y qué estudian?",
+    "gold": {
+      "titulos": [
+        "EMPIRICAL EXPLORATION OF PREDICTIVE MAINTENANCE IN CONCRETE MANUFACTURING: HARNESSING MACHINE LEARNING FOR ENHANCED EQUIPMENT RELIABILITY IN CONSTRUCTION PROJECT MANAGEMENT",
+        "APPLYING MACHINE LEARNING AND PARTICLE SWARM OPTIMIZATION FOR PREDICTIVE MODELING AND COST OPTIMIZATION IN CONSTRUCTION PROJECT MANAGEMENT",
+        "APPLICATION OF NATURAL LANGUAGE PROCESSING TECHNIQUES IN AGILE SOFTWARE PROJECT MANAGEMENT: A SURVEY"
+      ],
+      "minimo": 3
+    },
+    "valor": "JORDAN"
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-P-H03",
+    "plantilla": "P-H03",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuál es el conference paper más citado del corpus y qué propone?",
+    "gold": {
+      "titulos": [
+        "THE INFLUENCE OF AGILE METHODOLOGY (SCRUM) ON SOFTWARE PROJECT MANAGEMENT"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-P-H04",
+    "plantilla": "P-H04",
+    "tipo": "Híbrida",
+    "pregunta": "¿Qué artículos ha publicado Abdul Rahim Ahmad y de qué tratan?",
+    "gold": {
+      "titulos": [
+        "SOFTWARE PROJECT MANAGEMENT USING MACHINE LEARNING TECHNIQUE-A REVIEW",
+        "SOFTWARE PROJECT MANAGEMENT USING MACHINE LEARNING TECHNIQUE - A REVIEW"
+      ],
+      "minimo": 2
+    },
+    "valor": "AHMAD, ABDUL RAHIM"
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-P-R01",
+    "plantilla": "P-R01",
+    "tipo": "RAG",
+    "pregunta": "¿Qué artículo usa aprendizaje por refuerzo con PPO para programar de forma inteligente las tareas de un proyecto?",
+    "gold": {
+      "titulos": [
+        "SMARTTASK: A NEURAL NETWORK POWERED BLOCK-CHAIN BASED INTELLIGENT TASK SCHEDULING FOR PROJECT MANAGEMENT"
+      ],
+      "minimo": 1
+    },
+    "sr": "K S, 2023, J FINANC"
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-P-R02",
+    "plantilla": "P-R02",
+    "tipo": "RAG",
+    "pregunta": "¿Hay algún trabajo que muestre con un ejemplo cómo un sistema de apoyo a la decisión ayuda a controlar cronograma, costos y personal en los proyectos de las empresas?",
+    "gold": {
+      "titulos": [
+        "IMPROVING PROJECT MANAGEMENT OF MODERN ENTERPRISES BY THE USE OF DSS"
+      ],
+      "minimo": 1
+    },
+    "sr": "ZHAO J, 2014, J FINANC"
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-P-R03",
+    "plantilla": "P-R03",
+    "tipo": "RAG",
+    "pregunta": "¿Qué estudio analiza qué herramientas de inteligencia artificial se asocian con cada dominio de desempeño de la gestión de proyectos, con sus beneficios y retos?",
+    "gold": {
+      "titulos": [
+        "ARTIFICIAL INTELLIGENCE ON PROJECT MANAGEMENT PERFORMANCE DOMAINS"
+      ],
+      "minimo": 1
+    },
+    "sr": "CRAVEIRO M, 2025, PROCEDIA COMPUT SCI"
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-P-R04",
+    "plantilla": "P-R04",
+    "tipo": "RAG",
+    "pregunta": "¿Qué artículo propone redes recurrentes de memoria larga para predecir la duración de las tareas y optimizar los costos y recursos de un proyecto?",
+    "gold": {
+      "titulos": [
+        "LEVERAGING LSTM-DRIVEN PREDICTIVE ANALYTICS FOR RESOURCE ALLOCATION AND COST EFFICIENCY OPTIMIZATION IN PROJECT MANAGEMENT"
+      ],
+      "minimo": 1
+    },
+    "sr": "KUMARI GG, 2025, "
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-P-S01",
+    "plantilla": "P-S01",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos de los artículos del corpus son conference papers?",
+    "gold": {
+      "numeros": [
+        114
+      ]
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-P-S02",
+    "plantilla": "P-S02",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos no han recibido ninguna cita?",
+    "gold": {
+      "numeros": [
+        14
+      ]
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-P-S03",
+    "plantilla": "P-S03",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos tienen 10 citas o más?",
+    "gold": {
+      "numeros": [
+        52
+      ]
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-P-S04",
+    "plantilla": "P-S04",
+    "tipo": "SQL",
+    "pregunta": "¿En qué año de publicación suman más citas los artículos, y cuántas?",
+    "gold": {
+      "numeros": [
+        352
+      ],
+      "alguno_de": [
+        [
+          "2014"
+        ]
+      ]
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-P-S05",
+    "plantilla": "P-S05",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos países distintos aparecen en las afiliaciones de los artículos del corpus?",
+    "gold": {
+      "numeros": [
+        35
+      ]
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-P-S06",
+    "plantilla": "P-S06",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos del corpus son de acceso abierto?",
+    "gold": {
+      "numeros": [
+        34
+      ]
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-P-S07",
+    "plantilla": "P-S07",
+    "tipo": "SQL",
+    "pregunta": "¿En qué año se publicó el primer artículo del corpus y cuántos artículos hubo ese año?",
+    "gold": {
+      "numeros": [
+        2006,
+        1
+      ]
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-P-S08",
+    "plantilla": "P-S08",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos se publicaron en 2017?",
+    "gold": {
+      "numeros": [
+        15
+      ]
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-P-H01",
+    "plantilla": "P-H01",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuál es el artículo más antiguo del corpus y de qué trata?",
+    "gold": {
+      "titulos": [
+        "EFFICIENT FUZZY CONTROL OF A ROTARY INVERTED PENDULUM BASED ON LQR MAPPING"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-P-H02",
+    "plantilla": "P-H02",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuáles son los 3 artículos más citados con autores de India y qué estudian?",
+    "gold": {
+      "titulos": [
+        "OPTIMAL CONTROL OF NONLINEAR INVERTED PENDULUM SYSTEM USING PID CONTROLLER AND LQR: PERFORMANCE ANALYSIS WITHOUT AND WITH DISTURBANCE INPUT",
+        "ROBUST LQR CONTROLLER DESIGN FOR STABILIZING AND TRAJECTORY TRACKING OF INVERTED PENDULUM",
+        "OPTIMAL CONTROL OF NONLINEAR INVERTED PENDULUM DYNAMICAL SYSTEM WITH DISTURBANCE INPUT USING PID CONTROLLER & LQR"
+      ],
+      "minimo": 3
+    },
+    "valor": "INDIA"
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-P-H03",
+    "plantilla": "P-H03",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuál es el conference paper más citado del corpus y qué propone?",
+    "gold": {
+      "titulos": [
+        "ROBUST LQR CONTROLLER DESIGN FOR STABILIZING AND TRAJECTORY TRACKING OF INVERTED PENDULUM"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-P-H04",
+    "plantilla": "P-H04",
+    "tipo": "Híbrida",
+    "pregunta": "¿Qué artículos ha publicado Barjeev Tyagi y de qué tratan?",
+    "gold": {
+      "titulos": [
+        "OPTIMAL CONTROL OF NONLINEAR INVERTED PENDULUM SYSTEM USING PID CONTROLLER AND LQR: PERFORMANCE ANALYSIS WITHOUT AND WITH DISTURBANCE INPUT",
+        "OPTIMAL CONTROL OF NONLINEAR INVERTED PENDULUM DYNAMICAL SYSTEM WITH DISTURBANCE INPUT USING PID CONTROLLER & LQR",
+        "MODELLING & SIMULATION FOR OPTIMAL CONTROL OF NONLINEAR INVERTED PENDULUM DYNAMICAL SYSTEM USING PID CONTROLLER & LQR",
+        "LQR-BASED TS-FUZZY LOGIC CONTROLLER DESIGN FOR INVERTED PENDULUM-COUPLED CART SYSTEM"
+      ],
+      "minimo": 4
+    },
+    "valor": "TYAGI, BARJEEV"
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-P-R01",
+    "plantilla": "P-R01",
+    "tipo": "RAG",
+    "pregunta": "¿Hay algún trabajo que ajuste las matrices de pesos de un LQR con optimización bayesiana para equilibrar un péndulo sobre un dron?",
+    "gold": {
+      "titulos": [
+        "EFFICIENT LQR PARAMETER TUNING FOR A FLYING INVERTED PENDULUM VIA BAYESIAN OPTIMIZATION"
+      ],
+      "minimo": 1
+    },
+    "sr": "PARK J, 2024, "
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-P-R02",
+    "plantilla": "P-R02",
+    "tipo": "RAG",
+    "pregunta": "¿Qué artículo estima de forma analítica la región de atracción de un controlador LQR en un péndulo simple con par limitado?",
+    "gold": {
+      "titulos": [
+        "ANALYTIC ESTIMATION OF REGION OF ATTRACTION OF AN LQR CONTROLLER FOR TORQUE LIMITED SIMPLE PENDULUM"
+      ],
+      "minimo": 1
+    },
+    "sr": "GROSS L, 2022, "
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-P-R03",
+    "plantilla": "P-R03",
+    "tipo": "RAG",
+    "pregunta": "¿Qué estudio combina las ganancias LQR de varios puntos de linealización en un controlador difuso Takagi-Sugeno para un péndulo sobre un carro?",
+    "gold": {
+      "titulos": [
+        "LQR-BASED TS-FUZZY LOGIC CONTROLLER DESIGN FOR INVERTED PENDULUM-COUPLED CART SYSTEM"
+      ],
+      "minimo": 1
+    },
+    "sr": "SHARMA B, 2015, LECT NOT EL ENGR"
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-P-R04",
+    "plantilla": "P-R04",
+    "tipo": "RAG",
+    "pregunta": "¿Qué artículo controla la oscilación de un péndulo rotatorio de doble eslabón con un regulador neuro-difuso de base radial?",
+    "gold": {
+      "titulos": [
+        "ANTI-SWING RADIAL BASIS NEURO-FUZZY LINEAR QUADRATIC REGULATOR CONTROL OF DOUBLE LINK ROTARY PENDULUM"
+      ],
+      "minimo": 1
+    },
+    "sr": "BEN HAZEM Z, 2022, PROC INST MECH ENG PART I J SYST CONTROL ENG"
+  }
+]

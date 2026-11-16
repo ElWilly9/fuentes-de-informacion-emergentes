@@ -1,0 +1,572 @@
+[
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-T-S01",
+    "plantilla": "T-S01",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos tienen al menos un autor de España?",
+    "gold": {
+      "numeros": [
+        4
+      ]
+    },
+    "valor": "SPAIN"
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-T-S02",
+    "plantilla": "T-S02",
+    "tipo": "SQL",
+    "pregunta": "¿Qué país tiene más artículos desde 2021 y cuántos?",
+    "gold": {
+      "numeros": [
+        7
+      ],
+      "alguno_de": [
+        [
+          "INDIA",
+          "India"
+        ]
+      ]
+    }
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-T-S03",
+    "plantilla": "T-S03",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántas citas suman los artículos con autores de Tailandia?",
+    "gold": {
+      "numeros": [
+        185
+      ]
+    },
+    "valor": "THAILAND"
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-T-S04",
+    "plantilla": "T-S04",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos tiene Martin Vehse y cuántas citas acumulan?",
+    "gold": {
+      "numeros": [
+        3,
+        38
+      ]
+    },
+    "valor": "VEHSE, MARTIN"
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-T-S05",
+    "plantilla": "T-S05",
+    "tipo": "SQL",
+    "pregunta": "¿Qué país acumula más citas en total y cuántas?",
+    "gold": {
+      "numeros": [
+        185
+      ],
+      "alguno_de": [
+        [
+          "THAILAND",
+          "Tailandia"
+        ]
+      ]
+    }
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-T-S06",
+    "plantilla": "T-S06",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos conference papers tienen autores de Alemania?",
+    "gold": {
+      "numeros": [
+        2
+      ]
+    },
+    "valor": "GERMANY"
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-T-H01",
+    "plantilla": "T-H01",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuál es el artículo más citado con autores de Estados Unidos y de qué trata?",
+    "gold": {
+      "titulos": [
+        "TRANSMITTANCE OF SEMITRANSPARENT WINDOWS WITH ABSORBING CAP-SHAPED DROPLETS CONDENSED ON THEIR BACKSIDE"
+      ],
+      "minimo": 1
+    },
+    "valor": "UNITED STATES OF AMERICA"
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-T-H02",
+    "plantilla": "T-H02",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuál es el artículo más citado de Martin Vehse y qué propone?",
+    "gold": {
+      "titulos": [
+        "SPECTRAL ENGINEERING OF ULTRATHIN GERMANIUM SOLAR CELLS FOR COMBINED PHOTOVOLTAIC AND PHOTOSYNTHESIS"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-T-H03",
+    "plantilla": "T-H03",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuál es el tercer artículo más citado del corpus y de qué trata?",
+    "gold": {
+      "titulos": [
+        "UTILIZATION OF SOLAR ENERGY IN SEWAGE SLUDGE COMPOSTING: FERTILIZER EFFECT AND APPLICATION"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "Agrovoltaics",
+    "id": "Agrovoltaics-T-H04",
+    "plantilla": "T-H04",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuál es el conference paper más citado de 2021 y qué estudia?",
+    "gold": {
+      "titulos": [
+        "INFLUENCE OF SPECTRALLY SELECTIVE SOLAR CELLS ON MICROALGAE GROWTH IN PHOTO-BIOREACTORS"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-T-S01",
+    "plantilla": "T-S01",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos tienen al menos un autor de Alemania?",
+    "gold": {
+      "numeros": [
+        12
+      ]
+    },
+    "valor": "GERMANY"
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-T-S02",
+    "plantilla": "T-S02",
+    "tipo": "SQL",
+    "pregunta": "¿Qué país tiene más artículos desde 2022 y cuántos?",
+    "gold": {
+      "numeros": [
+        22
+      ],
+      "alguno_de": [
+        [
+          "INDIA",
+          "India"
+        ]
+      ]
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-T-S03",
+    "plantilla": "T-S03",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántas citas suman los artículos con autores de Malasia?",
+    "gold": {
+      "numeros": [
+        78
+      ]
+    },
+    "valor": "MALAYSIA"
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-T-S04",
+    "plantilla": "T-S04",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos tiene Simaan M Abourizk y cuántas citas acumulan?",
+    "gold": {
+      "numeros": [
+        2,
+        15
+      ]
+    },
+    "valor": "ABOURIZK, SIMAAN M"
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-T-S05",
+    "plantilla": "T-S05",
+    "tipo": "SQL",
+    "pregunta": "¿Qué país acumula más citas en total y cuántas?",
+    "gold": {
+      "numeros": [
+        242
+      ],
+      "alguno_de": [
+        [
+          "AUSTRALIA",
+          "Australia"
+        ]
+      ]
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-T-S06",
+    "plantilla": "T-S06",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos conference papers tienen autores de Jordania?",
+    "gold": {
+      "numeros": [
+        8
+      ]
+    },
+    "valor": "JORDAN"
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-T-H01",
+    "plantilla": "T-H01",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuál es el artículo más citado con autores de Rusia y de qué trata?",
+    "gold": {
+      "titulos": [
+        "A SURVEY OF ARTIFICIAL INTELLIGENCE TOOLS IN PROJECT MANAGEMENT",
+        "APPLICATION OF TEXT MINING TECHNOLOGY TO SOLVE PROJECT MANAGEMENT PROBLEMS"
+      ],
+      "minimo": 1
+    },
+    "valor": "RUSSIAN FEDERATION"
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-T-H02",
+    "plantilla": "T-H02",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuál es el artículo más citado de Simaan M Abourizk y qué propone?",
+    "gold": {
+      "titulos": [
+        "AN INTELLIGENT AGENT APPROACH TO ADAPTIVE PROJECT MANAGEMENT"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-T-H03",
+    "plantilla": "T-H03",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuál es el tercer artículo más citado del corpus y de qué trata?",
+    "gold": {
+      "titulos": [
+        "ARTIFICIAL INTELLIGENCE ENABLED PROJECT MANAGEMENT: A SYSTEMATIC LITERATURE REVIEW"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "ai",
+    "id": "ai-T-H04",
+    "plantilla": "T-H04",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuál es el conference paper más citado de 2024 y qué estudia?",
+    "gold": {
+      "titulos": [
+        "USING MACHINE LEARNING TECHNIQUES IN BUSINESS ANALYTICS: LESSONS FROM AGILE PROJECT MANAGEMENT",
+        "A NOVEL LSTM-BASED APPROACH TO PERT ANALYSIS IN CONSTRUCTION PROJECT MANAGEMENT"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-T-S01",
+    "plantilla": "T-S01",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos tienen al menos un autor de Malasia?",
+    "gold": {
+      "numeros": [
+        7
+      ]
+    },
+    "valor": "MALAYSIA"
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-T-S02",
+    "plantilla": "T-S02",
+    "tipo": "SQL",
+    "pregunta": "¿Qué país tiene más artículos desde 2021 y cuántos?",
+    "gold": {
+      "numeros": [
+        10
+      ],
+      "alguno_de": [
+        [
+          "INDIA",
+          "India"
+        ]
+      ]
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-T-S03",
+    "plantilla": "T-S03",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántas citas suman los artículos con autores de Tailandia?",
+    "gold": {
+      "numeros": [
+        122
+      ]
+    },
+    "valor": "THAILAND"
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-T-S04",
+    "plantilla": "T-S04",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos tiene Zied Ben Hazem y cuántas citas acumulan?",
+    "gold": {
+      "numeros": [
+        4,
+        102
+      ]
+    },
+    "valor": "BEN HAZEM, ZIED"
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-T-S05",
+    "plantilla": "T-S05",
+    "tipo": "SQL",
+    "pregunta": "¿Qué país acumula más citas en total y cuántas?",
+    "gold": {
+      "numeros": [
+        808
+      ],
+      "alguno_de": [
+        [
+          "INDIA",
+          "India"
+        ]
+      ]
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-T-S06",
+    "plantilla": "T-S06",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos conference papers tienen autores de Turquía?",
+    "gold": {
+      "numeros": [
+        3
+      ]
+    },
+    "valor": "TURKEY"
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-T-H01",
+    "plantilla": "T-H01",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuál es el artículo más citado con autores de Alemania y de qué trata?",
+    "gold": {
+      "titulos": [
+        "A SELF-TUNING LQR APPROACH DEMONSTRATED ON AN INVERTED PENDULUM"
+      ],
+      "minimo": 1
+    },
+    "valor": "GERMANY"
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-T-H02",
+    "plantilla": "T-H02",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuál es el artículo más citado de Zied Ben Hazem y qué propone?",
+    "gold": {
+      "titulos": [
+        "DEVELOPMENT OF A FUZZY-LQR AND FUZZY-LQG STABILITY CONTROL FOR A DOUBLE LINK ROTARY INVERTED PENDULUM"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-T-H03",
+    "plantilla": "T-H03",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuál es el tercer artículo más citado del corpus y de qué trata?",
+    "gold": {
+      "titulos": [
+        "OPTIMAL CONTROL OF NONLINEAR INVERTED PENDULUM DYNAMICAL SYSTEM WITH DISTURBANCE INPUT USING PID CONTROLLER & LQR"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "pendulo",
+    "id": "pendulo-T-H04",
+    "plantilla": "T-H04",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuál es el conference paper más citado de 2017 y qué estudia?",
+    "gold": {
+      "titulos": [
+        "OPTIMAL CONTROL OF INVERTED PENDULUM SYSTEM USING PID CONTROLLER, LQR AND MPC"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-T-S01",
+    "plantilla": "T-S01",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos tienen al menos un autor de Italia?",
+    "gold": {
+      "numeros": [
+        34
+      ]
+    },
+    "valor": "ITALY"
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-T-S02",
+    "plantilla": "T-S02",
+    "tipo": "SQL",
+    "pregunta": "¿Qué país tiene más artículos desde 2022 y cuántos?",
+    "gold": {
+      "numeros": [
+        350
+      ],
+      "alguno_de": [
+        [
+          "INDIA",
+          "India"
+        ]
+      ]
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-T-S03",
+    "plantilla": "T-S03",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántas citas suman los artículos con autores de Malasia?",
+    "gold": {
+      "numeros": [
+        1789.0
+      ]
+    },
+    "valor": "MALAYSIA"
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-T-S04",
+    "plantilla": "T-S04",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos tiene Raul Morais y cuántas citas acumulan?",
+    "gold": {
+      "numeros": [
+        6,
+        72.0
+      ]
+    },
+    "valor": "MORAIS, RAUL"
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-T-S05",
+    "plantilla": "T-S05",
+    "tipo": "SQL",
+    "pregunta": "¿Qué país acumula más citas en total y cuántas?",
+    "gold": {
+      "numeros": [
+        10472.0
+      ],
+      "alguno_de": [
+        [
+          "INDIA",
+          "India"
+        ]
+      ]
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-T-S06",
+    "plantilla": "T-S06",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos conference papers tienen autores de Arabia Saudita?",
+    "gold": {
+      "numeros": [
+        6
+      ]
+    },
+    "valor": "SAUDI ARABIA"
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-T-H01",
+    "plantilla": "T-H01",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuál es el artículo más citado con autores de Pakistán y de qué trata?",
+    "gold": {
+      "titulos": [
+        "INTERNET-OF-THINGS (IOT)-BASED SMART AGRICULTURE: TOWARD MAKING THE FIELDS TALK"
+      ],
+      "minimo": 1
+    },
+    "valor": "PAKISTAN"
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-T-H02",
+    "plantilla": "T-H02",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuál es el artículo más citado de Raul Morais y qué propone?",
+    "gold": {
+      "titulos": [
+        "A VERSATILE, LOW-POWER AND LOW-COST IOT DEVICE FOR FIELD DATA GATHERING IN PRECISION AGRICULTURE PRACTICES"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-T-H03",
+    "plantilla": "T-H03",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuál es el tercer artículo más citado del corpus y de qué trata?",
+    "gold": {
+      "titulos": [
+        "INTERNET-OF-THINGS (IOT)-BASED SMART AGRICULTURE: TOWARD MAKING THE FIELDS TALK"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-T-H04",
+    "plantilla": "T-H04",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuál es el conference paper más citado de 2024 y qué estudia?",
+    "gold": {
+      "titulos": [
+        "SMART AGRICULTURE SOLUTIONS: HARNESSING AI AND IOT FOR CROP MANAGEMENT"
+      ],
+      "minimo": 1
+    }
+  }
+]

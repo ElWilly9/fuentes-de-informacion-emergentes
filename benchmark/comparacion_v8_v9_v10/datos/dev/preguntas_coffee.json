@@ -1,0 +1,677 @@
+[
+  {
+    "corpus": "coffee",
+    "id": "coffee-S01",
+    "plantilla": "S01",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos principales hay en el corpus?",
+    "gold": {
+      "numeros": [
+        1102
+      ]
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-S02",
+    "plantilla": "S02",
+    "tipo": "SQL",
+    "pregunta": "¿En qué año se publicaron más artículos y cuántos?",
+    "gold": {
+      "numeros": [
+        247
+      ],
+      "alguno_de": [
+        [
+          "2024"
+        ]
+      ]
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-S03",
+    "plantilla": "S03",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos se publicaron entre 2021 y 2025?",
+    "gold": {
+      "numeros": [
+        801
+      ]
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-S04",
+    "plantilla": "S04",
+    "tipo": "SQL",
+    "pregunta": "¿Qué país aparece en más artículos y en cuántos?",
+    "gold": {
+      "numeros": [
+        501
+      ],
+      "alguno_de": [
+        [
+          "INDIA",
+          "India"
+        ]
+      ]
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-S05",
+    "plantilla": "S05",
+    "tipo": "SQL",
+    "pregunta": "¿En cuántos artículos participa al menos una institución de Andorra?",
+    "gold": {
+      "numeros": [
+        50
+      ]
+    },
+    "valor": "ANDORRA"
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-S06",
+    "plantilla": "S06",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántas citas tiene el artículo más citado del corpus?",
+    "gold": {
+      "numeros": [
+        1453.0
+      ]
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-S07",
+    "plantilla": "S07",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántas citas suman los artículos publicados en 2024?",
+    "gold": {
+      "numeros": [
+        996.0
+      ]
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-S08",
+    "plantilla": "S08",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos tiene Jaime Lloret en el corpus y cuántas citas suman?",
+    "gold": {
+      "numeros": [
+        6,
+        651.0
+      ]
+    },
+    "valor": "LLORET, JAIME"
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-S09",
+    "plantilla": "S09",
+    "tipo": "SQL",
+    "pregunta": "¿Cuál es el promedio de citas por artículo en el corpus?",
+    "gold": {
+      "numeros": [
+        26.3
+      ]
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-H01",
+    "plantilla": "H01",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuál es el artículo más citado del corpus y de qué trata?",
+    "gold": {
+      "titulos": [
+        "TWENTY FIVE YEARS OF REMOTE SENSING IN PRECISION AGRICULTURE: KEY ADVANCES AND REMAINING KNOWLEDGE GAPS"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-H02",
+    "plantilla": "H02",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuál es el artículo más citado publicado en 2023 y qué estudia?",
+    "gold": {
+      "titulos": [
+        "AI-ENABLED IOT AND WSN-INTEGRATED SMART AGRICULTURE SYSTEM"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-H03",
+    "plantilla": "H03",
+    "tipo": "Híbrida",
+    "pregunta": "¿Qué artículos ha publicado Jaime Lloret en el corpus y de qué tratan?",
+    "gold": {
+      "titulos": [
+        "IOT-BASED SMART IRRIGATION SYSTEMS: AN OVERVIEW ON THE RECENT TRENDS ON SENSORS AND IOT SYSTEMS FOR IRRIGATION IN PRECISION AGRICULTURE",
+        "A WIRELESS SENSOR NETWORK DEPLOYMENT FOR SOIL MOISTURE MONITORING IN PRECISION AGRICULTURE",
+        "DRONAWAY: A PROPOSAL ON THE USE OF REMOTE SENSING DRONES AS MOBILE GATEWAY FOR WSN IN PRECISION AGRICULTURE",
+        "TRAFFIC-AWARE SECURED COOPERATIVE FRAMEWORK FOR IOT-BASED SMART MONITORING IN PRECISION AGRICULTURE",
+        "ABS-SMARTCOMAGRI: AN AGENT-BASED SIMULATOR OF SMART COMMUNICATION PROTOCOLS IN WIRELESS SENSOR NETWORKS FOR DEBUGGING IN PRECISION AGRICULTURE",
+        "INTELLIGENT HETEROGENEOUS WIRELESS SENSOR NETWORKS IN PRECISION AGRICULTURE"
+      ],
+      "minimo": 6
+    },
+    "valor": "LLORET, JAIME"
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-H04",
+    "plantilla": "H04",
+    "tipo": "Híbrida",
+    "pregunta": "¿Qué artículos tienen autores de Austria y de qué tratan?",
+    "gold": {
+      "titulos": [
+        "TOWARDS OPTIMIZED SECURITY ATTRIBUTES FOR IOT DEVICES IN SMART AGRICULTURE BASED ON THE IEC 62443 SECURITY STANDARD",
+        "IOT-ENABLED DISTRIBUTED DATA PROCESSING FOR PRECISION AGRICULTURE",
+        "ON IMPROVING AGRICULTURAL IOT MANAGEMENT PROCESS FOR FAULT DETECTION",
+        "ASSESSMENT OF SUITABLE OBSERVATION CONDITIONS FOR A MONTHLY OPERATIONAL REMOTE SENSING BASED CROP MONITORING SYSTEM"
+      ],
+      "minimo": 4
+    },
+    "valor": "AUSTRIA"
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-H05",
+    "plantilla": "H05",
+    "tipo": "Híbrida",
+    "pregunta": "De los artículos publicados desde 2024, ¿cuál es el más citado y qué propone?",
+    "gold": {
+      "titulos": [
+        "ENHANCING WATER MANAGEMENT IN SMART AGRICULTURE: A CLOUD AND IOT-BASED SMART IRRIGATION SYSTEM"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-R01",
+    "plantilla": "R01",
+    "tipo": "RAG",
+    "pregunta": "¿Qué artículo del corpus trata sobre fpga (field programmable gate array), gps (global positioning system) y android, y qué propone?",
+    "gold": {
+      "titulos": [
+        "IOT, BIG DATA SCIENCE & ANALYTICS, CLOUD COMPUTING AND MOBILE APP BASED HYBRID SYSTEM FOR SMART AGRICULTURE"
+      ],
+      "minimo": 1
+    },
+    "sr": "ROY S, 2017, IND AUTOM ELECTROMECHANICAL ENG CONF, IEMECON"
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-R02",
+    "plantilla": "R02",
+    "tipo": "RAG",
+    "pregunta": "¿Qué artículo del corpus trata sobre knn algorithm, weather monitoring y thingspeak, y qué propone?",
+    "gold": {
+      "titulos": [
+        "CROP SELECTION AND IOT BASED MONITORING SYSTEM FOR PRECISION AGRICULTURE"
+      ],
+      "minimo": 1
+    },
+    "sr": "BHOJWANI Y, 2020, INT CONF EMERG TRENDS INF TECHNOL ENG, IC-ETITE"
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-R03",
+    "plantilla": "R03",
+    "tipo": "RAG",
+    "pregunta": "¿Qué artículo del corpus trata sobre water level, ph y arduino, y qué propone?",
+    "gold": {
+      "titulos": [
+        "IOT-BASED PRECISION AGRICULTURE MONITORING SYSTEM: ENHANCING AGRICULTURAL EFFICIENCY"
+      ],
+      "minimo": 1
+    },
+    "sr": "AKTER T, 2024, PROC - INT CONF INVEN COMPUT INFORMATICS, ICICI"
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-R04",
+    "plantilla": "R04",
+    "tipo": "RAG",
+    "pregunta": "¿Qué artículo del corpus trata sobre adcon, telemetry y energy efficiency, y qué propone?",
+    "gold": {
+      "titulos": [
+        "IOT AND ENERGY EFFICIENCY FOR SMART AGRICULTURE USING ADCON TELEMETRY DEVICES"
+      ],
+      "minimo": 1
+    },
+    "sr": "SUCIU G, 2018, INT SYMP FUNDAM ELECTR ENG, ISFEE"
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-R05",
+    "plantilla": "R05",
+    "tipo": "RAG",
+    "pregunta": "¿Qué artículo del corpus trata sobre environmental-monitoring, soil-monitoring y internet of things, y qué propone?",
+    "gold": {
+      "titulos": [
+        "A LOW POWER IOT NETWORK FOR SMART AGRICULTURE"
+      ],
+      "minimo": 1
+    },
+    "sr": "HEBLE S, 2018, IEEE WORLD FORUM INTERNET THINGS, WF-IOT - PROC"
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-R06",
+    "plantilla": "R06",
+    "tipo": "RAG",
+    "pregunta": "¿Qué artículo del corpus trata sobre internet of lighting, remote y fertilization, y qué propone?",
+    "gold": {
+      "titulos": [
+        "SMART AGRICULTURE AND SMART FARMING USING IOT TECHNOLOGY"
+      ],
+      "minimo": 1
+    },
+    "sr": "GOWDA DV, 2021, J PHYS CONF SER"
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-P-S01",
+    "plantilla": "P-S01",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos de los artículos del corpus son conference papers?",
+    "gold": {
+      "numeros": [
+        595
+      ]
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-P-S02",
+    "plantilla": "P-S02",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos no han recibido ninguna cita?",
+    "gold": {
+      "numeros": [
+        248
+      ]
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-P-S03",
+    "plantilla": "P-S03",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos tienen 10 citas o más?",
+    "gold": {
+      "numeros": [
+        412
+      ]
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-P-S04",
+    "plantilla": "P-S04",
+    "tipo": "SQL",
+    "pregunta": "¿En qué año de publicación suman más citas los artículos, y cuántas?",
+    "gold": {
+      "numeros": [
+        4702.0
+      ],
+      "alguno_de": [
+        [
+          "2020"
+        ]
+      ]
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-P-S05",
+    "plantilla": "P-S05",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos países distintos aparecen en las afiliaciones de los artículos del corpus?",
+    "gold": {
+      "numeros": [
+        106
+      ]
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-P-S06",
+    "plantilla": "P-S06",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos del corpus son de acceso abierto?",
+    "gold": {
+      "numeros": [
+        244
+      ]
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-P-S07",
+    "plantilla": "P-S07",
+    "tipo": "SQL",
+    "pregunta": "¿En qué año se publicó el primer artículo del corpus y cuántos artículos hubo ese año?",
+    "gold": {
+      "numeros": [
+        1996,
+        1
+      ]
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-P-S08",
+    "plantilla": "P-S08",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos se publicaron en 2018?",
+    "gold": {
+      "numeros": [
+        49
+      ]
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-P-H01",
+    "plantilla": "P-H01",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuál es el artículo más antiguo del corpus y de qué trata?",
+    "gold": {
+      "titulos": [
+        "REMOTE SENSING REQUIREMENTS FOR PRECISION AGRICULTURE"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-P-H02",
+    "plantilla": "P-H02",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuáles son los 3 artículos más citados con autores de China y qué estudian?",
+    "gold": {
+      "titulos": [
+        "UAV-BASED MULTISPECTRAL REMOTE SENSING FOR PRECISION AGRICULTURE: A COMPARISON BETWEEN DIFFERENT CAMERAS",
+        "A SMART AGRICULTURE IOT SYSTEM BASED ON DEEP REINFORCEMENT LEARNING",
+        "SMART IRRIGATION SYSTEM FOR PRECISION AGRICULTURE - THE ARETHOU5A IOT PLATFORM"
+      ],
+      "minimo": 3
+    },
+    "valor": "CHINA"
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-P-H03",
+    "plantilla": "P-H03",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuál es el conference paper más citado del corpus y qué propone?",
+    "gold": {
+      "titulos": [
+        "IOT BASED MONITORING SYSTEM IN SMART AGRICULTURE"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-P-H04",
+    "plantilla": "P-H04",
+    "tipo": "Híbrida",
+    "pregunta": "¿Qué artículos ha publicado Abdennabi Morchid y de qué tratan?",
+    "gold": {
+      "titulos": [
+        "ENHANCING WATER MANAGEMENT IN SMART AGRICULTURE: A CLOUD AND IOT-BASED SMART IRRIGATION SYSTEM",
+        "SMART AGRICULTURE TECHNOLOGY: AN INTEGRATED FRAMEWORK OF RENEWABLE ENERGY RESOURCES, IOT-BASED ENERGY MANAGEMENT, AND PRECISION ROBOTICS",
+        "INTEGRATED INTERNET OF THINGS (IOT) SOLUTIONS FOR EARLY FIRE DETECTION IN SMART AGRICULTURE",
+        "FIRE DETECTION AND ANTI-FIRE SYSTEM TO ENHANCE FOOD SECURITY: A CONCEPT OF SMART AGRICULTURE SYSTEMS-BASED IOT AND EMBEDDED SYSTEMS WITH MACHINE-TO-MACHINE PROTOCOL",
+        "IOT-ENABLED SMART AGRICULTURE FOR IMPROVING WATER MANAGEMENT: A SMART IRRIGATION CONTROL USING EMBEDDED SYSTEMS AND SERVER-SENT EVENTS",
+        "FUZZY LOGIC-BASED IOT SYSTEM FOR OPTIMIZING IRRIGATION WITH CLOUD COMPUTING: ENHANCING WATER SUSTAINABILITY IN SMART AGRICULTURE"
+      ],
+      "minimo": 6
+    },
+    "valor": "MORCHID, ABDENNABI"
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-P-R01",
+    "plantilla": "P-R01",
+    "tipo": "RAG",
+    "pregunta": "¿Qué artículo predice qué fertilizante usar comparando varios clasificadores de aprendizaje automático y muestra los resultados con mapas de calor?",
+    "gold": {
+      "titulos": [
+        "AN IOT AND MACHINE LEARNING-BASED CROP PREDICTION SYSTEM FOR PRECISION AGRICULTURE"
+      ],
+      "minimo": 1
+    },
+    "sr": "PARWEEN S, 2021, LECT NOTES ELECTR ENG"
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-P-R02",
+    "plantilla": "P-R02",
+    "tipo": "RAG",
+    "pregunta": "¿Qué estudio clasifica cultivos en Google Earth Engine comparando Naive Bayes con un clasificador de distancia mínima?",
+    "gold": {
+      "titulos": [
+        "MACHINE LEARNING ENABLED SMART AGRICULTURE CLASSIFICATION TECHNIQUE FOR EDGE DEVICES USING REMOTE SENSING PLATFORM"
+      ],
+      "minimo": 1
+    },
+    "sr": "GUPTA P, 2025, AI-BASED ADV OPTIM TECH FOR EDGE COMPUT"
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-P-R03",
+    "plantilla": "P-R03",
+    "tipo": "RAG",
+    "pregunta": "¿Hay algún trabajo que monitoree plantas a partir de imágenes con varias características y mejore la seguridad de la red de sensores inalámbricos?",
+    "gold": {
+      "titulos": [
+        "IMAGE DRIVEN MULTI FEATURE PLANT MANAGEMENT WITH FDE BASED SMART AGRICULTURE WITH IMPROVED SECURITY IN WIRELESS SENSOR NETWORKS"
+      ],
+      "minimo": 1
+    },
+    "sr": "SANTHOSH J, 2022, WIRELESS PERS COMMUN"
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-P-R04",
+    "plantilla": "P-R04",
+    "tipo": "RAG",
+    "pregunta": "¿Qué artículo analiza la salud de las plantas con sensores ópticos conectados por IoT?",
+    "gold": {
+      "titulos": [
+        "IOT-BASED PLANT HEALTH ANALYSIS USING OPTICAL SENSORS IN PRECISION AGRICULTURE"
+      ],
+      "minimo": 1
+    },
+    "sr": "BAGHA H, 2021, DICTA - INT CONF DIGIT IMAGE COMPUT: TECHNIQUES APPL"
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-Q-S01",
+    "plantilla": "Q-S01",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos del corpus tienen al menos 20 citas?",
+    "gold": {
+      "numeros": [
+        261
+      ]
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-Q-S02",
+    "plantilla": "Q-S02",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos se han publicado desde 2023?",
+    "gold": {
+      "numeros": [
+        534
+      ]
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-Q-S03",
+    "plantilla": "Q-S03",
+    "tipo": "SQL",
+    "pregunta": "¿En cuántos artículos hay autores de Andorra o de Arabia Saudita?",
+    "gold": {
+      "numeros": [
+        88
+      ]
+    },
+    "valor": [
+      "ANDORRA",
+      "SAUDI ARABIA"
+    ]
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-Q-S04",
+    "plantilla": "Q-S04",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántas citas suman en total todos los artículos del corpus?",
+    "gold": {
+      "numeros": [
+        28985.0
+      ]
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-Q-S05",
+    "plantilla": "Q-S05",
+    "tipo": "SQL",
+    "pregunta": "¿Cuántos artículos con autores de India se publicaron entre 2021 y 2025?",
+    "gold": {
+      "numeros": [
+        410
+      ]
+    },
+    "valor": "INDIA"
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-Q-S06",
+    "plantilla": "Q-S06",
+    "tipo": "SQL",
+    "pregunta": "¿En cuántos años distintos hay artículos publicados en el corpus?",
+    "gold": {
+      "numeros": [
+        26
+      ]
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-Q-H01",
+    "plantilla": "Q-H01",
+    "tipo": "Híbrida",
+    "pregunta": "¿Qué artículos se publicaron en 2012 y de qué tratan?",
+    "gold": {
+      "titulos": [
+        "SUCCESSFUL DEPLOYMENT OF A WIRELESS SENSOR NETWORK FOR PRECISION AGRICULTURE IN MALAWI",
+        "PRECISION AGRICULTURE MONITORING SYSTEM BASED ON WIRELESS SENSOR NETWORKS",
+        "POTENTIAL OF HYPERSPECTRAL REMOTE SENSING FOR FIELD SCALE SOIL MAPPING AND PRECISION AGRICULTURE APPLICATIONS",
+        "MKRISHI WIRELESS SENSOR NETWORK PLATFORM FOR PRECISION AGRICULTURE"
+      ],
+      "minimo": 4
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-Q-H02",
+    "plantilla": "Q-H02",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuál es el artículo de acceso abierto más citado y de qué trata?",
+    "gold": {
+      "titulos": [
+        "APPLICATIONS OF REMOTE SENSING IN PRECISION AGRICULTURE: A REVIEW"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-Q-H03",
+    "plantilla": "Q-H03",
+    "tipo": "Híbrida",
+    "pregunta": "¿Cuál es el segundo artículo más citado del corpus y qué estudia?",
+    "gold": {
+      "titulos": [
+        "APPLICATIONS OF REMOTE SENSING IN PRECISION AGRICULTURE: A REVIEW"
+      ],
+      "minimo": 1
+    }
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-Q-R01",
+    "plantilla": "Q-R01",
+    "tipo": "RAG",
+    "pregunta": "¿Qué artículo propone protocolos de comunicación seguros que combinan blockchain e IoT para la agricultura inteligente?",
+    "gold": {
+      "titulos": [
+        "BLOCKCHAIN AND INTERNET OF THINGS (IOT) ENABLED SECURE COMMUNICATION PROTOCOLS FOR SMART AGRICULTURE"
+      ],
+      "minimo": 1
+    },
+    "sr": "BUKHSH K, 2025, INTELL DESIGNS, INNOVATIONS AND SUSTAINABILITY IN AGRICULTURE 40"
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-Q-R02",
+    "plantilla": "Q-R02",
+    "tipo": "RAG",
+    "pregunta": "¿Qué estudio plantea una agricultura inteligente con IoT pensada para mejorar el gobierno electrónico en la India?",
+    "gold": {
+      "titulos": [
+        "CONSTRAINT-DRIVEN IOT-BASED SMART AGRICULTURE FOR BETTER E-GOVERNANCE"
+      ],
+      "minimo": 1
+    },
+    "sr": "DALELA PK, 2020, ADV INTELL SYS COMPUT"
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-Q-R03",
+    "plantilla": "Q-R03",
+    "tipo": "RAG",
+    "pregunta": "¿Hay algún estudio empírico que compare protocolos de enrutamiento de bajo consumo energético en redes de sensores para agricultura inteligente?",
+    "gold": {
+      "titulos": [
+        "EMPIRICAL STUDY ON ENERGY-EFFICIENT IOT-BASED WSN ROUTING PROTOCOLS FOR SMART AGRICULTURE SYSTEM"
+      ],
+      "minimo": 1
+    },
+    "sr": "RAO AK, 2022, LECT NOTES NETWORKS SYST"
+  },
+  {
+    "corpus": "coffee",
+    "id": "coffee-Q-R04",
+    "plantilla": "Q-R04",
+    "tipo": "RAG",
+    "pregunta": "¿Qué trabajo propone una plataforma de bajo costo con sensores inalámbricos por radiofrecuencia para controlar el clima y el riego de un invernadero?",
+    "gold": {
+      "titulos": [
+        "SMART PLATFORM BASED ON IOT AND WSN FOR MONITORING AND CONTROL OF A GREENHOUSE IN THE CONTEXT OF PRECISION AGRICULTURE"
+      ],
+      "minimo": 1
+    },
+    "sr": "BENYEZZA H, 2023, INTERNET THING"
+  }
+]
