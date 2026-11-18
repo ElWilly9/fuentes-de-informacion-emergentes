@@ -1,0 +1,6 @@
+{
+ "id": "Q13",
+ "pregunta": "¿Cuál es el artículo más citado del corpus y de qué trata?",
+ "segundos": 12.1,
+ "respuesta": "smart_toy\n\nEl artículo más citado del corpus se titula \"POWERING AGRICULTURE: PRESENT STATUS, FUTURE POTENTIAL, AND CHALLENGES OF RENEWABLE ENERGY APPLICATIONS\". Este texto aborda la necesidad de mayor consumo energético en la agricultura y el papel de las energías renovables en este sector. El artículo ha sido citado 165 veces.\n\nSQL: SELECT title, abstract, cited_by FROM corpus_articles AS article WHERE ismainarticle = 1 ORDER BY cited_by DESC LIMIT 1;"
+}

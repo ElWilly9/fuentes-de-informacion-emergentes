@@ -1,0 +1,6 @@
+{
+ "id": "Q01",
+ "pregunta": "¿Cuántos artículos principales hay en el corpus?",
+ "segundos": 6.1,
+ "respuesta": "smart_toy\n\nEn el corpus académico hay 66 artículos principales.\n\nSQL: SELECT COUNT(*) FROM corpus_articles AS article WHERE ismainarticle = 1;"
+}
